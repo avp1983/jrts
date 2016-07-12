@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/TabScroller.xhtml">
+
+    <ui:define name="customLibs">
+        <h:outputScript library="js" name="freeclientdoc.js"/>
+    </ui:define>
+    <ui:define name="menuItems">
+        <p:menuitem styleClass="freedocadmin_create" value="#{freedocadmin.FREEDOCADMIN_CREATE}"
+                    onclick="onClickFreeDocAdminCreate(); return false;"/>
+        <p:menuitem styleClass="freedocadmin_forsend" value="#{freedocadmin.FREEDOCADMIN_FORSEND}"
+                    onclick="onClickFreeDocAdminForSent(); return false;"/>
+        <p:menuitem styleClass="freedocadmin_inprocess" value="#{freedocadmin.FREEDOCADMIN_INPROCESS}"
+                    onclick="onClickFreeDocAdminInProcess(); return false;"/>
+        <p:menuitem styleClass="freedocadmin_refused" value="#{freedocadmin.FREEDOCADMIN_REFUSED}"
+                    onclick="onClickFreeDocAdminRejected(); return false;"/>
+        <p:menuitem styleClass="freedocadmin_completed" value="#{freedocadmin.FREEDOCADMIN_COMPLETED}"
+                    onclick="onClickFreeDocAdminCompleted(); return false;"/>
+        <p:menuitem styleClass="freedocadmin_all" value="#{freedocadmin.FREEDOCADMIN_ALL}"
+                    onclick="onClickFreeDocAdminAll(); return false;"/>
+    </ui:define>
+</ui:composition>

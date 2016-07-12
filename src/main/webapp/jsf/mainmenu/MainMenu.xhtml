@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <h:outputScript library="js" name="mainmenu.js"/>
+    <h:outputScript library="js" name="navigation.js"/>
+    <h:outputScript library="js" name="idleTimer.js"/>
+    <h:outputStylesheet library="css" name="mainmenu.css"/>
+</h:head>
+<h:body>
+    <ui:include src="/jsf/i18n/Messages.xhtml"/>
+    <h:form id="mainMenuForm">
+        <h:outputText style="display: none" value="#{mainMenuController.showMenuTutorial}"
+                      styleClass="isshowmenututorial"/>
+        <h:outputText style="display: none"
+                      value="#{mainMenuController.remotePassConfig.clientAutoLogoutTimeout}"
+                      styleClass="ui-elem-setting-clientAutoLogoutTimeout"/>
+        <p:growl showDetail="true" widgetVar="messagesGrowl" sticky="true" escape="false"/>
+        <p:megaMenu id="idMegaMenu" label="#{mainmenu.MAIN_MENU_MEGALABEL}" styleClass="megamenubutton"
+                    model="#{mainMenuController.menuModel}" autoDisplay="false" autoHide="false" widgetVar="mainMenu"/>
+        <p:spotlight target="idMegaMenu" widgetVar="spot"/>
+
+        <p:confirmDialog
+                message="#{userIdleMonitor.IDLE_MONITOR_CONTINUE_QUESTION} &quot;#{mainMenuController.getNativeTransferL18nName()}&quot; ?"
+                header="#{userIdleMonitor.IDLE_MONITOR_SESSION_CLOSE_AFTER_5}"
+                severity="info" widgetVar="closeSessionDialog">
+            <p:commandButton value="#{userIdleMonitor.IDLE_MONITOR_CLOSE_SESSION}" onclick="logOut(); return false"/>
+            <p:commandButton value="#{userIdleMonitor.IDLE_MONITOR_CONTINUE_SESSION}" onclick="continueSession()"
+                             widgetVar="continueSessionBtn"/>
+        </p:confirmDialog>
+    </h:form>
+</h:body>
+</html>

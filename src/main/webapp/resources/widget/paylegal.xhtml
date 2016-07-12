@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface componentType="PayLegalUtil">
+    <composite:attribute name="widgetData" required="true"/>
+</composite:interface>
+
+<composite:implementation>
+    <f:view locale="#{userSessionController.userLocale}">
+        <h:outputScript library="js" name="transferNavigation.js"/>
+        <h:outputScript library="js" name="navigation.js"/>
+        <div style="cursor: hand" onclick="openSupposedPayLegalActionForm('#{cc.attrs.widgetData}');">
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel id="doc_num_label" value="#{umtpaylegal.PAYLEGAL_DOC_NUMBER}: " styleClass="elem-label"/>
+                <p:outputLabel id="doc_label" binding="#{cc.docNumberLabel}"/>
+            </p:outputPanel>
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel id="sender_label" value="#{umtpaylegal.PAYLEGAL_FROM}: " styleClass="elem-label"/>
+                <p:outputLabel id="sender_elem" binding="#{cc.senderInfoLabel}"/>
+            </p:outputPanel>
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel value="#{umtpaylegal.PAYLEGAL_TO}: " styleClass="elem-label"/>
+                <p:outputLabel id="provider_elem" binding="#{cc.providerLabel}"/>
+            </p:outputPanel>
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel value="#{umtpaylegal.PAYLEGAL_STATUS}: " styleClass="elem-label"/>
+                <p:outputLabel id="status_elem" binding="#{cc.statusLabel}"/>
+            </p:outputPanel>
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel value="#{umtpaylegal.PAYLEGAL_AMOUNT}: " styleClass="elem-label"/>
+                <p:outputLabel id="amount_elem" binding="#{cc.amountLabel}"/>
+            </p:outputPanel>
+        </div>
+        <p:remoteCommand name="copyPayLegal" actionListener="#{payLegal.copyTransfer()}"
+                         oncomplete="copyPayLegalComplete(xhr, status, args);"/>
+    </f:view>
+</composite:implementation>
+</html>

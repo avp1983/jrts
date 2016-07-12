@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://geronimo.apache.org/xml/ns/j2ee/web-1.1">
+    <environment>
+        <moduleId>
+            <artifactId>MyWebApp</artifactId>
+        </moduleId>
+        <dependencies>
+            <dependency>
+                <groupId>console.dbpool</groupId>
+                <artifactId>jdbc_jrts_db</artifactId>
+            </dependency>
+        </dependencies>
+    </environment>
+
+    <context-root>/jrts</context-root>
+    <resource-ref>
+        <ref-name>jdbc/MyDataSource</ref-name>
+        <resource-link>jdbc/jrts_db</resource-link>
+    </resource-ref>
+</web-app>

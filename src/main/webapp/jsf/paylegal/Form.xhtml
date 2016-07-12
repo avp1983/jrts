@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:o="http://omnifaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+<o:importConstants type="com.bssys.ejb.UmtPayLegalValidationSettingsBean.PayLegalValidationField" var="DocField">
+    <!--@elvariable id="DocField" type="com.bssys.ejb.UmtPayLegalValidationSettingsBean.PayLegalValidationField"-->
+</o:importConstants>
+
+<f:metadata>
+    <f:event listener="#{payLegalController.initCurrentDoc}" type="preRenderView"/>
+    <f:event listener="#{payLegalController.addCommonParams}" type="preRenderView"/>
+</f:metadata>
+<h:head>
+    <h:outputStylesheet library="css" name="payLegalForm.css"/>
+    <h:outputScript library="js" name="bssDocument.js"/>
+    <h:outputScript library="js" name="paylegalForm.js"/>
+    <h:outputScript library="js" name="common.js"/>
+</h:head>
+<h:body styleClass="panel-pay_legal_form">
+<h:form id="payLegalForm" styleClass="payLegalForm">
+<p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false"
+          showHeader="false" visible="false">
+    <p:graphicImage value="#{resource['img:ajax-loader-arrows.gif']}"/>
+</p:dialog>
+<p:inputText type="hidden" value="#{payLegalController.currentDoc.getID()}" styleClass="docID" disabled="true"/>
+<p:inputText type="hidden" value="#{payLegalController.currentDoc.getDocPK().toDelimString()}" styleClass="docIDR"
+             disabled="true" widgetVar="IDR"/>
+<p:inputText type="hidden" value="#{payLegalController.forceSave}" styleClass="forceSave"/>
+<p:inputText type="hidden" styleClass="isFormChanged" value="false"/>
+<p:inputText type="hidden" styleClass="wasInstanceSave" value="false"/>
+<p:outputLabel style="display: none" styleClass="providerMinAmount"
+               value="#{payLegalController.currentDoc.provider.minAmount}"/>
+<p:outputLabel style="display: none" styleClass="providerMaxAmount"
+               value="#{payLegalController.currentDoc.provider.maxAmount}"/>
+<p:growl id="messageGrowl" escape="false" widgetVar="growl" severity="info"/>
+
+<p:dialog resizable="true" id="messagesDialog" widgetVar="messagesDialog" header="Внимание"
+          styleClass="dialog-messages" position="left,top">
+    <p:messages id="messages" escape="false" styleClass="elem-messages" severity="error,warn"/>
+    <p:outputLabel styleClass="ui-message-not_modal">
+        <h:outputText styleClass="ui-messages-info-icon"/>Необязательно закрывать сообщение.
+        Если оно мешает изменить данные, просто переместите его в другое место.</p:outputLabel>
+</p:dialog>
+
+<p:outputPanel>
+    <p:outputPanel styleClass="ui-page-header">Отправление перевода в адрес
+        <br/>#{payLegalController.currentDoc.providerName}
+        (категория "#{payLegalController.currentDoc.providerCategories}")
+    </p:outputPanel>
+    <p:outputPanel styleClass="elem-info_message">#{payLegalController.currentDoc.provider.infoMessage}</p:outputPanel>
+</p:outputPanel>
+<p:layout styleClass="layout-page_layout">
+<p:layoutUnit position="west" size="33%">
+    <p:panel header="Параметры перевода" styleClass="panel-common_params" id="commonParamsPanel">
+        <p:panelGrid id="commonParamsGrid" styleClass="grid-common_params">
+            <p:row>
+                <p:column styleClass="left-column">
+                    <p:outputLabel value="Номер:" for="checkNumber"/>
+                    <p:outputLabel value="#{payLegalController.currentDoc.getCheckNumber()}" styleClass="checkNumber"
+                                   id="checkNumber"/>
+                </p:column>
+                <p:column>
+                    <p:outputLabel value="Статус:"/>
+                    <p:outputLabel value="#{payLegalController.getStatusName()}" styleClass="elem-status" id="status"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column styleClass="panel-amount_label"><p:outputLabel value="Сумма оплаты" for="amount"/></p:column>
+                <p:column>
+                    <p:outputPanel id="panelAmount">
+                        <pe:inputNumber value="#{payLegalController.currentDoc.amount}" styleClass="elem-amount"
+                                        id="amount" disabled="#{payLegalController.isDisabledCommonInputParams(0)}"
+                                        decimalSeparator="." symbol=" RUR" symbolPosition="s" decimalPlaces="2"
+                                        maxValue="#{payLegalController.getMaxAmount()}"
+                                        required="#{payLegalValidationController.isRequiredAmount()}"
+                                        onblur="PF('widgetTooltipAmount').hide()"
+                                        onkeyup="toogleTooltip()" onfocus="toogleTooltip()"/>
+                    </p:outputPanel>
+                    <p:tooltip for="panelAmount" value="#{payLegalController.getAmountRange()}" showEvent="none"
+                               widgetVar="widgetTooltipAmount"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column><p:outputLabel value="Комиссия" for="commission"/></p:column>
+                <p:column>
+                    <p:outputPanel layout="block" id="panelCommission">
+                        <p:outputLabel value="#{payLegalController.getDocCommission()}"
+                                       rendered="#{payLegalController.isShowCommission()}"
+                                       styleClass="elem-commission" id="commission"/>
+                    </p:outputPanel>
+                </p:column>
+            </p:row>
+            <p:row rendered="#{payLegalController.isRenderSenderAccountPanel()}">
+                <p:column colspan="2">
+                    <p:outputPanel id="senderAccountPanel" styleClass="panel-sender_account">
+                        <h:selectBooleanCheckbox value="#{payLegalController.useSenderAccount}" id="useSenderAccount"
+                                                 styleClass="elem-use_sender_account"
+                                                 onclick="setSenderAccountVisible()"
+                                                 disabled="#{payLegalController.isDisabledCommonInputParams(0)}"/>
+                        <p:outputLabel for="useSenderAccount" value="со счёта отправителя"
+                                       styleClass="elem-label-use_sender_account"/>
+                        <p:outputPanel styleClass="panel-sender_account_input">
+                            <p:outputLabel for="senderAccount" value="Счёт отправителя" style="display: none"/>
+                            <p:inputText value="#{payLegalController.currentDoc.senderAccount}" maxlength="25"
+                                         styleClass="elem-sender_account" id="senderAccount"
+                                         required="#{payLegalValidationController.isRequiredField(DocField.SenderAccount)}"
+                                         disabled="#{payLegalController.isDisabledCommonInputParams(0)}"/>
+                        </p:outputPanel>
+                    </p:outputPanel>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column><p:outputLabel value="Назначение" for="note"/></p:column>
+                <p:column>
+                    <p:inputText value="#{payLegalController.currentDoc.note}" maxlength="50" id="note"
+                                 disabled="#{payLegalController.isDisabledCommonInputParams(0)}"
+                                 styleClass="elem-note"
+                                 required="#{payLegalValidationController.isRequiredField(DocField.Note)}"/>
+                    <p:tooltip value="Назначение перевода" for="note" showEvent="focus" hideEvent="blur"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="2">
+                    <p:separator/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+        <p:outputPanel id="commonAdditionalParams" styleClass="grid-additional_params"/>
+    </p:panel>
+</p:layoutUnit>
+<p:layoutUnit position="center" id="layout-center">
+
+<p:panel header="Страны назначения" styleClass="panel-destination_country">
+    <p:outputLabel value="#{payLegalController.getProviderDestinationCountries()}"/>
+</p:panel>
+<p:panel header="Отправитель перевода" id="senderParams" styleClass="panel-sender_params">
+<f:facet name="actions">
+    <p:outputPanel style="display: inline; float: right" id="panel-senderSearchByCardNum">
+        <p:watermark for="senderSearchByCardNum" value="Поиск по номеру карты"
+                     id="senderSearchByCardNum_placeHolder"
+                     rendered="#{!payLegalController.isDisabledSenderInfo()}"/>
+        <!--@elvariable id="client" type="com.bssys.entity.UmtTransferClient"-->
+        <p:autoComplete completeMethod="#{payLegalController.findSenderClientByCardNumber}"
+                        var="client" itemValue="#{client.id.toString()}" id="senderSearchByCardNum"
+                        styleClass="elem-sender_search_by_cardnum" minQueryLength="3"
+                        disabled="#{payLegalController.isDisabledSenderInfo()}"
+                        rendered="#{!payLegalController.isDisabledSenderInfo()}">
+            <p:ajax event="itemSelect" listener="#{payLegalController.senderClientSearchSelected}"
+                    onsuccess="focusSaveButton();"
+                    update="senderParams,senderAddressParams,senderAddressPanel"/>
+            <p:column style="width: 50px;">
+                <f:facet name="header">
+                    <p:outputLabel value="Номер карты"/>
+                </f:facet>
+                #{client.cardNumber}
+            </p:column>
+            <p:column style="width: 300px;">
+                <f:facet name="header">
+                    <p:outputLabel value="Фамилия Имя Отчество"/>
+                </f:facet>
+                #{client.firstName} #{client.lastName} #{client.patronymic}
+            </p:column>
+            <p:column style="width: 450px;">
+                <f:facet name="header">
+                    <p:outputLabel value="Документ, удостоверяющий личность"/>
+                </f:facet>
+                #{payLegalController.getClientDocumentAsShortString(client)}
+            </p:column>
+        </p:autoComplete>
+    </p:outputPanel>
+</f:facet>
+<p:panelGrid columns="2" columnClasses="panel-common_param-column_left, panel-common_param-column_right"
+             styleClass="panel-sender_params_common">
+    <p:column>
+        <p:panelGrid columns="2" columnClasses="ui-column-title, ui-column-value" styleClass="panel-left_info">
+            <p:outputLabel value="Номер карты" for="senderCardNumber"/>
+            <p:outputLabel value="#{payLegalController.currentDoc.senderCardNumber}" id="senderCardNumber"/>
+
+            <p:outputLabel value="Фамилия" for="senderLastName"/>
+            <p:inputText value="#{payLegalController.currentDoc.senderLastName}" maxlength="50"
+                         id="senderLastName" disabled="#{payLegalController.isDisabledSenderInfo()}"
+                         required="#{payLegalValidationController.isRequiredField(DocField.SenderLastName)}"/>
+
+            <p:outputLabel value="Имя" for="senderFirstName"/>
+            <p:inputText value="#{payLegalController.currentDoc.senderFirstName}" maxlength="50"
+                         id="senderFirstName" disabled="#{payLegalController.isDisabledSenderInfo()}"
+                         required="#{payLegalValidationController.isRequiredField(DocField.SenderFirstName)}"/>
+
+            <p:outputLabel value="Отчество" for="senderPatronymic"/>
+            <p:inputText value="#{payLegalController.currentDoc.senderPatronymic}" maxlength="50"
+                         id="senderPatronymic" disabled="#{payLegalController.isDisabledSenderInfo()}"
+                         required="#{payLegalValidationController.isRequiredField(DocField.SenderPatronymic)}"/>
+
+        </p:panelGrid>
+    </p:column>
+    <p:column>
+        <p:panelGrid columns="2" columnClasses="ui-column-title, ui-column-value" styleClass="panel-right_info">
+            <p:outputLabel value="Резидентство" for="senderIsResident"/>
+            <p:selectOneMenu value="#{payLegalController.currentDoc.senderIsResident}" id="senderIsResident"
+                             disabled="#{payLegalController.isDisabledSenderInfo()}"
+                             required="#{payLegalValidationController.isRequiredField(DocField.SenderIsResident)}"
+                             styleClass="ui-elem-whole_width">
+                <f:selectItem/>
+                <f:selectItem itemLabel="Резидент страны отправления" itemValue="1"/>
+                <f:selectItem itemLabel="Нерезидент страны отправления" itemValue="0"/>
+            </p:selectOneMenu>
+
+            <p:outputLabel value="Гражданство" for="senderNationalityCode"/>
+            <p:column>
+                <p:watermark for="senderNationalityCode" value="Название или код"
+                             rendered="#{!payLegalController.isDisabledSenderInfo()}"/>
+                <!--@elvariable id="country" type="com.bssys.entity.Country"-->
+                <p:autoComplete id="senderNationalityCode"
+                                value="#{payLegalController.currentDoc.senderNationalityCode}"
+                                completeMethod="#{payLegalController.autoCompleteCountry}"
+                                var="country" itemValue="#{country}" itemLabel="#{country.nameShortRu}"
+                                converter="#{countryConverter}" cache="true" forceSelection="true"
+                                styleClass="ui-elem-whole_width"
+                                required="#{payLegalValidationController.isRequiredField(DocField.SenderNationality_Code)}"
+                                disabled="#{payLegalController.isDisabledSenderInfo()}">
+                    <p:column style="width: 20%;">#{country.code}</p:column>
+                    <p:column style="width: 80%;">#{country.nameShortRu}</p:column>
+                </p:autoComplete>
+            </p:column>
+
+            <p:outputLabel value="ИНН" for="senderINN"/>
+            <p:column>
+                
+                    <p:inputText value="#{payLegalController.currentDoc.senderINN}" styleClass="elem-sender_inn"
+                                 disabled="#{payLegalController.isDisabledSenderInfo()}" maxlength="12" id="senderINN"
+                                 required="#{payLegalValidationController.isRequiredField(DocField.SenderINN)}"/>
+                
+                <p:outputPanel style="text-align: right; float: right;">
+                    <p:outputLabel value="Дата рождения" styleClass="label-sender_birthday" for="senderBirthday"/>
+                    <p:calendar value="#{payLegalController.currentDoc.senderBirthday}" showOn="" id="senderBirthday"
+                                locale="ru" pattern="dd.MM.yyyy" mask="99.99.9999"
+                                styleClass="elem-sender_birthday"
+                                required="#{payLegalValidationController.isRequiredField(DocField.SenderBirthday)}"
+                                disabled="#{payLegalController.isDisabledSenderInfo()}"/>
+                </p:outputPanel>
+            </p:column>
+
+            <p:outputLabel value="Место рождения" for="senderBirthPlace"/>
+            <p:inputText value="#{payLegalController.currentDoc.senderBirthPlace}" maxlength="50"
+                         styleClass="elem-senderBirthPlace" id="senderBirthPlace"
+                         required="#{payLegalValidationController.isRequiredField(DocField.SenderBirthPlace)}"
+                         disabled="#{payLegalController.isDisabledSenderInfo()}"/>
+        </p:panelGrid>
+    </p:column>
+</p:panelGrid>
+
+<p:outputLabel for="mainDocInfo">
+    Документ, удостоверяющий личность
+    <p:outputLabel styleClass="ui-outputlabel-rfi" value="*"
+                   rendered="#{payLegalValidationController.isRequiredMainDoc()}"/>
+</p:outputLabel>
+<p:inputTextarea value="#{payLegalController.getSenderMainDocumentAsString()}"
+                 id="mainDocInfo" widgetVar="mainDocInfo" readonly="true"
+                 styleClass="ui-elem-whole_width elem-main_doc"
+                 onfocus="if (this.disabled) return; setTimeout(function(){PF('mainDocPanel').show();}, 200);"
+                 disabled="#{payLegalController.isDisabledSenderInfo()}" autoResize="false" rows="3">
+</p:inputTextarea>
+
+<p:remoteCommand name="updateMainDocInfo" update="mainDocInfo,mainDocPanel"/>
+<p:overlayPanel for="mainDocInfo" hideEffect="fade" id="mainDocPanel" showEvent="" widgetVar="mainDocPanel"
+                onHide="updateMainDocInfo([{name: 'INSTANCE_SAVE_FLAG', value: 1}]);" styleClass="big-overlay-panel"
+                rendered="#{!payLegalController.isDisabledSenderInfo()}" my="left top" at="left bottom" style="height: 235px;"
+                onShow="setClickOverlayPanel('mainDocPanel', 'mainDocInfo');">
+    <p:panelGrid columns="2" columnClasses="ui-column-title, ui-column-value" styleClass="panel-main_doc panel-doc">
+        <p:outputLabel value="Тип документа" for="docType"/>
+        <p:column>
+            <p:autoComplete id="docType" dropdown="true"
+                            value="#{payLegalController.currentDoc.senderLicenceType}"
+                            completeMethod="#{umtLicenceTypeController.findByNameForCreditPilot}" widgetVar="mainDocType"
+                            queryDelay="200" onkeydown="onKeyDownFirstComponentOnMainDoc()"
+                            forceSelection="true" styleClass="elem-docType"
+                            required="#{payLegalValidationController.isRequiredField(DocField.SenderLicenceType)}"
+                            requiredMessage="#{payLegalValidationController.getMainDocFieldsRequiredMessage()}"
+                            scrollHeight="200">
+            </p:autoComplete>
+        </p:column>
+        <p:outputLabel value="Серия" for="senderLicenceSeries"/>
+        <p:inputText value="#{payLegalController.currentDoc.senderLicenceSeries}" id="senderLicenceSeries"
+                     required="#{payLegalValidationController.isRequiredField(DocField.SenderLicenceSeries)}" maxlength="10"
+                     requiredMessage="#{payLegalValidationController.getMainDocFieldsRequiredMessage()}"/>
+        <p:outputLabel value="Номер" for="senderLicenceNumber"/>
+        <p:inputText value="#{payLegalController.currentDoc.senderLicenceNumber}" id="senderLicenceNumber"
+                     required="#{payLegalValidationController.isRequiredField(DocField.SenderLicenceNumber)}" maxlength="10"
+                     requiredMessage="#{payLegalValidationController.getMainDocFieldsRequiredMessage()}"/>
+        <p:outputLabel value="Дата выдачи" for="senderLicenceDateIssue"/>
+        <p:calendar value="#{payLegalController.currentDoc.senderLicenceDateIssue}" id="senderLicenceDateIssue"
+                    showOn="" locale="ru" pattern="dd.MM.yyyy" mask="99.99.9999"
+                    required="#{payLegalValidationController.isRequiredField(DocField.SenderLicenceDateIssue)}"
+                    requiredMessage="#{payLegalValidationController.getMainDocFieldsRequiredMessage()}"/>
+        <p:outputLabel value="Кем выдан" for="senderLicenceIssuer"/>
+        <p:inputText value="#{payLegalController.currentDoc.senderLicenceIssuer}" id="senderLicenceIssuer"
+                     required="#{payLegalValidationController.isRequiredField(DocField.SenderLicenceIssuer)}"
+                     maxlength="150"
+                     requiredMessage="#{payLegalValidationController.getMainDocFieldsRequiredMessage()}"/>
+        <p:outputLabel value="Код подр." for="senderLicenceDepCode"/>
+        <p:inputText value="#{payLegalController.currentDoc.senderLicenceDepCode}" id="senderLicenceDepCode"
+                     required="#{payLegalValidationController.isRequiredField(DocField.SenderLicenceDepCode)}" maxlength="7"
+                     requiredMessage="#{payLegalValidationController.getMainDocFieldsRequiredMessage()}"
+                     onkeydown="onKeyDownLastComponentOnMainDoc()"/>
+        <p:outputLabel value="Действует по" for="senderLicenceExpireDate"/>
+        <p:calendar value="#{payLegalController.currentDoc.senderLicenceExpireDate}" id="senderLicenceExpireDate"
+                    showOn="" locale="ru" pattern="dd.MM.yyyy" mask="99.99.9999"
+                    required="#{payLegalValidationController.isRequiredField(DocField.SenderLicenceExpireDate)}"
+                    requiredMessage="#{payLegalValidationController.getMainDocFieldsRequiredMessage()}"
+                    />
+    </p:panelGrid>
+</p:overlayPanel>
+
+<p:outputLabel for="otherDocInfo">
+    Миграционная карта или иной документ
+    <p:outputLabel styleClass="ui-outputlabel-rfi" value="*"
+                   rendered="#{payLegalValidationController.isRequiredOtherDoc()}"/>
+</p:outputLabel>
+
+<p:inputTextarea value="#{payLegalController.getSenderOtherDocumentAsString()}" autoResize="false"
+                 id="otherDocInfo" widgetVar="otherDocInfo" readonly="true"
+                 styleClass="ui-elem-whole_width elem-other_doc"
+                 onfocus="setTimeout(function(){PF('otherDocPanel').show();}, 200)"
+                 disabled="#{payLegalController.isDisabledSenderInfo()}"/>
+
+<p:remoteCommand name="updateOtherDocInfo" update="otherDocInfo,otherDocPanel"/>
+<p:overlayPanel for="otherDocInfo" hideEffect="fade" id="otherDocPanel" showEvent=""
+                widgetVar="otherDocPanel" onHide="updateOtherDocInfo([{name: 'INSTANCE_SAVE_FLAG', value: 1}]);"
+                onShow="setClickOverlayPanel('otherDocPanel', 'otherDocInfo');"
+                styleClass="big-overlay-panel" my="left top" at="left bottom" style="height: 235px;">
+    <p:panelGrid columns="2" columnClasses="ui-column-title, ui-column-value" styleClass="panel-other_doc panel-doc">
+        <p:outputLabel value="Тип документа" for="otherDocType"/>
+        <p:column>
+            <p:autoComplete id="otherDocType" dropdown="true"
+                            value="#{payLegalController.currentDoc.senderOtherDocType}"
+                            completeMethod="#{umtLicenceTypeController.findByNameForCreditPilot}" styleClass="elem-docType"
+                            widgetVar="otherDocType"
+                            required="#{payLegalValidationController.isRequiredField(DocField.SenderOtherDocType)}"
+                            requiredMessage="#{payLegalValidationController.getOtherDocFieldRequiredMessage()}"
+                            onkeydown="onKeyDownFirstComponentOnOtherDoc()" forceSelection="true"
+                            scrollHeight="200">
+            </p:autoComplete>
+        </p:column>
+        <p:outputLabel value="Номер" for="senderOtherDocNum"/>
+        <p:inputText value="#{payLegalController.currentDoc.senderOtherDocNum}" id="senderOtherDocNum"
+                     required="#{payLegalValidationController.isRequiredField(DocField.SenderOtherDocNum)}" maxlength="20"
+                     requiredMessage="#{payLegalValidationController.getOtherDocFieldRequiredMessage()}"/>
+        <p:outputLabel value="Действует с " for="senderOtherDocDateStart"/>
+        <p:calendar value="#{payLegalController.currentDoc.senderOtherDocDateStart}" id="senderOtherDocDateStart"
+                    required="#{payLegalValidationController.isRequiredField(DocField.SenderOtherDocDateStart)}"
+                    requiredMessage="#{payLegalValidationController.getOtherDocFieldRequiredMessage()}"
+                    showOn="" locale="ru" pattern="dd.MM.yyyy" mask="99.99.9999">
+        </p:calendar>
+        <p:outputLabel value="Действует по " for="senderOtherDocDateFinish"/>
+        <p:calendar value="#{payLegalController.currentDoc.senderOtherDocDateFinish}" id="senderOtherDocDateFinish"
+                    showOn="" locale="ru" pattern="dd.MM.yyyy" mask="99.99.9999"
+                    required="#{payLegalValidationController.isRequiredField(DocField.SenderOtherDocDateFinish)}"
+                    requiredMessage="#{payLegalValidationController.getOtherDocFieldRequiredMessage()}"
+                    onkeydown="onKeyDownLastComponentOnOtherDoc()">
+        </p:calendar>
+    </p:panelGrid>
+</p:overlayPanel>
+</p:panel>
+<p:panel header="Адрес отправителя" id="senderAddressParams">
+
+    <p:inputTextarea value="#{payLegalController.getSenderAddressAsString()}"
+                     id="senderAddress" widgetVar="senderAddress" readonly="true"
+                     styleClass="ui-elem-whole_width"
+                     onfocus="setTimeout(function(){PF('senderAddressPanel').show();}, 200);"
+                     disabled="#{payLegalController.isDisabledSenderInfo()}" autoResize="false" rows="3"/>
+    <p:remoteCommand name="updateSenderAddress" update="senderAddress,senderAddressPanel"/>
+    <p:overlayPanel for="senderAddress" hideEffect="fade" id="senderAddressPanel" showEvent="" widgetVar="senderAddressPanel"
+                    rendered="#{!payLegalController.isDisabledSenderInfo()}" my="left bottom" at="left top"
+                    styleClass="big-overlay-panel"
+                    onHide="updateSenderAddress([{name: 'INSTANCE_SAVE_FLAG', value: 1}]);"
+                    onShow="setClickOverlayPanel('senderAddressPanel', 'senderAddress');"
+            >
+        <p:panelGrid columns="2" columnClasses="ui-column-title, ui-column-value" styleClass="panel-sender_address panel-doc">
+            <p:outputLabel value="Индекс" for="senderPostCode"/>
+            <p:inputText value="#{payLegalController.currentDoc.senderPostCode}" styleClass="elem-post_code"
+                         maxlength="10" disabled="#{payLegalController.isDisabledSenderInfo()}"
+                         required="#{payLegalValidationController.isRequiredField(DocField.SenderPostCode)}"
+                         id="senderPostCode"/>
+            <p:outputLabel value="Страна" for="senderCountryISO"/>
+            <p:outputPanel>
+                <p:watermark for="senderCountryISO" value="Название или код"
+                             rendered="#{!payLegalController.isDisabledSenderInfo()}"/>
+                <p:autoComplete id="senderCountryISO"
+                                value="#{payLegalController.currentDoc.senderCountryISO}"
+                                completeMethod="#{payLegalController.autoCompleteCountry}"
+                                var="country" itemLabel="#{country.nameShortRu}"
+                                converter="#{countryConverter}" itemValue="#{country}"
+                                cache="true" forceSelection="true"
+                                required="#{payLegalValidationController.isRequiredField(DocField.SenderCountryISO)}"
+                                disabled="#{payLegalController.isDisabledSenderInfo()}">
+                    <p:column style="width: 20%;">#{country.code}</p:column>
+                    <p:column style="width: 80%;">#{country.nameShortRu}</p:column>
+                </p:autoComplete>
+            </p:outputPanel>
+            <p:outputLabel value="Нас. пункт" for="senderCity"/>
+            <p:inputText value="#{payLegalController.currentDoc.senderCity}"
+                         maxlength="50" disabled="#{payLegalController.isDisabledSenderInfo()}" id="senderCity"
+                         required="#{payLegalValidationController.isRequiredField(DocField.SenderCity)}"/>
+            <p:outputLabel value="Улица" for="senderStreet"/>
+            <p:inputText value="#{payLegalController.currentDoc.senderStreet}"
+                         maxlength="25" disabled="#{payLegalController.isDisabledSenderInfo()}" id="senderStreet"
+                         required="#{payLegalValidationController.isRequiredField(DocField.SenderStreet)}"/>
+            <p:outputLabel value="Дом" for="senderHouse"/>
+            <p:inputText value="#{payLegalController.currentDoc.senderHouse}"
+                         maxlength="5" disabled="#{payLegalController.isDisabledSenderInfo()}"
+                         required="#{payLegalValidationController.isRequiredField(DocField.SenderHouse)}"
+                         id="senderHouse"/>
+            <p:outputLabel value="Корпус" for="senderHouseBlock"/>
+            <p:inputText value="#{payLegalController.currentDoc.senderHouseBlock}"
+                         maxlength="5" disabled="#{payLegalController.isDisabledSenderInfo()}"
+                         required="#{payLegalValidationController.isRequiredField(DocField.SenderHouseBlock)}"
+                         id="senderHouseBlock"/>
+            <p:outputLabel value="Строение" for="senderHouseBuilding"/>
+            <p:inputText value="#{payLegalController.currentDoc.senderHouseBuilding}"
+                         maxlength="5" disabled="#{payLegalController.isDisabledSenderInfo()}"
+                         required="#{payLegalValidationController.isRequiredField(DocField.SenderHouseBuilding)}"
+                         id="senderHouseBuilding"/>
+            <p:outputLabel value="Квартира" for="senderFlat"/>
+            <p:inputText value="#{payLegalController.currentDoc.senderFlat}"
+                         maxlength="5" disabled="#{payLegalController.isDisabledSenderInfo()}" id="senderFlat"
+                         required="#{payLegalValidationController.isRequiredField(DocField.SenderFlat)}"/>
+        </p:panelGrid>
+    </p:overlayPanel>
+    <p:panelGrid styleClass="grid-sender_address">
+        <p:row>
+            <p:column styleClass="ui-column-left">
+                <p:outputLabel value="Телефон" styleClass="label-left_column" for="senderPhone"/>
+                <p:inputText value="#{payLegalController.currentDoc.senderPhone}" styleClass="input-left_column"
+                             maxlength="20" disabled="#{payLegalController.isDisabledSenderInfo()}" id="senderPhone"
+                             required="#{payLegalValidationController.isRequiredField(DocField.SenderPhone)}"/>
+            </p:column>
+            <p:column styleClass="ui-column-right">
+                <p:outputLabel value="e-mail" styleClass="label-right_column" for="senderEmail"/>
+                <p:inputText value="#{payLegalController.currentDoc.senderEmail}" styleClass="elem-email"
+                             maxlength="50" disabled="#{payLegalController.isDisabledSenderInfo()}" id="senderEmail"
+                             required="#{payLegalValidationController.isRequiredField(DocField.SenderEmail)}"/>
+            </p:column>
+        </p:row>
+    </p:panelGrid>
+</p:panel>
+
+<p:outputPanel styleClass="elem-print" id="printDiv"/>
+</p:layoutUnit>
+</p:layout>
+<p:outputPanel styleClass="panel-buttons" id="panelButtons">
+    <p:commandButton type="button" value="#{dashboard.DASHBOARD_PUT_DOC_TO_TASKBAR}"
+                     onclick="addDocToTaskBarWithPreSave();"
+                     styleClass="button-taskbar ui-button-inactive" update="taskBoard"/>
+    <p:commandButton value="#{umtpaylegal.EXPORT}" onstart="onBeforDocAction()"
+                     oncomplete="onCompleteSaveForExport(args, '#{payLegalController.getAgentId()}')"
+                     update="panelButtons,messageGrowl,messages,@(label)"
+                     action="#{payLegalController.updateDocumentDataWithCheck()}"
+                     rendered="#{payLegalController.isShowExport()}"
+                     styleClass="elem-button_export ui-button-inactive"/>
+    <p:commandButton value="Распечатать заявление" styleClass="button-print ui-button-inactive"
+                     rendered="#{payLegalController.isShowPrintRequest()}"
+                     action="#{payLegalController.updateDocumentDataWithCheck()}"
+                     update="messages,@(label)"
+                     onstart="onBeforDocAction()"
+                     oncomplete="onCompleteSaveForPrint(args)"/>
+    <p:commandButton styleClass="printRequest" style="display: none"
+                     onclick="return false;"><p:printer target="printDiv"/></p:commandButton>
+
+    <p:commandButton value="Удалить" action="#{payLegalController.deleteDocument}" immediate="true"
+                     styleClass="button-delete ui-button-inactive" rendered="#{payLegalController.isShowDelete()}"
+                     update="panelButtons,messageGrowl,messages,status"/>
+    <p:commandButton value="Подтвердить" action="#{payLegalController.postSaveProcessDocument}"
+                     update="panelButtons,messageGrowl,messages,status,panel-senderSearchByCardNum,instanceSavePoll,commonAdditionalParams,@(input, textarea, .ui-inputNum, .ui-autocomplete, .ui-selectonemenu, label)"
+                     styleClass="button-confirm" rendered="#{payLegalController.isShowConfirm()}"
+                     widgetVar="btnConfirm" oncomplete="onCompleteDocAction()"
+                     onstart="onBeforDocAction()"/>
+    <p:commandButton value="Сохранить" action="#{payLegalController.saveDocument()}"
+                     update="panelButtons,messageGrowl,messages,status,commonAdditionalParams,senderSearchByCardNum_placeHolder,panelCommission,@(input, textarea, .ui-inputNum, .ui-autocomplete, .ui-selectonemenu, label)"
+                     rendered="#{payLegalController.isShowSave()}" styleClass="elem-button_save"
+                     onsuccess="setFocusAfterSave();" widgetVar="btnSave" oncomplete="onCompleteDocAction()"
+                     onstart="onBeforDocAction()"/>
+    <p:remoteCommand rendered="#{payLegalController.isShowConfirm()}" name="processSignDocument"
+                     action="#{payLegalController.processSignDocument}" oncomplete="onCompleteDocAction()"
+                     onstart="onBeforDocAction()"
+                     update="panelButtons,panel-senderSearchByCardNum,messageGrowl,messages,instanceSavePoll,status,@(input, textarea, .ui-inputNum, .ui-autocomplete, .ui-selectonemenu, label)"/>
+    <p:remoteCommand rendered="#{payLegalController.isShowSave()}" name="lazyInitNewDocument"
+                     action="#{payLegalController.lazyInitNewDocument()}" update="checkNumber" global="false"
+                     immediate="true"/>
+    <p:remoteCommand global="false" name="addDocToTaskBarWithPreSave" action="#{payLegalController.instanceSave()}"
+                     oncomplete="addDocToTaskBoardByIDR('UMTPAYLEGAL', PF('IDR').jq.val());"/>
+    <p:remoteCommand rendered="#{payLegalController.isShowSave()}" global="false"
+                     name="instanceSaveCommand" action="#{payLegalController.instanceSave()}"/>
+    <p:poll rendered="#{payLegalController.isInstanceSave()}" interval="#{applicationSettingsBean.autoSaveSec}"
+            onstart="instanceSave(); return false;" widgetVar="instanceSavePoll" id="instanceSavePoll"/>
+    <p:hotkey bind="ctrl+return" handler="onClickButtons();"/>
+</p:outputPanel>
+</h:form>
+</h:body>
+</html>

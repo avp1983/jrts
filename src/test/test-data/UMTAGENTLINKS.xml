@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396005554499-126">
+        <createTable tableName="UMTAGENTLINKS">
+            <column name="PARENTLINK" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CHILDLINK" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PATHLENGTH" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="PARENTLINK, CHILDLINK, PATHLENGTH" constraintName="SYS_C001592172"
+                       tableName="UMTAGENTLINKS"/>
+    </changeSet>
+</databaseChangeLog>

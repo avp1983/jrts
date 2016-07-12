@@ -1,0 +1,16 @@
+.cont-form_edit {
+  margin: 0 auto; }
+
+.cont-form_edit .elem-form_header {
+  font-size: 16pt; }
+
+.inputLabel {
+    font-size: 0.8em;
+    color: blue;
+    margin-right: 1em;
+}
+
+.inputRO {
+    font-style: italic; 
+    font-size: 8pt;
+}

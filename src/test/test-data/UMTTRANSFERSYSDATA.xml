@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396005554499-126">
+        <createTable tableName="UMTTRANSFERSYSDATA">
+            <column name="DICTAUTOUPDATE" type="FLOAT(22)"/>
+            <column name="PAYSEARCHCONDITION" type="VARCHAR2(512)"/>
+            <column name="PAYSEARCHCONDITIONHELP_RU" type="VARCHAR2(512)"/>
+            <column name="PAYSEARCHCONDITIONHELP_EN" type="VARCHAR2(512)"/>
+            <column name="EDRETSEARCHCONDITION" type="VARCHAR2(512)"/>
+            <column name="EDRETSEARCHCONDITIONHELP_RU" type="VARCHAR2(512)"/>
+            <column name="EDRETSEARCHCONDITIONHELP_EN" type="VARCHAR2(512)"/>
+            <column name="CANCELSENDPERMISSIBLEPERIOD" type="FLOAT(22)"/>
+            <column name="CANCELSENDOPERDAYMODE" type="FLOAT(22)"/>
+            <column name="PAYERAGENTPORTIONATRECALL" type="FLOAT(22)"/>
+            <column name="CLEARINGCENTREPORTIONATRECALL" type="FLOAT(22)"/>
+            <column name="AUTOROLLBACKOFCHANGES" type="FLOAT(22)"/>
+            <column name="AUTOROLLBACKOFRECALL" type="FLOAT(22)"/>
+            <column name="DLLNAME" type="VARCHAR2(40)"/>
+            <column name="LINKTYPEID" type="FLOAT(22)"/>
+            <column name="USEXMLSEC" type="FLOAT(22)"/>
+            <column name="XMLSECFINGERPRINTNATIVE" type="VARCHAR2(100)"/>
+            <column name="XMLSECFINGERPRINTEXTERNAL" type="VARCHAR2(100)"/>
+            <column name="CANCELPAYMENTPERMISSIBLEPERIOD" type="FLOAT(22)"/>
+            <column name="CANCELPAYMENTOPERDAYMODE" type="FLOAT(22)"/>
+            <column name="SHOWINREP" type="FLOAT(22)"/>
+            <column name="LATINFIELDSOPEN" type="BLOB"/>
+            <column name="LATINFIELDSCLOSE" type="BLOB"/>
+            <column name="NECESSITYCONDCLOSE" type="BLOB"/>
+            <column name="SYSID" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(160)"/>
+            <column name="NAME_EN" type="VARCHAR2(255)"/>
+            <column name="SYSINFO" type="CLOB"/>
+            <column name="SYSINFO_EN" type="CLOB"/>
+            <column name="TCNLENGTH" type="FLOAT(22)"/>
+            <column name="TCNPREFIX" type="VARCHAR2(3)"/>
+            <column name="TCNCREATETYPE" type="FLOAT(22)"/>
+            <column name="INTERACTIONTYPE" type="FLOAT(22)"/>
+            <column name="USEUNIVERSAL" type="FLOAT(22)"/>
+            <column name="FILEINCOMINGPATH" type="VARCHAR2(100)"/>
+            <column name="FILEINCOMINGCONFPATH" type="VARCHAR2(100)"/>
+            <column name="FILEOUTGOINGPATH" type="VARCHAR2(100)"/>
+            <column name="FILEOUTGOINGCONFPATH" type="VARCHAR2(100)"/>
+            <column name="FTPSERVER" type="VARCHAR2(100)"/>
+            <column name="FTPPORT" type="FLOAT(22)"/>
+            <column name="FTPANONYMOUS" type="FLOAT(22)"/>
+            <column name="FTPPASSIVEMODE" type="FLOAT(22)"/>
+            <column name="FTPLOGIN" type="VARCHAR2(100)"/>
+            <column name="FTPPASSWORD" type="VARCHAR2(100)"/>
+            <column name="FTPINCOMINGSERVER" type="VARCHAR2(100)"/>
+            <column name="FTPINCOMINGCONFSERVER" type="VARCHAR2(100)"/>
+            <column name="FTPOUTGOINGSERVER" type="VARCHAR2(100)"/>
+            <column name="FTPOUTGOINGCONFSERVER" type="VARCHAR2(100)"/>
+            <column name="CIPHERUSEGNUPG" type="FLOAT(22)"/>
+            <column name="CIPHERGNUPGPATH" type="VARCHAR2(100)"/>
+            <column name="CIPHERKEYPATHINTERNAL" type="VARCHAR2(100)"/>
+            <column name="CIPHERKEYIDINTERNAL" type="VARCHAR2(100)"/>
+            <column name="CIPHERKEYFILEEXTERNAL" type="VARCHAR2(100)"/>
+            <column name="CIPHERKEYIDEXTERNAL" type="VARCHAR2(100)"/>
+            <column name="EMAILINCOMINGLOGIN" type="VARCHAR2(100)"/>
+            <column name="EMAILINCOMINGPASSWORD" type="VARCHAR2(100)"/>
+            <column name="EMAILOUTGOINGMETHOD" type="FLOAT(22)"/>
+            <column name="EMAILOUTGOINGADDRESSFROM" type="VARCHAR2(100)"/>
+            <column name="EMAILOUTGOINGADDRESSTO" type="VARCHAR2(100)"/>
+            <column name="EMAILOUTGOINGADDRESSTOACC" type="VARCHAR2(100)"/>
+            <column name="EMAILOUTGOINGADDRESSTOPAY" type="VARCHAR2(100)"/>
+            <column name="EMAILOUTGOINGADDRESSCC" type="VARCHAR2(100)"/>
+            <column name="MANUALFEEDPATH" type="VARCHAR2(100)"/>
+            <column name="MESSAGEREVOKEVALUE" type="FLOAT(22)"/>
+            <column name="MESSAGEREVOKECONFVALUE" type="FLOAT(22)"/>
+            <column name="MESSAGECHANGECONFVALUE" type="FLOAT(22)"/>
+            <column name="MESSAGEPAYOUTCONFVALUE" type="FLOAT(22)"/>
+            <column name="MESSAGECANCELINTERNALVALUE" type="FLOAT(22)"/>
+            <column name="ARCHIVEINCOMING" type="VARCHAR2(100)"/>
+            <column name="ARCHIVEOUTGOING" type="VARCHAR2(100)"/>
+            <column name="HTTPINCOMINGPATH" type="VARCHAR2(100)"/>
+            <column name="HTTPOUTGOINGPATH" type="VARCHAR2(100)"/>
+            <column name="AGENTSDATETIMESEND" type="date"/>
+            <column name="AGENTSDATETIMERECEIVE" type="date"/>
+            <column name="IDENTNATIVE" type="VARCHAR2(100)"/>
+            <column name="IDENTSYSTEM" type="VARCHAR2(100)"/>
+            <column name="SENDERCLIENTDEFAULT" type="FLOAT(22)"/>
+            <column name="SENDERCUSTIDDEFAULT" type="FLOAT(22)"/>
+            <column name="HTTPSIGNMESSAGES" type="FLOAT(22)"/>
+            <column name="HTTPSAVEMSGRQSTATEMPTYQUEUE" type="FLOAT(22)"/>
+            <column name="VALIDATEXMLUNDERSCHEMA" type="FLOAT(22)"/>
+            <column name="XMLSCHEMAPATH" type="VARCHAR2(100)"/>
+            <column name="FILECONTACTLOGPATH" type="VARCHAR2(100)"/>
+            <column name="NECESSITYCONDITIONS" type="BLOB"/>
+            <column name="MANDATORYFIELDSOPEN" type="BLOB"/>
+            <column name="MANDATORYFIELDSCLOSE" type="BLOB"/>
+            <column name="EDITABLEFIELDSOPEN" type="BLOB"/>
+            <column name="EDITABLEFIELDSCLOSE" type="BLOB"/>
+            <column name="FILELASTDATE" type="date"/>
+            <column name="MASK" type="BLOB"/>
+            <column name="FILELASTNUMBER" type="FLOAT(22)"/>
+            <column name="URLWEBSERVER" type="VARCHAR2(50)"/>
+            <column name="RTSREQUEST" type="VARCHAR2(50)"/>
+            <column name="SYSTYPE" type="FLOAT(22)"/>
+            <column name="PARTNERID" type="FLOAT(22)"/>
+            <column name="VERSIONMIGOM" type="VARCHAR2(50)"/>
+            <column name="PASSPHRASE" type="VARCHAR2(50)"/>
+            <column name="CUSTOMERALTERIDMASK" type="VARCHAR2(255)"/>
+            <column name="CUSTOMERALTERIDMASKERROR" type="VARCHAR2(255)"/>
+            <column name="DBLINKDBNAME" type="VARCHAR2(100)"/>
+            <column name="DBLINKDBLOGIN" type="VARCHAR2(50)"/>
+            <column name="DBLINKDBPASSWORD" type="VARCHAR2(50)"/>
+        </createTable>
+        <addPrimaryKey columnNames="SYSID" constraintName="SYS_C001592276" tableName="UMTTRANSFERSYSDATA"/>
+    </changeSet>
+</databaseChangeLog>

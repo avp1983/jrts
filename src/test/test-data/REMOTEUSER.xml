@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396621417735-443">
+        <createTable tableName="REMOTEUSER">
+            <column name="CHANNELSECURITYID" type="FLOAT(22)"/>
+            <column name="COUNTATTEMPT" type="FLOAT(22)"/>
+            <column name="FULLNAME" type="VARCHAR2(255)"/>
+            <column name="KEYREQUESTTYPE" type="FLOAT(22)"/>
+            <column name="LANGUAGEID" type="VARCHAR2(16)"/>
+            <column name="LIMIT" type="FLOAT(22)"/>
+            <column name="LOGINGENDATE" type="date"/>
+            <column name="LOGINNAME" type="VARCHAR2(10)"/>
+            <column name="LOGINSTATUS" type="FLOAT(22)"/>
+            <column name="PASS" type="VARCHAR2(65)"/>
+            <column name="PASSWORDID" type="VARCHAR2(10)"/>
+            <column name="REMOTECHANNEL" type="FLOAT(22)"/>
+            <column name="SECURITY" type="FLOAT(22)"/>
+            <column name="SIGNDOCTYPEID" type="FLOAT(22)"/>
+            <column name="TANSETID" type="VARCHAR2(10)"/>
+            <column name="USERDATA" type="BLOB"/>
+            <column name="USERKEY" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="BRANCHID" type="FLOAT(22)"/>
+            <column name="LASTMAINPAGEVIEW" type="date"/>
+            <column name="MAXCLIENTRUNHUGETASKS" type="FLOAT(22)"/>
+            <column name="NAVTREEID" type="FLOAT(22)"/>
+            <column name="CHECKIDENTITY" type="FLOAT(22)"/>
+            <column name="LASTCONNECTION" type="VARCHAR2(150)"/>
+            <column name="LASTCONNECTIONDATETIME" type="date"/>
+            <column name="PASSFINISHDATE" type="date"/>
+            <column name="CHANGEPASSONLOGIN" type="FLOAT(22)"/>
+            <column name="EXTAUTHMODE" type="FLOAT(22)"/>
+            <column name="IPMACVIEW" type="FLOAT(22)"/>
+            <column name="ETOKENID" type="VARCHAR2(40)"/>
+            <column name="API" type="FLOAT(22)"/>
+            <column name="LASTREQUEST" type="VARCHAR2(500)"/>
+            <column name="TASKBAR" type="BLOB"/>
+            <column name="MAINPAGEDASHBOARD" type="BLOB"/>
+            <column name="LASTACCESSTIME" type="date"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alexeymt (generated)" id="1396621417735-694">
+        <addPrimaryKey columnNames="USERKEY" constraintName="SYS_C001112897" tableName="REMOTEUSER"/>
+    </changeSet>
+</databaseChangeLog>

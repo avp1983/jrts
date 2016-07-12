@@ -1,0 +1,6 @@
+.ui-dashboard-column{width: 33.3%}
+.ui-dashboard-column .ui-widget{margin: 0.3em}
+.ui-widget-scroller .ui-panel-content{padding: 0 !important}
+.ui-widget-scroller .ui-datatable{margin: 0}
+.ui-dashboard-column > .ui-widget > .ui-widget-header{border: 0}
+.ui-dashboard-column > .ui-widget{overflow: hidden}

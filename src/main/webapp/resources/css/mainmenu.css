@@ -1,0 +1,41 @@
+.megamenubutton {
+    font-size: 1em !important;
+    width: 22px !important;
+    margin-left: 105px;
+    margin-top: 0.3em;
+    background-color: white;
+    border-color: white;
+}
+.megamenubutton .ui-menu-list .ui-widget-header{font-size: 1.05em !important}
+.megamenubutton .ui-menu-list .ui-menuitem{font-size: 0.93em !important}
+
+.megamenubutton .ui-widget-content{
+    top: 38px !important;
+}
+
+li.ui-menu-parent > a.ui-menuitem-link.ui-corner-all {
+    font-weight: bold;
+    width: 23px;
+    background-color: white;
+    border-color: white;
+}
+
+.bssmainmenuicon {
+    background-size: cover !important;
+    margin-left: 2px;
+    height: 16px;
+    width: 16px;
+
+    border-radius: 0 !important;
+    background: transparent url("#{resource['img:menu.gif']}") no-repeat !important;
+    border-color: white;
+}
+
+.ui-menuitem {
+    text-align: left !important;
+    font-family: Arial Cyr,serif !important;
+}
+.ui-state-growl_for_mainmenu{
+    left: 150px !important;
+    top: 30px !important;
+}

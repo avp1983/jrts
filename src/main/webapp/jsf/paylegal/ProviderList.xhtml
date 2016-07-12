@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <h:outputStylesheet library="css" name="common.css"/>
+    <h:outputStylesheet library="css" name="mainPage.css"/>
+    <h:outputStylesheet library="css" name="provlist.css"/>
+    <h:outputScript library="js" name="provlist.js"/>
+</h:head>
+<h:body>
+    <h:form id="categoriesForm" onsubmit="return false;">
+        <p:growl id="messageGrowl" sticky="true" escape="false" widgetVar="growl"/>
+        <p:layout style="width: 100%; height: 37px;">
+            <p:layoutUnit position="north">
+                <div class="ui-page-header" style="font-weight: bold; font-size: 16px;">
+                    #{umtpaylegal.PAYLEGAL_PROVLIST}
+                </div>
+            </p:layoutUnit>
+            <p:layoutUnit position="center">
+            </p:layoutUnit>
+            <p:layoutUnit position="east" size="270">
+                <p:focus/>
+                <p:outputLabel value="#{umtpaylegal.SEARCH}" style="margin-right: 5px;" for="search_input"/>
+                <p:inputText id="search_input" value="#{webProviderCategoriesController.searchString}"
+                             style="width: 200px;" onkeyup="onKeyUpSearchButton();" onkeydown="onKeyDownSearchButton();"
+                             onmouseup="onKeyUpSearchButton();" onmousedown="onKeyDownSearchButton();"
+                             widgetVar="searchInput"/>
+                <p:watermark for="search_input" value="#{umtpaylegal.SEARCH_WATERMARK}" id="search_input_watermark"/>
+                <ui:include src="/jsf/common/StatusComponent.xhtml"/>
+                <p:commandButton actionListener="#{webProviderCategoriesController.onSearch()}" icon="ui-icon-search"
+                                 update="categoriesDashboard,messageGrowl" widgetVar="searchButton"
+                                 style="display: none; width: 1px;"
+                                 oncomplete="searchComplete();"/>
+            </p:layoutUnit>
+        </p:layout>
+        <p:dashboard id="categoriesDashboard" model="#{webProviderCategoriesController.model}" disabled="true">
+        </p:dashboard>
+        <p:remoteCommand name="updateGrowl"
+                         actionListener="#{webProviderCategoriesController.updateGrowl}"
+                         update="messageGrowl"/>
+    </h:form>
+</h:body>
+</html>

@@ -1,0 +1,52 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface/>
+<composite:implementation>
+    <f:view locale="#{userSessionController.userLocale}">
+        <h:outputScript library="js" name="navigation.js"/>
+        <h:outputScript library="js" name="lastTransferWidget.js"/>
+        <h:outputScript library="js" name="transferNavigation.js"/>
+        <style>
+            .ui-datatable-last_transfer * {border: none !important;}
+            .ui-datatable-last_transfer-row:hover td{background-color: #f68428 !important; cursor: hand}
+            .ui-datatable-last_transfer-row td{text-align: center}
+            .ui-datatable-last_transfer .ui-datatable-even td{background-color: #ebebeb}
+            .ui-datatable-last_transfer .ui-datatable-column-amount {text-align: right;
+                padding-left: 0;padding-right: 1em}
+            .ui-datatable-last_transfer  .ui-datatable-odd {background: none}
+            .ui-datatable-last_transfer .ui-datatable-column-check_number{padding-left: 0; padding-right: 0}
+        </style>
+        <p:dataTable value="#{lastTransferWidget.getLastRequests()}" var="oneDoc" widgetVar="lastTransferTable"
+                     styleClass="ui-datatable-last_transfer" emptyMessage="#{lasttransfer.LAST_TRANSFERS_NO_RECORDS}"
+                     rowStyleClass="ui-datatable-last_transfer-row">
+            <p:column style="display: none" styleClass="docType">
+                <h:outputText value="#{oneDoc.docType}"/>
+            </p:column>
+            <p:column style="display: none" styleClass="IDR">
+                <h:outputText value="#{lastTransferWidget.getDocPK(oneDoc)}"/>
+            </p:column>
+            <p:column style="display: none" styleClass="Status">
+                <h:outputText value="${oneDoc.status}"/>
+            </p:column>
+            <p:column headerText="#{lasttransfer.LAST_TRANSFERS_OPERATION_TYPE}" width="45">
+                <h:outputText value="#{lastTransferWidget.getLastOperationDescriptionByStatus(oneDoc.status)}"/>
+            </p:column>
+            <p:column style="text-align: left;" headerText="#{lasttransfer.LAST_TRANSFERS_DOC_DATE}" width="50">
+                <h:outputText value="#{lastTransferWidget.getFormatDocumentDate(oneDoc)}"/>
+            </p:column>
+            <p:column headerText="#{lasttransfer.LAST_TRANSFERS_CHECK_NUMBER}" width="90"
+                      styleClass="ui-datatable-column-check_number">
+                <h:outputText value="#{oneDoc.checkNumber}"/>
+            </p:column>
+            <p:column headerText="#{lasttransfer.LAST_TRANSFERS_AMOUNT}" styleClass="ui-datatable-column-amount"
+                      width="100">
+                <h:outputText value="#{oneDoc.getAmountWithCurrency()}"/>
+            </p:column>
+        </p:dataTable>
+    </f:view>
+</composite:implementation>
+</html>

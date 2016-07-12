@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="datetimeType">
+		<xs:annotation>
+			<xs:documentation>Дата и время в формате DD.MM.YYYY hh:mm:ss ( например, 12.01.2006 8:23:13)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="^([0-2]\d|3[01])\.(0\d|1[012])\.(\d{4}) ([0-1]\d|2[0-3])(:[0-5]\d){2}$"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="amountType">
+		<xs:annotation>
+			<xs:documentation>Числовое представление суммы. Разделитель целой и дробной части «.»</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="providerIdType">
+		<xs:annotation>
+			<xs:documentation>Идентификатор провайдера</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long"/>
+	</xs:simpleType>
+	<xs:simpleType name="billNumberType">
+		<xs:annotation>
+			<xs:documentation>Номер чека платежа</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long"/>
+	</xs:simpleType>
+	<xs:simpleType name="dealerTransactionIdType">
+		<xs:annotation>
+			<xs:documentation>Номер транзакции у провайдера</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long"/>
+	</xs:simpleType>
+	<xs:simpleType name="paramValueType">
+		<xs:annotation>
+			<xs:documentation>Значение параметра платежа</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:complexType name="paramType">
+		<xs:annotation>
+			<xs:documentation>Описание параметра</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="minlength" type="xs:integer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Минимальное количество символов в значении параметра</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="title" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Наименование параметра</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="maxlength" type="xs:integer" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Максимальное количество символов в значении параметра</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="pattern" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Регулярное выражение, которому должно удовлетворять значение параметра</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="mask" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Маска для ввода значения параметра</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type">
+				<xs:annotation>
+					<xs:documentation>Тип параметра</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="numeric"/>
+						<xs:enumeration value="enum"/>
+						<xs:enumeration value="string"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="elements" type="elementsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Список допустимых значений параметра для параметров типа enum</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="patterndesc" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Всплывающая подсказка</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="name" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>Идентификатор параметра, для основного параметра не заполняется</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="elementsType">
+		<xs:annotation>
+			<xs:documentation>Список допустимых значений параметра для параметров типа enum</xs:documentation>
+		</xs:annotation>
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="item">
+				<xs:annotation>
+					<xs:documentation>Значение параметра</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="value" type="xs:integer" use="required">
+						<xs:annotation>
+							<xs:documentation>Идентификатор значения</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="resultType">
+		<xs:annotation>
+			<xs:documentation>Результат выполнения запроса</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="fatal" type="xs:boolean" use="required">
+			<xs:annotation>
+				<xs:documentation>Признак, указывающий получен ли окончательный результат (true) или требуется дополнительно отправлять сообщение FINDPAY (false).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="resultCode" type="xs:integer" use="required">
+			<xs:annotation>
+				<xs:documentation>Код результата выполнения запроса </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="resultDescription" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Описание результата выполнения запроса</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="providerResultMessage" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Описание результата выполнения платежа у провайдера</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="userDataType">
+		<xs:annotation>
+			<xs:documentation>Данные платежа</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="phoneNumber" type="paramValueType">
+				<xs:annotation>
+					<xs:documentation>Значение основного параметра</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="serviceProviderId" type="providerIdType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор провайдера</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="amount" type="amountType">
+				<xs:annotation>
+					<xs:documentation>Сумма платежа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="checkPayDataType">
+		<xs:annotation>
+			<xs:documentation>Описание параметров следующих шагов отправки платежа</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="stepsLeft" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Количество оставшихся шагов. Если больше нуля, на следующем шаге клиент должен отправить повторный CHECKPAY, в противном случае PREPARE, а затем PAY.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="errorCode" type="xs:integer">
+				<xs:annotation>
+					<xs:documentation>Код ошибки. 0, если при обработке CHECKPAY не возникло ошибок. Если не равно 0, то описание ошибки отображается пользователю, процесс отправления платежа завершается.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="errorMessage" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Описание ошибки</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="checkPayMap" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Список параметров, сохраняемых между шагами (не отображаются пользователю, кроме элементов с названием amount, amountAll и commission, в которых передаются соответственно сумма плетежа, сумма платежа с комиссией и комиссия за платёж)</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="checkPayMapEntry" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Описание параметра</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="name" type="xs:string" use="required">
+									<xs:annotation>
+										<xs:documentation>Название параметра</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="value" type="paramValueType" use="required">
+									<xs:annotation>
+										<xs:documentation>Значение параметра</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="checkPayTable" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Список параметров для отображения или заполнения пользователем на следующем шаге</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="checkPayTableRow" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Описание параметра</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence minOccurs="0">
+									<xs:element name="checkPayParam" minOccurs="0" maxOccurs="unbounded">
+										<xs:annotation>
+											<xs:documentation>Список допустимых значений параметра</xs:documentation>
+										</xs:annotation>
+										<xs:complexType>
+											<xs:attribute name="key" type="xs:string" use="required">
+												<xs:annotation>
+													<xs:documentation>Идентификатор значения</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="value" type="paramValueType" use="required">
+												<xs:annotation>
+													<xs:documentation>Значение параметра</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+								<xs:attribute name="billingName" type="xs:string" use="required">
+									<xs:annotation>
+										<xs:documentation>Название параметра, значение этого атрибута используются для передачи параметра в запросе</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="title" type="xs:string" use="required">
+									<xs:annotation>
+										<xs:documentation>Заголовок  параметра, значение этого атрибута используется для отображения пользователю</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="value" type="paramValueType" use="required">
+									<xs:annotation>
+										<xs:documentation>Значение параметра. Если editable – true, значение может игнорироваться (не отображаться пользователю), так как в этом случае пользователь должен заполнить его сам. Если editable – false, значение отображается пользователю для контроля (например в виде «title»: «value»)</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="editable" type="xs:boolean" use="required">
+									<xs:annotation>
+										<xs:documentation>Если значение - true – пользователь должен ввести значение соответствующего параметра, false- параметр только для отображения пользователю и не может быть изменен</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="accountType">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос ACCOUNT</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="balance" type="amountType">
+				<xs:annotation>
+					<xs:documentation>Текущий баланс</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="paylimit" type="amountType">
+				<xs:annotation>
+					<xs:documentation>Разрешенный дневной лимит</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="today">
+				<xs:annotation>
+					<xs:documentation>Информация о платежах за текущий день</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="goodsum" type="amountType" use="required">
+						<xs:annotation>
+							<xs:documentation>Сумма успешных за текущий день платежей</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="goodcount" type="xs:integer" use="required">
+						<xs:annotation>
+							<xs:documentation>Количество успешных за текущий день платежей</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="providerType">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос PROVIDERS2</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="id" type="xs:int">
+				<xs:annotation>
+					<xs:documentation>Идентификатор провайдера</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Наименование провайдера</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="minsum" type="amountType">
+				<xs:annotation>
+					<xs:documentation>Минимальная сумма платежа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="maxsum" type="amountType">
+				<xs:annotation>
+					<xs:documentation>Максимальная сумма платежа</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="inn" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>ИНН провайдера</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="jurname" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Юридическое наименование провайдера </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="additpercent">
+				<xs:annotation>
+					<xs:documentation>Дополнительная комиссия по сервису, назначаемая дилером</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="allow" type="xs:boolean" use="required">
+						<xs:annotation>
+							<xs:documentation>Разрешена ли дополнительная комиссия</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="max" type="amountType" use="required">
+						<xs:annotation>
+							<xs:documentation>Максимальный размер дополнительной комиссии</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="dpsprovider">
+				<xs:annotation>
+					<xs:documentation>Идентификатор сервиса в терминальном софте</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="providerPaymentType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Значение параметра paymentType в запросе CHECKPAY</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:integer">
+						<xs:enumeration value="16010"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="params">
+				<xs:annotation>
+					<xs:documentation>Список параметров передаваемых при платеже</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="param" type="paramType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Описание параметра</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="countries">
+				<xs:annotation>
+					<xs:documentation>Страны назначения провайдера</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="country">
+							<xs:annotation>
+								<xs:documentation>Страна назначения провайдера</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="code" use="required">
+									<xs:annotation>
+										<xs:documentation>Цифровой ISO-код страны</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="3"/>
+											<xs:maxLength value="3"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+								<xs:attribute name="desc" use="required">
+									<xs:annotation>
+										<xs:documentation>3-х буквенный ISO-код страны</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="xs:string">
+											<xs:minLength value="3"/>
+											<xs:maxLength value="3"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="serviceProviderGroupType">
+		<xs:annotation>
+			<xs:documentation>Группа сервисов, возвращается в ответе на запрос SGROUPS</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="providerIds">
+				<xs:annotation>
+					<xs:documentation>Список провайдеров, входящих в группу</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="id" type="providerIdType" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Идентификатор провайдера</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Код группы</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="name" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Наименование группы</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="dpsgroup" use="required">
+			<xs:annotation>
+				<xs:documentation>Идентификатор группы в терминальном софте</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="paymentType">
+		<xs:annotation>
+			<xs:documentation>Ответ на запрос FINDPAY, FINDCHECK</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="beginDate" type="datetimeType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Дата принятия (время дилера)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tsDateSp" type="datetimeType">
+				<xs:annotation>
+					<xs:documentation>Дата проведения (время по системе)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="tsDateDealer" type="datetimeType">
+				<xs:annotation>
+					<xs:documentation>Дата зачисления платежа (время сервис провайдера)</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="userData" type="userDataType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Данные платежа, возвращается в ответе на запрос FINDPAY</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="result" type="resultType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Результат выполнения  запроса, возвращается в ответе на запрос FINDPAY</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="checkPayData" type="checkPayDataType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Описание параметров следующих шагов отправки платежа, возвращается в ответе на запрос FINDCHECK</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="version" type="xs:string" use="required">
+			<xs:annotation>
+				<xs:documentation>Номер версии протокола</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="billNumber" type="billNumberType" use="required">
+			<xs:annotation>
+				<xs:documentation>Номер чека платежа</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="dealerTransactionId" type="dealerTransactionIdType">
+			<xs:annotation>
+				<xs:documentation>Номер транзакции у провайдера</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="messageType">
+		<xs:annotation>
+			<xs:documentation>Системное сообщение, возвращается в ответе на запрос MESSAGES</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="date" type="datetimeType">
+				<xs:annotation>
+					<xs:documentation>Дата и время сообщения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="provider" type="providerIdType">
+				<xs:annotation>
+					<xs:documentation>Идентификатор провайдера, для которого создано сообщение</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type">
+				<xs:annotation>
+					<xs:documentation>Тип сообщения: INFO - информационное, FAILURE – отказ провайдера, RESUME – восстановление работы провайдера, UNSTABLE – нестабильная работа провайдера, TECH_BREAK – проведение технических работ</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="INFO"/>
+						<xs:enumeration value="FAILURE"/>
+						<xs:enumeration value="RESUME"/>
+						<xs:enumeration value="UNSTABLE"/>
+						<xs:enumeration value="TECH_BREAK"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="text" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Текст сообщения</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:element name="kp-dealer">
+		<xs:annotation>
+			<xs:documentation>Контейнер сообщений</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence minOccurs="0">
+				<xs:element name="account" type="accountType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Ответ на запрос ACCOUNT</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="provider" type="providerType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Ответ на запрос PROVIDERS2</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="serviceProviderGroup" type="serviceProviderGroupType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Группа сервисов, возвращается в ответе на запрос SGROUPS</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="billNumber" type="billNumberType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Номер чека платежа, возвращается в ответе на запрос PAY, CHECKPAY</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="beginDate" type="datetimeType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Дата принятия (время дилера), возвращается в ответе на запрос PAY</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="tsDateSp" type="datetimeType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Дата проведения (время по системе), возвращается в ответе на запрос PAY</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="tsDateDealer" type="datetimeType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Дата зачисления платежа (время сервис провайдера), возвращается в ответе на запрос PAY</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="amount" type="amountType" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Сумма к начислению, возвращается в ответе на запрос PAY</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="result" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Результат выполнения  запросов CHECKPAY, FINDCHECK, PREPARE, PAY</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="resultCode" type="xs:integer">
+							<xs:annotation>
+								<xs:documentation>Код результата выполнения запроса </xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+						<xs:attribute name="resultDescription" type="xs:string">
+							<xs:annotation>
+								<xs:documentation>Описание результата выполнения запроса</xs:documentation>
+							</xs:annotation>
+						</xs:attribute>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="payment" type="paymentType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Ответ на запрос FINDPAY, FINDCHECK</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="message" type="messageType" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Системное сообщение, возвращается в ответе на запрос MESSAGES</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="version" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>Номер версии протокола</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

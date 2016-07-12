@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396005554499-126">
+        <createSequence sequenceName="BSS__AK_UMTDESTINATIONPLACE"/>
+        <createTable tableName="UMTDESTINATIONPLACE">
+            <column name="AUTOKEY" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SYSTEMID" type="FLOAT(22)"/>
+            <column name="AGENTTOWNID" type="FLOAT(22)"/>
+            <column name="CUSTID" type="FLOAT(22)"/>
+            <column name="CODE" type="VARCHAR2(25)"/>
+            <column name="BANKINFOID_RU" type="FLOAT(22)"/>
+            <column name="BANKINFOID_EN" type="FLOAT(22)"/>
+        </createTable>
+        <addPrimaryKey columnNames="AUTOKEY" constraintName="SYS_C001634001" tableName="UMTDESTINATIONPLACE"/>
+    </changeSet>
+</databaseChangeLog>

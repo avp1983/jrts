@@ -1,0 +1,44 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface componentType="FavouritesUtil">
+    <composite:attribute name="widgetData" required="true"/>
+</composite:interface>
+
+<composite:implementation>
+    <f:view locale="#{userSessionController.userLocale}">
+        <style>
+            .ui-datatable-prov_category * {border: none !important;}
+            .ui-datatable-prov_category {width: 100%;margin: 0 !important;}
+            .ui-datatable-prov_category-row td {text-align: left;}
+            .ui-datatable-prov_category tr:hover td {background-color: #f68428 !important;cursor: pointer;}
+            .panel-widget_web_providers .elem-category_img{height: 16px; width: 16px; position: relative; top: 3px}
+            .panel-widget_web_providers .ui-panel-titlebar{padding-top: 0}
+            .panel-widget_web_providers .ui-panel-title{height: 16px;line-height: 16px; display: inline-block;
+                vertical-align: bottom}
+            .panel-widget_web_providers .label-category_name{display: inline-block;}
+
+        </style>
+        <p:panel styleClass="panel-widget_web_providers" widgetVar="favourites">
+            <f:facet name="header">
+                <p:outputLabel styleClass="label-category_name" value="#{umtpaylegal.FAVORITE_SERVICES}"/>
+            </f:facet>
+            <!--@elvariable id="oneDoc" type="com.bssys.entity.UMTWebProviderHelper"-->
+            <p:dataTable value="#{favouriteProvidersWidget.getFavourites()}" var="oneDoc" id="widgetFAV"
+                         styleClass="ui-datatable-prov_category widgetFAV" rowStyleClass="ui-datatable-prov_category-row"
+                         selectionMode="single" rowKey="#{oneDoc.id}" emptyMessage="#{umtpaylegal.NO_FAVOURITES}"
+                         scrollable="true" scrollHeight="201" liveScroll="true" scrollRows="10" widgetVar="widgetFAV">
+                <p:ajax event="rowSelect"
+                        onstart="top.navigateFormScrollFilter('UMTPAYLEGAL', 'FORM', null, '&amp;providerid=' + cfg.ext.params[0].value);"/>
+                <p:column>
+                    <h:outputLabel value="#{oneDoc.name}" styleClass="elem-provedir_link"
+                                   onclick="top.navigateFormScrollFilter('UMTPAYLEGAL', 'FORM', null, '&amp;providerid=#{oneDoc.id}');"/>
+                </p:column>
+            </p:dataTable>
+        </p:panel>
+    </f:view>
+</composite:implementation>
+</html>

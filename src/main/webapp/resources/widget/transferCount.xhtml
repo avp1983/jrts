@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <composite:interface/>
+    <composite:implementation>
+        <h:outputScript library="js" name="transferCount.js"/>
+        <h:outputScript library="js" name="navigation.js"/>
+        <style>
+            .container-transferCountWidget .ui-panel-content{padding: 0; position: relative}
+            .ui-dashboard_widget-transfer_count{width: 100%; margin: 0 !important;}
+            .ui-dashboard_widget-transfer_count .ui-panelgrid-odd{background-color: #ebebeb}
+            .ui-dashboard_widget-transfer_count * {border: none !important;}
+            .ui-dashboard_widget-transfer_count tr:hover td{background-color: #f68428 !important; cursor: hand}
+            .elem-count_value {text-align: right}
+        </style>
+        <p:panelGrid columns="2" styleClass="ui-dashboard_widget-transfer_count" columnClasses=",elem-count_value">
+            <p:outputLabel value="#{transfercount.TRANSFER_COUNT_BLOCKED}" rendered="#{userRightController.userHasRightTransferActionAndSend()}"/>
+            <p:outputLabel value="" styleClass="elem_transfercount_blocked" rendered="#{userRightController.userHasRightTransferActionAndSend()}"/>
+
+            <p:outputLabel value="#{transfercount.TRANSFER_COUNT_RETURN}" rendered="#{userRightController.userHasRightTransferActionAndSend()}"/>
+            <p:outputLabel value="" styleClass="elem_transfercount_return" rendered="#{userRightController.userHasRightTransferActionAndSend()}"/>
+
+            <p:outputLabel value="#{transfercount.TRANSFER_COUNT_RETURN_PAYLEGAL}" rendered="#{userRightController.userHasRightTransferActionAndPayLegal()}"/>
+            <p:outputLabel value="" styleClass="elem_transfercount_return_paylegal" rendered="#{userRightController.userHasRightTransferActionAndPayLegal()}"/>
+
+            <p:outputLabel value="#{transfercount.TRANSFER_COUNT_ADDRESS}" rendered="#{userRightController.userHasRightTransferViewOrAction()}"/>
+            <p:outputLabel value="" styleClass="elem_transfercount_address" rendered="#{userRightController.userHasRightTransferViewOrAction()}"/>
+        </p:panelGrid>
+    </composite:implementation>
+</html>

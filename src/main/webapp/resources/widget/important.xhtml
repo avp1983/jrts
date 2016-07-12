@@ -1,0 +1,176 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface/>
+
+<composite:implementation>
+    <f:view locale="#{userSessionController.userLocale}">
+        <h:outputScript library="js" name="navigation.js"/>
+        <h:outputScript library="js" name="freeclientdoc.js"/>
+        <h:outputScript library="js" name="importantwidget.js"/>
+
+        <style>
+            .ui-widget-important .ui-widget-content {padding: 0 !important}
+            .ui-autocomplete-item {font-size: 0.8em;}
+            .ui-autocomplete-items {width: 300px;}
+            .ui-autocomplete input {width: 90%;}
+        </style>
+
+        <p:panelGrid styleClass="ui-dashboard-widget ui-dashboard_widget-important-no-odd">
+            <!--Текущий лимит-->
+            <p:row>
+                <p:column> <p:outputLabel value="#{importantwidget.IMPORTANT_WIDGET_CURRENT_LIMIT}"/>
+                    <h:graphicImage library="img" name="ajax-loader-arrows.gif" styleClass="progress-ind-limit"
+                                    style="visibility: hidden"/>
+                </p:column>
+                <p:column styleClass="elem-count_value">
+                    <p:outputLabel id="current-limit" value="#{importantWidget.agentCurrentLimit.getNewValue().intValue()}"
+                                   styleClass="elem_current_limit ui-widget-counter" style="text-align: right;"/>
+                </p:column>
+            </p:row>
+
+            <!--Бонусные баллы-->
+            <p:row rendered="#{importantWidget.hasAgentLoyalityActions()}">
+                <p:column> <p:outputLabel value="#{importantwidget.IMPORTANT_WIDGET_BONUS_POINTS}"/>
+                    <h:graphicImage library="img" name="ajax-loader-arrows.gif" styleClass="progress-ind-bonus-points"
+                                    style="visibility: hidden"/>
+                </p:column>
+                <p:column styleClass="elem-count_value">
+                    <p:outputLabel id="bonus-points-label" value="#{importantWidget.agentLoyalityPointsTotal.getNewValue().intValue()}"
+                                   styleClass="elem_bonus_points ui-widget-counter"/>
+                </p:column>
+            </p:row>
+
+        </p:panelGrid>
+            <hr/>
+        <p:panelGrid styleClass="ui-dashboard-widget ui-dashboard_widget-important">
+            <!--Готовые отчёты-->
+            <p:row rendered="#{userRightController.userHasRightReportOrReportMutual()}">
+                <p:column> <p:outputLabel value="#{mainmenu.REPORT_READY}"/> </p:column>
+                <p:column styleClass="elem-count_value">
+                    <p:outputLabel id="report_ready" value="#{importantWidget.agentFinishedReportCount.getNewValue().intValue()}" styleClass="elem_report_ready ui-widget-counter #{importantWidget.agentFinishedReportCount.isChanged() ? 'ui-widget-counter-updated' : ''}"/>
+                </p:column>
+            </p:row>
+
+            <!--Новые запросы-->
+            <p:row rendered="#{userRightController.userHasRightSignUserRequest()}">
+                <p:column> <p:outputLabel value="#{importantwidget.IMPORTANT_WIDGET_NEW_CERT_REQUESTS}"/> </p:column>
+                <p:column styleClass="elem-count_value">
+                    <p:outputLabel id="new_cert_req" value="#{importantWidget.agentNewCertRequestCount.getNewValue().intValue()}" styleClass="elem_new_cert_req ui-widget-counter #{importantWidget.agentNewCertRequestCount.isChanged() ? 'ui-widget-counter-updated' : ''}"/>
+                </p:column>
+            </p:row>
+
+            <!--Сообщения от администратора-->
+            <p:row rendered="#{userRightController.userHasRightMessagesAdmin()}">
+                <p:column> <p:outputLabel value="#{mainmenu.MESSAGE_FROM_ADMIN}"/></p:column>
+                <p:column styleClass="elem-count_value">
+                    <p:outputLabel id="msg_from_admin" value="#{importantWidget.agentNewMsgFromAdminCount.getNewValue().intValue()}"
+                                   styleClass="elem_msg_from_admin ui-widget-counter #{importantWidget.agentNewMsgFromAdminCount.isChanged() ? 'ui-widget-counter-updated' : ''}"/>
+                </p:column>
+            </p:row>
+
+            <!--Сообщения от агентов-->
+            <p:row rendered="#{userRightController.userHasRightMessagesAgent()}">
+                <p:column> <p:outputLabel value="#{mainmenu.MESSAGE_FROM_AGENT}"/></p:column>
+                <p:column styleClass="elem-count_value">
+                    <p:outputLabel id="msg_from_agent" value="#{importantWidget.agentNewMsgFromAgentsCount.getNewValue().intValue()}"
+                                   styleClass="elem_msg_from_agent ui-widget-counter #{importantWidget.agentNewMsgFromAgentsCount.isChanged() ? 'ui-widget-counter-updated' : ''}"/>
+                </p:column>
+            </p:row>
+
+            <!--Новости-->
+            <p:row>
+                <p:column> <p:outputLabel value="#{mainmenu.MESSAGE_NEWS}"/></p:column>
+                <p:column styleClass="elem-count_value">
+                    <p:outputLabel id="news" value="#{importantWidget.newsAddedTodayCount.getNewValue().intValue()}" styleClass="elem_news ui-widget-counter #{importantWidget.newsAddedTodayCount.isChanged() ? 'ui-widget-counter-updated' : ''}"/>
+                </p:column>
+            </p:row>
+
+        </p:panelGrid>
+
+        <p:panel rendered="#{userRightController.userHasRightTransferActionAndSendOrPay()}" style="border:0;">
+        <hr/>
+        </p:panel>
+
+        <div style="width: 49%; display: inline-block">
+            <div style="text-align: center">
+                <!--Создать-->
+                <p:commandButton rendered="#{userRightController.userHasRightTransferActionAndSend()}"
+                        onclick="navigateScrollFilter('UMTPAYTRANSFEROPEN_CREATE', null, 'important'); return false;"
+                        value="#{mainmenu.TRANSFER_NEW}" title="#{importantwidget.IMPORTANT_WIDGET_CREATE_PAYTRANSFER_TITLE}"/>
+            </div>
+        </div>
+        <div style="width: 49%; display: inline-block">
+            <div style="text-align: center">
+                <!--Выплатить-->
+                <p:commandButton rendered="#{userRightController.userHasRightTransferActionAndPay()}"
+                        onclick="navigateBSI('RT_2UMTPAYTRANSFERCLOSE.setPropsSearch','UMTPAYTRANSFEROPEN', 'PAY', null, null, null, 'important'); return false;"
+                        value="#{mainmenu.TRANSFER_PAY}" title="#{importantwidget.IMPORTANT_WIDGET_PAYOUT_PAYTRANSFER_TITLE}"/>
+            </div>
+        </div>
+
+        <p:panel rendered="#{userRightController.userHasRightTransferActionAndPayLegal() }" style="border:0;">
+            <hr/>
+
+        <div class="autocomplete" style="margin-top: 5px; margin-bottom: 5px; text-align: center;">
+            <div style="width: 50%; display: inline-block;">
+                <!--@elvariable id="provider" type="com.bssys.entity.UMTWebProviderHelper"-->
+                <p:autoComplete id="search_input_inp" style="margin-right: 0.5em;" maxResults="5"
+                                value="#{importantWidget.provider}" completeMethod="#{importantWidget.completeProvider}"
+                var="provider" itemLabel="#{provider.name}" itemValue="#{provider}" converter="#{providerConverter}"
+                forceSelection="true">
+                    <p:ajax event="itemSelect" listener="#{importantWidget.onItemSelect}" update="createPayLegalButton" />
+                </p:autoComplete>
+                <p:watermark for="search_input_inp" value="#{importantwidget.IMPORTANT_WIDGET_SEARCH_WATERMARK}"/>
+            </div>
+            <div style="width: 30%; display: inline-block;">
+                <p:button
+                        outcome="/jsf/paylegal/Scroller.xhtml" value="#{importantwidget.IMPORTANT_WIDGET_CREATE_PAYLEGAL}"
+                        id="createPayLegalButton" target="RT_IC_MAINW" title="#{importantwidget.IMPORTANT_WIDGET_CREATE_PAYLEGAL_TITLE}"
+                        disabled="#{importantWidget.provider == null}">
+                    <f:param name="providerid" value="#{importantWidget.provider.getId().toString()}"/>
+                </p:button>
+            </div>
+        </div>
+        </p:panel>
+
+        <p:remoteCommand name="updateCurrentLimit"
+                         onstart="$('.progress-ind-limit').css('visibility','visible');"
+                         oncomplete="$('.progress-ind-limit').css('visibility','hidden');"
+                         actionListener="#{importantWidget.agentCurrentLimit.reset()}"
+                         update="current-limit"/>
+
+        <p:remoteCommand name="updateBonusPoints"
+                         onstart="$('.progress-ind-bonus-points').css('visibility','visible');"
+                         oncomplete="$('.progress-ind-bonus-points').css('visibility','hidden');"
+                         update="bonus-points-label"/>
+
+        <p:remoteCommand name="resetFinishedReports"
+                         actionListener="#{importantWidget.agentFinishedReportCount.reset()}"
+                         update="report_ready"/>
+
+        <p:remoteCommand name="resetLoyalityPoints"
+                         actionListener="#{importantWidget.agentLoyalityPointsTotal.reset()}"
+                         update="bonus-points-label"/>
+
+        <p:remoteCommand name="resetNewCertRequest"
+                         actionListener="#{importantWidget.agentNewCertRequestCount.reset()}"
+                         update="new_cert_req"/>
+
+        <p:remoteCommand name="resetNewMsgFromAdmin"
+                         actionListener="#{importantWidget.agentNewMsgFromAdminCount.reset()}"
+                         update="msg_from_admin"/>
+
+        <p:remoteCommand name="resetNewMsgFromAgents"
+                         actionListener="#{importantWidget.agentNewMsgFromAgentsCount.reset()}"
+                         update="msg_from_agent"/>
+
+        <p:remoteCommand name="resetNewsAddedToday"
+                         actionListener="#{importantWidget.newsAddedTodayCount.reset()}"
+                         update="news"/>
+    </f:view>
+</composite:implementation>
+</html>

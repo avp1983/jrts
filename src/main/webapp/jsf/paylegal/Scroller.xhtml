@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/TabScroller.xhtml">
+
+    <ui:define name="customLibs">
+        <h:outputScript library="js" name="paylegal.js"/>
+    </ui:define>
+    <ui:define name="customContent">
+        <h:outputText styleClass="providerid" style="display: none;" value="#{param.providerid}" />
+    </ui:define>
+    <ui:define name="menuItems">
+        <p:menuitem value="#{umtpaylegal.PAYLEGAL_CREATE_TRANSFER}"
+                    onclick="onClickPayLegalCreate(); return false;"
+                    rendered="#{userRightController.userHasRightTransferActionAndPayLegal()}"
+                    styleClass="ui-menuitem-create"/>
+        <p:menuitem value="#{umtpaylegal.PAYLEGAL_WAIT_FOR_SEND}"
+                    onclick="onClickPayLegalWaitForSend(); return false;"
+                    rendered="#{userRightController.userHasRightTransferActionAndPayLegal()}"
+                    styleClass="ui-menuitem-wait_for_send"/>
+        <p:menuitem value="#{umtpaylegal.PAYLEGAL_SENT}"
+                    onclick="onClickPayLegalSent(); return false;"
+                    rendered="#{userRightController.userHasRightTransferViewOrAction()}"
+                    styleClass="ui-menuitem-sent"/>
+        <p:menuitem value="#{umtpaylegal.PAYLEGAL_TO_RETURN}"
+                    onclick="onClickPayLegalToReturn(); return false;"
+                    rendered="#{userRightController.userHasRightTransferActionAndPayLegal()}"
+                    styleClass="ui-menuitem-to_return"/>
+    </ui:define>
+</ui:composition>

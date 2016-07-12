@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface/>
+<composite:implementation>
+    <f:view locale="#{userSessionController.userLocale}">
+        <script>
+            function findByKNP() {
+                var checkNum = $('input[name$="findWidgetCheckCode"]').val();
+                top.nv.DEF('RT_2UMTPayTransferClose.getPropsSearch', 'UMTPAYTRANSFERCLOSE', 'PAY', '', '&amp;TransferSystem=0&amp;CheckNumber=' + checkNum);
+            }
+            function onCheckNumberKeyDown(comp, event) {
+                if (event.keyCode == 13) {
+                    $(comp).parent().find("button[name$='findButton']").click();
+                }
+            }
+
+        </script>
+        <p:outputLabel for="findWidgetCheckCode" value="#{findtransfer.FIND_TRANSFER_BY_KNP_KNP}: "/>
+        <p:inputText id="findWidgetCheckCode" style="margin-right: 0.5em; width: 60px" value="#{findTransferWidget.checkNumber}"
+                     onkeydown="onCheckNumberKeyDown(this, event)"/>
+        <p:commandButton onclick="findByKNP(); return false" value="#{findtransfer.FIND_TRANSFER_BY_KNP_SEARCH}"
+                         id="findButton"/>
+    </f:view>
+</composite:implementation>
+</html>

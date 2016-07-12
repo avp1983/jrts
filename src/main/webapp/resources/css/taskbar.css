@@ -1,0 +1,29 @@
+.ui-dashboard-column{width: 100%}
+#eastLayout{width: 95% !important}
+.elem-label{font-weight: bolder}
+.elem-overflow{width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: top;
+}
+.ui-panel .ui-panel-titlebar-icon-left{float: left !important}
+.ui-panel-titlebar-icon-options{margin-right: 0.5em; margin-left: 0}
+.ui-panel-titlebar-icon-options button{height: 18px;
+    width: 18px;
+    vertical-align: baseline;
+    border: none !important;
+}
+.ui-layout-unit-header{padding-left: 0 !important; height: 16px}
+.ui-panel-titlebar-icon-options button .ui-button-icon-left{left: 0;}
+.panel-entry{margin-bottom: 0.3em;}
+.ui-dashboard-column > .ui-widget{border: none; background: #ffffff}
+.ui-dashboard-column > .ui-widget{margin-top: 0.3em}
+.ui-panel.panel-support{ padding: 0; min-height: 2em}
+.ui-panel.panel-support .ui-panel-titlebar{ border: none; }
+
+.paytransferopen-widget > .ui-panel-titlebar {padding-left: 0 !important;}
+
+.ui-widget-counter {font-size: 1em; font-weight: normal;}
+.ui-widget-counter-updated {font-size: 1.2em !important;font-weight: bold !important;}

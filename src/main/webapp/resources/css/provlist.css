@@ -1,0 +1,34 @@
+* {box-sizing: border-box;}
+
+.loadStatus {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.panel-widget_web_providers .ui-panel-content{padding: 0 !important;}
+
+.ui-layout-pane-east .ui-layout-unit-content {
+    margin-top: auto;
+    padding: 0 !important;
+    height: 32px !important;
+    float: left;
+}
+
+.ui-layout-north {
+    margin-top: 26px !important;
+    padding: 0 !important;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+}
+
+.ui-layout-center {
+    display: none !important;
+    height: 32px !important;
+}
+
+.ui-layout-east {
+    padding: 0 !important;
+}

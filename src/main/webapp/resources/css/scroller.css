@@ -1,0 +1,17 @@
+.scrollerfilter {
+    font-size: 0.8em;
+    border: none;
+}
+
+.scrollerfilter .ui-widget-header{
+    background: none;
+}
+
+.scrollerPanel{
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+}
+.scrollerPanel .ui-panel-content {
+    padding: 0 !important;
+}

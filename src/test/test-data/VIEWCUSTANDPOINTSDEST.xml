@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396005554499-126">
+        <createView viewName="VIEWCUSTANDPOINTSDEST">select cust.CustomerType, cust.CustId, cust.Client, cust.NameShort,
+            cust.NameInt, cust.NameFull, cust.ChiefName,
+            cust.ChiefName_eng, cust.ChiefPhone, cust.AccChiefName, cust.AccChiefPhone, cust.INN,
+            cust.AgentEnabled, cust.WhenAgentEnabled, cust.AgentDemoEnabled, cust.ShowAtWebSite,
+            cust.LawCountry, cust.LawState, cust.LawZip, cust.LawPlaceType, cust.LawPlace, cust.LawStreet,
+            cust.LawHouse, cust.LawFlat, cust.Phone, cust.IntState, cust.IntZip,
+            cust.IntStreet, cust.IntHouse, cust.IntFlat,cust.MetroId, cust.LawStreetType, cust.IntStreetType,
+            cust.CanAcceptAddressTrnAccount, cust.Scheme, cust.Fax, cust.Telex,
+            cust.EMail, cust.LawAddress, cust.IntAddress, cust.Remark, cust.Remark_eng,
+
+            cust.PostLevel, cust.isMenuTransfer, cust.isMenuIpoteka, custroot.TransferSysID,
+            cust.AllowedTransferSysSender, cust.CurrList, cust.CanEditFinancial, cust.CanEditNonFinancial,
+            cust.CanEditParent,
+
+            cust.ActivityType, cust.BIC, cust.Contract, cust.ContractDate, cust.FiscalReasonCode,
+            cust.License, cust.MNSStatusParam, cust.OKATOcode, cust.OKPOCode, cust.PropertyType,
+            cust.isChanged, cust.LimitsDeltaDate, cust.RegCard, cust.KKo, cust.PaymentPeriodType,
+            cust.FirstPaymentDay, cust.SecondPaymentDay, cust.ThirdPaymentDay, cust.NonStandardUnload,
+            cust.FirstUnloadDay, cust.SecondUnloadDay,
+
+            pc.Name, pc.Service, pc.StartDate, pc.FinishDate, pc.fEnabled, pc.LinkClient,
+
+            case when cust.CustomerType = 11 then pcparent.Service else pc.Service end as FAParentService,
+            case when cust.CustomerType = 11 then pcparent.StartDate else pc.StartDate end as FAParentStartDate,
+            case when cust.CustomerType = 11 then pcparent.FinishDate else pc.FinishDate end as FAParentFinishDate,
+            case when cust.CustomerType = 11 then pcparent.fEnabled else pc.fEnabled end as FAParentfEnabled,
+            case when cust.CustomerType = 11 then custparent.CustId else cust.CustId end as FAParentCustId,
+            case when cust.CustomerType = 11 then custparent.isMenuTransfer else cust.isMenuTransfer end as
+            FAParentisMenuTransfer,
+            case when cust.CustomerType = 11 then custparent.isMenuIpoteka else cust.isMenuIpoteka end as
+            FAParentisMenuIpoteka,
+            case when cust.CustomerType = 11 then custparent.AgentEnabled else custroot.AgentEnabled end as
+            FAParentAgentEnabled,
+            case when cust.CustomerType = 11 then custparent.WhenAgentEnabled else custroot.WhenAgentEnabled end as
+            FAParentWhenAgentEnabled,
+            case when cust.CustomerType = 11 then custparent.AgentDemoEnabled else custroot.AgentDemoEnabled end as
+            FAParentAgentDemoEnabled,
+            case when cust.CustomerType = 11 then custparent.ShowAtWebSite else custroot.ShowAtWebSite end as
+            FAParentShowAtWebSite,
+            case when cust.CustomerType = 11 then custparent.LawCountry else custroot.LawCountry end as
+            FAParentLawCountry,
+
+            pcroot.Client as RootClient, custroot.CustId as RootCustId,
+            trsys.Name as TransferSysName, trsys.Name_En as TransferSysNameInt,
+            Country.NameShort_ru as CountryName, Country.NameShort as CountryNameInt, Country.Transfer as
+            isTransferCountry,
+            custroot.CurrList as RootCurrList,
+            case when cust.CustomerType = 11 then custparent.CurrList else custroot.CurrList end as ParentCurrList,
+
+            m.Name as Metro,
+            t.AgentTown,
+            t.AgentTown_eng as AgentTownInt
+
+            from umtdestinationplace d
+            inner join Customer cust on cust.CustId = d.CustId
+            inner join PostClnt pc on cust.Client = pc.Client
+            inner join UMTAgentLinks lnk on cust.Client = lnk.ChildLink
+            inner join postclnt pcroot on lnk.ParentLink = pcroot.Client and pcroot.LinkClient is null
+            inner join Customer custroot on pcroot.Client = custroot.Client
+            left outer join PostClnt pcparent on pc.LinkClient = pcparent.Client
+            left outer join Customer custparent on pcparent.Client = custparent.Client
+            left outer join UMTTransferSysData trsys on custroot.TransferSysID = trsys.SysID
+            left outer join Country on cust.LawCountry = Country.Code
+            left outer join UMTAgentTowns t on t.AutoKey = cust.LawPlace
+            left outer join metropoliten m on m.ID = cust.MetroID
+
+
+        </createView>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396005554499-126">
+        <createSequence sequenceName="BSS__AK_UMTAGENTTOWNS"/>
+        <createTable tableName="UMTAGENTTOWNS">
+            <column name="AGENTSTATE" type="VARCHAR2(100)"/>
+            <column name="AGENTTOWN" type="VARCHAR2(250)"/>
+            <column name="AUTOKEY" type="FLOAT(22)"/>
+            <column name="CODE" type="VARCHAR2(25)"/>
+            <column name="AGENTTOWN_ENG" type="VARCHAR2(250)"/>
+            <column name="AGENTTOWN_BASE" type="VARCHAR2(100)"/>
+            <column name="AGENTTOWNUPPER" type="VARCHAR2(250)"/>
+            <column name="AGENTTOWNUPPER_ENG" type="VARCHAR2(250)"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

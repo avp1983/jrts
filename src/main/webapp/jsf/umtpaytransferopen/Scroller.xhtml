@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/TabScroller.xhtml">
+
+    <ui:define name="customLibs">
+        <h:outputScript library="js" name="paytransferscroller.js"/>
+    </ui:define>
+    <ui:define name="menuItems">
+        <p:menuitem value="#{umtpaytransfer.TRANSFER_TCN_SEARCH}" onclick="onClickTcn_search(); return false;"
+                    rendered="#{userRightController.userHasRightTransferActionAndSend()}"
+                    styleClass="ui-menuitem-search"/>
+        <p:menuitem value="#{umtpaytransfer.TRANSFER_LAST_TRANSFER}" onclick="onClickLast_transfer(); return false;"
+                    rendered="#{userRightController.userHasRightTransferActionAndSend()}"
+                    styleClass="ui-menuitem-last_transfer"/>
+        <p:menuitem value="#{umtpaytransfer.TRANSFER_WAIT_SEND}" onclick="onClickWait_send(); return false;"
+                    rendered="#{userRightController.userHasRightTransferActionAndSend()}"
+                    styleClass="ui-menuitem-wait_send"/>
+        <p:menuitem value="#{umtpaytransfer.TRANSFER_SENDED}" onclick="onClickWait_pay(); return false;"
+                    rendered="#{userRightController.userHasRightTransferViewOrAction()}"
+                    styleClass="ui-menuitem-sended"/>
+        <p:menuitem value="#{umtpaytransfer.TRANSFER_LOCKED}" onclick="onClickLock(); return false;"
+                    rendered="#{userRightController.userHasRightTransferActionAndSend()}"
+                    styleClass="ui-menuitem-lock"/>
+        <p:menuitem value="#{umtpaytransfer.TRANSFER_ADDRESS_TRANSFER}" onclick="onClickAddress_transfer(); return false;"
+                    rendered="#{userRightController.userHasRightTransferViewOrAction()}"
+                    styleClass="ui-menuitem-address_transfer"/>
+        <p:menuitem value="#{umtpaytransfer.TRANSFER_TO_RETURN}" onclick="onClickTo_return(); return false;"
+                    rendered="#{userRightController.userHasRightTransferActionAndSend()}"
+                    styleClass="ui-menuitem-to_return"/>
+        <p:menuitem value="#{umtpaytransfer.TRANSFER_ARCHIVE}" onclick="onClickArchive(); return false;"
+                    rendered="#{userRightController.userHasRightTransferViewOrAction()}"
+                    styleClass="ui-menuitem-archive"/>
+    </ui:define>
+</ui:composition>

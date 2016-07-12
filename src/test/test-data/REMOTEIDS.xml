@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396524642731-432">
+        <createTable tableName="REMOTEIDS">
+            <column name="ID" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PRIORITY" type="FLOAT(22)"/>
+            <column name="USERKEY" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PAYSERVICE" type="FLOAT(22)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alexeymt (generated)" id="1396524642731-692">
+        <addPrimaryKey columnNames="USERKEY, ID" constraintName="SYS_C001112893" tableName="REMOTEIDS"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,2802 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2013 (http://www.altova.com) by  () -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+	<xs:complexType name="directory-request">
+		<xs:annotation>
+			<xs:documentation>Запрос справочника.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="filter" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Фильтр справочника.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="field" type="text25-type" use="required">
+						<xs:annotation>
+							<xs:documentation>Поле, по которому накладывается фильтр.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="value" type="text255-type" use="required">
+						<xs:annotation>
+							<xs:documentation>Значение.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="type" use="required">
+			<xs:annotation>
+				<xs:documentation>Тип справочника.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text25-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="change-date" type="datetime-type">
+			<xs:annotation>
+				<xs:documentation>Дата изменения</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="chunk-number" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Номер фрагмента справочника</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="directory-reply">
+		<xs:annotation>
+			<xs:documentation>Справочник.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="header">
+				<xs:annotation>
+					<xs:documentation>Секция заголовков.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="column" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Название столбца.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="col" type="integer-type" use="required">
+									<xs:annotation>
+										<xs:documentation>Номер столбца.</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="value" use="required">
+									<xs:annotation>
+										<xs:documentation>Значение.</xs:documentation>
+									</xs:annotation>
+									<xs:simpleType>
+										<xs:restriction base="text255-type">
+											<xs:minLength value="1"/>
+										</xs:restriction>
+									</xs:simpleType>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="data" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Секция данных.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="row" minOccurs="0" maxOccurs="unbounded">
+							<xs:annotation>
+								<xs:documentation>Строка справочника.</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:sequence minOccurs="0" maxOccurs="unbounded">
+									<xs:element name="column" minOccurs="0" maxOccurs="unbounded">
+										<xs:complexType>
+											<xs:attribute name="col" type="integer-type">
+												<xs:annotation>
+													<xs:documentation>Номер столбца.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+											<xs:attribute name="value" type="xs:string">
+												<xs:annotation>
+													<xs:documentation>Значение.</xs:documentation>
+												</xs:annotation>
+											</xs:attribute>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="type" type="text20-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Название справочника</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="change-date" type="datetime-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Дата изменения</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="chunk-number" type="integer-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Номер фрагмента справочника</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="last-chunk" type="int01-type" use="required">
+			<xs:annotation>
+				<xs:documentation>1 - последний фрагмент справочника, 0 - необходимо отправить дополнительный запрос на получение следующего фрагмента справочника.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="error">
+		<xs:annotation>
+			<xs:documentation>Ошибка из банка.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="Id" use="optional" fixed="DocData">
+			<xs:annotation>
+				<xs:documentation>Идентификатор подписываемого элемента</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="code" type="integer-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Код ошибки.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="text" use="required">
+			<xs:annotation>
+				<xs:documentation>Текст ошибки.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text255-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="letter">
+		<xs:annotation>
+			<xs:documentation>Предок всех писем.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="text" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>Текст письма.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="date" type="datetime-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Дата письма.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="subject" use="required">
+			<xs:annotation>
+				<xs:documentation>Тема письма.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text255-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="type" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Код типа отправляемого письма (из справочника типов отправляемых писем).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="letter-answer">
+		<xs:annotation>
+			<xs:documentation>Ответ на письмо клиента в банк.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="letter">
+				<xs:attribute name="number" type="integer-type">
+					<xs:annotation>
+						<xs:documentation>Номер письма.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="status" type="text20-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Статус документа: 
+принят, исполнен, отказан.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="client-official" type="text40-type" use="required">
+					<xs:annotation>
+						<xs:documentation>ФИО уполномоченного лица отправителя сообщения.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="bank-official" type="text50-type">
+					<xs:annotation>
+						<xs:documentation>ФИО уполномоченного лица банка.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="note" type="text255-type">
+					<xs:annotation>
+						<xs:documentation>Комментарий банка.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="letter-client">
+		<xs:annotation>
+			<xs:documentation>Письмо клиента в банк.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="letter">
+				<xs:attribute name="number" type="integer-type">
+					<xs:annotation>
+						<xs:documentation>Номер письма.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="client-official" use="required">
+					<xs:annotation>
+						<xs:documentation>ФИО уполномоченного лица отправителя сообщения.</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="text40-type">
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="letter-bank">
+		<xs:annotation>
+			<xs:documentation>Письмо банка клиенту.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="letter">
+				<xs:attribute name="number" type="integer-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Номер письма.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="receiver-id" type="integer-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Идентификатор пункта-получателя сообщения.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="contact-type">
+		<xs:annotation>
+			<xs:documentation>Контактные данные пункта</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="phone">
+			<xs:annotation>
+				<xs:documentation>Контактный телефон.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text40-type">
+					<xs:minLength value="1" fixed="true"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="e-mail" type="text50-type">
+			<xs:annotation>
+				<xs:documentation>Контактный e-mail.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="address-type">
+		<xs:annotation>
+			<xs:documentation>Адрес</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="zip">
+			<xs:annotation>
+				<xs:documentation>Индекс.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="place-id" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Идентификатор населенного пункта из справочника населённых пунктов.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="street-type">
+			<xs:annotation>
+				<xs:documentation>Идентификатор типа улицы из справочника типов улиц.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="street">
+			<xs:annotation>
+				<xs:documentation>Улица.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text250-type"/>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="house">
+			<xs:annotation>
+				<xs:documentation>Дом.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text250-type"/>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="flat">
+			<xs:annotation>
+				<xs:documentation>Квартира.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text250-type"/>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="location-type">
+		<xs:annotation>
+			<xs:documentation>Адреса пункта</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="low-address" type="address-type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Юридический адрес.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="post-address" type="address-type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Почтовый адрес.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="country-numeric" use="required">
+			<xs:annotation>
+				<xs:documentation>Числовой код ISO страны ад-реса, например, 643.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="numeric3-type">
+					<xs:minLength value="1" fixed="true"/>
+					<xs:maxLength value="3" fixed="true"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="works">
+		<xs:annotation>
+			<xs:documentation>Расписание работы.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="data" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>Секция данных</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="day-start">
+						<xs:annotation>
+							<xs:documentation>День недели начала расписания.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="integer-type">
+								<xs:pattern value="[1-7]{1}"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="day-end">
+						<xs:annotation>
+							<xs:documentation>День недели окончания расписания.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="integer-type">
+								<xs:pattern value="[1-7]{1}"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="worktime-start" type="time-type">
+						<xs:annotation>
+							<xs:documentation>Время начала рабочего дня.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="worktime-end" type="time-type">
+						<xs:annotation>
+							<xs:documentation>Время окончания рабочего дня.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="breaktime-start" type="time-type">
+						<xs:annotation>
+							<xs:documentation>Начало перерыва.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="breaktime-end" type="time-type">
+						<xs:annotation>
+							<xs:documentation>Конец перерыва.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="point">
+		<xs:annotation>
+			<xs:documentation>Данные пункта отправки / выдачи переводов.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="location" type="location-type">
+				<xs:annotation>
+					<xs:documentation>Информация о местонахождении пункта.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="contact" type="contact-type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Информация о контактном лице.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="works" type="works" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Расписание работы.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="point-id" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Уникальный идентификатор. Отсутствует при добавлении пункта.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="link-point" type="integer-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Идентификатор вышестоящего пункта</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="point-name-rus" use="required">
+			<xs:annotation>
+				<xs:documentation>Наименование на русском языке.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text255-type">
+					<xs:minLength value="1" fixed="true"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="point-name-int" use="required">
+			<xs:annotation>
+				<xs:documentation>Наименование на английском языке.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text255-type">
+					<xs:minLength value="1" fixed="true"/>
+					<xs:pattern value="\P{IsCyrillic}*"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="enabled" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Признак работающего пункта.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="enableddate" type="datetime-type">
+			<xs:annotation>
+				<xs:documentation>Дата ввода в действие пункта.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="point-id-ext" type="text150-type">
+			<xs:annotation>
+				<xs:documentation>Идентификатор пункта во внешней системе</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="point-confirm">
+		<xs:annotation>
+			<xs:documentation>Подтверждение выполнения операции над пунктом.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="point-id" type="integer-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Уникальный идентификатор.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="point-id-ext">
+			<xs:annotation>
+				<xs:documentation>Идентификатор пункта во внешней системе</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="result-code" type="xs:integer">
+			<xs:annotation>
+				<xs:documentation>Результат выполнения операции</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="error-text">
+			<xs:annotation>
+				<xs:documentation>Текст ошибки.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text255-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="id-type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор запроса в очереди на обработку.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="date-create" type="integer-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Дата добавления запроса  в очередь (целое число)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="time-create" type="integer-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Время добавления запроса  в очередь (целое число)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="report-request">
+		<xs:annotation>
+			<xs:documentation>Запрос отчета.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="type" use="required">
+			<xs:annotation>
+				<xs:documentation>Тип отчета.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text25-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="date-from" type="datetime-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Дата начала периода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="date-to" type="datetime-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Дата окончания периода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="currency-alpha" type="alpha3-type">
+			<xs:annotation>
+				<xs:documentation>Код валюты отчета.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="report-reply">
+		<xs:annotation>
+			<xs:documentation>Отчет.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="id-type">
+				<xs:sequence>
+					<xs:element name="header">
+						<xs:annotation>
+							<xs:documentation>Секция заголовков.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="column" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Название столбца.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="col" type="integer-type" use="required">
+											<xs:annotation>
+												<xs:documentation>Номер столбца.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="value" use="required">
+											<xs:annotation>
+												<xs:documentation>Значение.</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="text255-type">
+													<xs:minLength value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="data" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Секция данных</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:sequence minOccurs="0" maxOccurs="unbounded">
+								<xs:element name="row" minOccurs="0" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:attribute name="col" type="integer-type">
+											<xs:annotation>
+												<xs:documentation>Номер столбца.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="row" type="integer-type">
+											<xs:annotation>
+												<xs:documentation>Номер строки.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="value" type="text255-type">
+											<xs:annotation>
+												<xs:documentation>Значение.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="row-total" minOccurs="0" maxOccurs="unbounded">
+									<xs:complexType>
+										<xs:attribute name="col" type="integer-type">
+											<xs:annotation>
+												<xs:documentation>Номер столбца.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="row" type="integer-type">
+											<xs:annotation>
+												<xs:documentation>Номер строки.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="value" type="text255-type">
+											<xs:annotation>
+												<xs:documentation>Значение.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+				<xs:attribute name="type" type="text20-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Тип </xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="country-type">
+		<xs:annotation>
+			<xs:documentation>Числовой ISO-код страны.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="numeric" type="numeric3-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Числовой код страны.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="issue-type">
+		<xs:annotation>
+			<xs:documentation>Место выдачи перевода.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="country" type="country-type">
+				<xs:annotation>
+					<xs:documentation>Страна назначения перевода.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="system-id" type="system-id-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Идентификатор системы назначения перевода из справочника мест назначения перевода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="transfer-city-id" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Идентификатор населенного пункта назначения перевода из справочника мест назначения перевода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="receiver-id" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Идентификатор пункта выплаты из справочника мест назначения перевода. Заполняется для адресного перевода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="identification-type">
+		<xs:annotation>
+			<xs:documentation>Данные документа, удостоверяющего личность клиента.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="type" type="text120-type">
+			<xs:annotation>
+				<xs:documentation>Тип документа, удостоверяющего личность, из справочника типов документов.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="series" use="optional">
+			<xs:annotation>
+				<xs:documentation>Серия.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text10-type">
+					<xs:minLength value="1"/>
+					<xs:pattern value="[-A-Za-zА-Яа-я0-9_ ]*"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="number">
+			<xs:annotation>
+				<xs:documentation>Номер.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text20-type">
+					<xs:minLength value="1"/>
+					<xs:pattern value="[-A-Za-zА-Яа-я0-9_ ]*"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="issuer" type="text150-type">
+			<xs:annotation>
+				<xs:documentation>Кем выдан.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="issue-date" type="datetime-type">
+			<xs:annotation>
+				<xs:documentation>Дата выдачи.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="dep-code" type="text7-type" use="optional">
+			<xs:annotation>
+				<xs:documentation>Код подразделения.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="client-type">
+		<xs:annotation>
+			<xs:documentation>Информация о клиенте.</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="data" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Основные данные клиента.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="country" type="country-type" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Гражданство</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="lastname">
+						<xs:annotation>
+							<xs:documentation>Фамилия.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="text50-type">
+								<xs:minLength value="1"/>
+								<xs:pattern value="[-A-Za-zА-ЯЁа-яё_ ']*"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="firstname">
+						<xs:annotation>
+							<xs:documentation>Имя.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="text50-type">
+								<xs:minLength value="1"/>
+								<xs:pattern value="[-A-Za-zА-ЯЁа-яё_ ']*"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="patronymic">
+						<xs:annotation>
+							<xs:documentation>Отчество.</xs:documentation>
+						</xs:annotation>
+						<xs:simpleType>
+							<xs:restriction base="text50-type">
+								<xs:minLength value="1"/>
+								<xs:pattern value="[-A-Za-zА-ЯЁа-яё_ ']*"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+					<xs:attribute name="account" type="account-type">
+						<xs:annotation>
+							<xs:documentation>Счет клиента.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="isresident" type="int01-type">
+						<xs:annotation>
+							<xs:documentation>Для отправителя: 1 - отправитель является резидентом по отношению к стране отправления перевода, иначе 0. 
+Для получателя: 1 - получатель является резидентом по отношению к стране назначения (при отправке) или получения (при выплате) перевода, иначе 0.	</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="id-card" type="text16-type">
+						<xs:annotation>
+							<xs:documentation>Номер карты клиента</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="id-client" type="integer-type">
+						<xs:annotation>
+							<xs:documentation>Идентификатор клиента</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="address" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Адрес клиента.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence minOccurs="0">
+						<xs:element name="country" type="country-type" minOccurs="0">
+							<xs:annotation>
+								<xs:documentation>Страна.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="city" type="text150-type">
+						<xs:annotation>
+							<xs:documentation>Наменование населенного пункта.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="street" type="text400-type">
+						<xs:annotation>
+							<xs:documentation>Улица.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="house" type="text5-type">
+						<xs:annotation>
+							<xs:documentation>Дом.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="house-block" type="text20-type">
+						<xs:annotation>
+							<xs:documentation>Корпус.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="house-building" type="text20-type">
+						<xs:annotation>
+							<xs:documentation>Строение.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="flat" type="text5-type">
+						<xs:annotation>
+							<xs:documentation>Номер квартиры.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="phone" type="text20-type">
+						<xs:annotation>
+							<xs:documentation>Телефон.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="email" type="text50-type">
+						<xs:annotation>
+							<xs:documentation>Адрес электронной почты.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="data-extended" type="data-extended-type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Расширенные данные о клиенте</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="identification" type="identification-type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Паспортные данные клиента (для получателя при отправлении перевода данные могут отсутствовать).</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+	</xs:complexType>
+	<xs:complexType name="data-extended-type">
+		<xs:annotation>
+			<xs:documentation>Дополнительные данные клиента.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="inn" type="inn-type">
+			<xs:annotation>
+				<xs:documentation>ИНН.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="birth-day" type="datetime-type">
+			<xs:annotation>
+				<xs:documentation>Дата рождения.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="birth-place" type="text50-type">
+			<xs:annotation>
+				<xs:documentation>Место рождения.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="migration-card-number" type="text30-type">
+			<xs:annotation>
+				<xs:documentation>Номер миграционной карты</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="transfer">
+		<xs:annotation>
+			<xs:documentation>Основные параметры денежного перевода.</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="sender" type="client-type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Отправитель перевода.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="receiver" type="client-type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Получатель перевода.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="issue" type="issue-type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Планируемое место выдачи перевода, заполняется для отправленых переводов и адресных переводов, отсутствует для выплаченных переводов.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="number" type="integer-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Номер перевода в рамках всех пунктов.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="amount" type="amount-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Сумма перевода</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="currency-alpha" type="alpha3-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Валюта перевода - буквенный код.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="note" use="required">
+			<xs:annotation>
+				<xs:documentation>Назначение перевода.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text50-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="service-note" type="text255-type">
+			<xs:annotation>
+				<xs:documentation>Служебные отметки</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="smstosender" type="int01-type" use="optional">
+			<xs:annotation>
+				<xs:documentation>Признак информирования отправителя по SMS: 1 - требуется, 0 - не требуется</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="smstoreceiver" type="int01-type" use="optional">
+			<xs:annotation>
+				<xs:documentation>Признак информирования получателя по SMS: 1 - требуется, 0 - не требуется</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="transfer-legal">
+		<xs:annotation>
+			<xs:documentation>Основные параметры денежного перевода в адрес юр. лиц.</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="sender" type="client-type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Отправитель перевода.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="params">
+				<xs:annotation>
+					<xs:documentation>Параметры перевода</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="param">
+							<xs:annotation>
+								<xs:documentation>Параметр перевода</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="name" type="text255-type" use="required">
+									<xs:annotation>
+										<xs:documentation>Идентификатор параметра</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="value" type="text255-type" use="required">
+									<xs:annotation>
+										<xs:documentation>Значение параметра</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="number" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Номер перевода в рамках всех пунктов.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="provider-id" type="provider-id-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Идентификатор провайдера</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="amount" type="amount-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Сумма перевода</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="currency-alpha" type="alpha3-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Валюта перевода - буквенный код.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="note" use="required">
+			<xs:annotation>
+				<xs:documentation>Назначение перевода.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text50-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="transfer-legal-template">
+		<xs:annotation>
+			<xs:documentation>Шаблон денежного перевода в адрес юр. лиц.</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="params">
+				<xs:annotation>
+					<xs:documentation>Параметры перевода</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="param">
+							<xs:annotation>
+								<xs:documentation>Параметр перевода</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="name" type="text255-type" use="required">
+									<xs:annotation>
+										<xs:documentation>Идентификатор параметра</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="value" type="text255-type" use="required">
+									<xs:annotation>
+										<xs:documentation>Значение параметра</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="provider-id" type="provider-id-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Идентификатор провайдера</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="amount" type="amount-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Сумма перевода</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="currency-alpha" type="alpha3-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Валюта перевода - буквенный код.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="note" use="required">
+			<xs:annotation>
+				<xs:documentation>Назначение перевода.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text50-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="transfer-send">
+		<xs:annotation>
+			<xs:documentation>Представление денежного перевода при создании и отправлении.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="transfer">
+				<xs:attribute name="checknumber" type="checknumber-type">
+					<xs:annotation>
+						<xs:documentation>Контрольный номер перевода.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="creating-date" type="datetime-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Дата создания / отправки перевода.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="fee" type="amount-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Сумма комиссии за перевод в валюте оплаты.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="amount-charge" type="amount-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Сумма оплаты.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="currency-charge" type="alpha3-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Валюта оплаты - буквенный код.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="rate" type="xs:double" use="required">
+					<xs:annotation>
+						<xs:documentation>Курс обмена.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="transfer-legal-send">
+		<xs:annotation>
+			<xs:documentation>Представление денежного перевода при создании и отправлении.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="transfer-legal">
+				<xs:attribute name="checknumber" type="checknumber-type">
+					<xs:annotation>
+						<xs:documentation>Контрольный номер перевода.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="fee" type="amount-type">
+					<xs:annotation>
+						<xs:documentation>Сумма комиссии за перевод в валюте оплаты.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="transfer-edit">
+		<xs:annotation>
+			<xs:documentation>Представление денежного перевода при редактировании перевода.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="transfer">
+				<xs:attribute name="checknumber" type="checknumber-type">
+					<xs:annotation>
+						<xs:documentation>Контрольный номер перевода.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="fee" type="amount-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Сумма комиссии за перевод в валюте оплаты.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="amount-charge" type="amount-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Сумма оплаты.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="currency-charge" type="alpha3-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Валюта оплаты - буквенный код.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="rate" type="xs:double" use="required">
+					<xs:annotation>
+						<xs:documentation>Курс обмена.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="transfer-search-reply">
+		<xs:annotation>
+			<xs:documentation>Представление денежного перевода в ответе на поиск.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="transfer">
+				<xs:attribute name="checknumber" use="required">
+					<xs:annotation>
+						<xs:documentation>Контрольный номер перевода (КНП).</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="checknumber-type">
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="creating-date" type="datetime-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Дата отправки перевода.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="fee" type="amount-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Сумма комиссии за перевод в валюте перевода.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="status-code" type="doc-status-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Код статуса</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="status-text" type="text50-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Описание статуса</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="transfer-pay">
+		<xs:annotation>
+			<xs:documentation>Представление денежного перевода при выплате.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="receiver" type="client-type" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Получатель перевода.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="system-id" type="system-id-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Идентификатор системы, в которой был отправлен перевод.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="checknumber" use="required">
+			<xs:annotation>
+				<xs:documentation>Контрольный номер перевода (КНП).</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="checknumber-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="processing-date" type="datetime-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Дата выплаты перевода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="transfer-archive-request">
+		<xs:annotation>
+			<xs:documentation>Поиск перевода в архиве выплаченных переводов.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="document-number" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Номер перевода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="currency-alpha" type="alpha3-type">
+			<xs:annotation>
+				<xs:documentation>Буквенный код валюты перевода по ISO.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="country-numeric" type="numeric3-type">
+			<xs:annotation>
+				<xs:documentation>Числовой код страны выплаты перевода по ISO.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="city" type="text50-type">
+			<xs:annotation>
+				<xs:documentation>Населенный пункт страны выплаты перевода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="send-date-from" type="datetime-type">
+			<xs:annotation>
+				<xs:documentation>Дата отправки перевода c.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="send-date-to" type="datetime-type">
+			<xs:annotation>
+				<xs:documentation>Дата отправки перевода по.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="transfer-legal-archive-request">
+		<xs:annotation>
+			<xs:documentation>Поиск перевода в адрес юр. лиц в архиве.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="checknumber">
+			<xs:annotation>
+				<xs:documentation>Контрольный номер перевода (КНП).</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="checknumber-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="provider-id" type="provider-id-type">
+			<xs:annotation>
+				<xs:documentation>Идентификатор провайдера</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="lastname">
+			<xs:annotation>
+				<xs:documentation>Фамилия отправителя перевода.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text50-type">
+					<xs:minLength value="1"/>
+					<xs:pattern value="[-A-Za-zА-ЯЁа-яё_ ']*"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="firstname">
+			<xs:annotation>
+				<xs:documentation>Имя отправителя перевода.</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text50-type">
+					<xs:minLength value="1"/>
+					<xs:pattern value="[-A-Za-zА-ЯЁа-яё_ ']*"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="send-date-from" type="datetime-type">
+			<xs:annotation>
+				<xs:documentation>Дата отправки перевода c.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="send-date-to" type="datetime-type">
+			<xs:annotation>
+				<xs:documentation>Дата отправки перевода по.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="transfer-archive">
+		<xs:annotation>
+			<xs:documentation>Наиболее полное представление денежного перевода.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="transfer">
+				<xs:attribute name="checknumber" use="required">
+					<xs:annotation>
+						<xs:documentation>Контрольный номер перевода (КНП).</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="checknumber-type">
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="creating-date" type="datetime-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Дата отправки перевода.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="processing-date" type="datetime-type">
+					<xs:annotation>
+						<xs:documentation>Дата выплаты перевода. Для переводов, которые еще не выплачены не заполняется.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="fee" type="amount-type">
+					<xs:annotation>
+						<xs:documentation>Сумма комиссии за перевод в валюте оплаты для отправленных переводов. Сумма комиссии за перевод в валюте перевода для выплаченных переводов. Не заполняется для переводов, возвращаемых по запросу document/client/transfer-request</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="amount-charge" type="amount-type">
+					<xs:annotation>
+						<xs:documentation>Сумма оплаты для отправленых переводов, отсутствует для выплаченных переводов.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="currency-charge" type="alpha3-type">
+					<xs:annotation>
+						<xs:documentation>Валюта оплаты для отправленых переводов, отсутствует для выплаченных переводов.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="rate" type="xs:double">
+					<xs:annotation>
+						<xs:documentation>Курс обмена для отправленых переводов, отсутствует для выплаченных переводов.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="transfer-legal-archive">
+		<xs:annotation>
+			<xs:documentation>Представление денежного перевода при создании и отправлении.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="transfer-legal">
+				<xs:attribute name="checknumber" type="checknumber-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Контрольный номер перевода.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="fee" type="amount-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Сумма комиссии за перевод в валюте оплаты.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="creating-date" type="datetime-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Дата отправки перевода.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="status-code" type="doc-status-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Код статуса</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute name="status-text" type="text50-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Описание статуса</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="transfer-address">
+		<xs:annotation>
+			<xs:documentation>Представление адресного перевода.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="transfer">
+				<xs:attribute name="checknumber" use="required">
+					<xs:annotation>
+						<xs:documentation>Контрольный номер перевода (КНП).</xs:documentation>
+					</xs:annotation>
+					<xs:simpleType>
+						<xs:restriction base="checknumber-type">
+							<xs:minLength value="1"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute name="creating-date" type="datetime-type" use="required">
+					<xs:annotation>
+						<xs:documentation>Дата отправки перевода.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="transfer-confirm">
+		<xs:annotation>
+			<xs:documentation>Подтверждение выполнения операции над переводом.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="checknumber" use="required">
+			<xs:annotation>
+				<xs:documentation>Контрольный номер перевода (КНП).</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="checknumber-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="message">
+			<xs:annotation>
+				<xs:documentation>Сообщение системы</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="transfer-legal-confirm">
+		<xs:annotation>
+			<xs:documentation>Подтверждение выполнения операции над переводом в адрес юр. лиц.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="params" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Список параметров передаваемых при платеже</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="param" type="param-type">
+							<xs:annotation>
+								<xs:documentation>Описание параметра</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="message">
+			<xs:annotation>
+				<xs:documentation>Сообщение системы</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="checknumber" type="checknumber-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Контрольный номер перевода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="fee" type="amount-type">
+			<xs:annotation>
+				<xs:documentation>Сумма комиссии за перевод в валюте оплаты.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="steps-left" type="integer-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Количество оставшихся шагов. Если больше нуля, на следующем шаге клиент должен отправить сообщение transfer-legal.create-request, в противном случае transfer-legal.send-request.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="transfer-search">
+		<xs:annotation>
+			<xs:documentation>Поиск перевода.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="other-params">
+				<xs:annotation>
+					<xs:documentation>Дополнительные параметры перевода</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="param">
+							<xs:annotation>
+								<xs:documentation>Параметр перевода</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="text30-type" use="required">
+									<xs:annotation>
+										<xs:documentation>Идентификатор параметра из справочника "Системы переводов"</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+								<xs:attribute name="value" type="text255-type" use="required">
+									<xs:annotation>
+										<xs:documentation>Значение параметра</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="system-id" type="system-id-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Идентификатор системы, в которой необходимо искать перевод, из справочника "Системы переводов".</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="checknumber" use="required">
+			<xs:annotation>
+				<xs:documentation>Контрольный номер перевода (КНП).</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="checknumber-type">
+					<xs:minLength value="1"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="fee-request">
+		<xs:annotation>
+			<xs:documentation>Запрос расчета комиссии за перевод.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="country" type="country-type">
+				<xs:annotation>
+					<xs:documentation>Страна назначения перевода.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="amount-charge" type="amount-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Сумма оплаты.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="currency-charge" type="alpha3-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Валюта оплаты.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="currency-alpha" type="alpha3-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Валюта перевода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="creating-date" type="datetime-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Дата создания для новых переводов (при отправке), дата отправки перевода для отправленных переводов (при редактировании).</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="system-id" type="system-id-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Идентификатор системы назначения перевода из справочника мест назначения перевода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="receiver-id" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Идентификатор пункта выплаты из справочника мест назначения перевода. Заполняется для адресного перевода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="fee-reply">
+		<xs:annotation>
+			<xs:documentation>Комиссия за перевод.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="amount" type="amount-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Сумма перевода.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="fee" type="amount-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Комиссия за перевод, взимаемая с отправителя, в валюте оплаты.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="rate" type="xs:double" use="required">
+			<xs:annotation>
+				<xs:documentation>Курс обмена.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="param-type">
+		<xs:annotation>
+			<xs:documentation>Описание параметра</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:annotation>
+				<xs:documentation>Список допустимых значений параметра для параметров типа enum</xs:documentation>
+			</xs:annotation>
+			<xs:element name="enum">
+				<xs:annotation>
+					<xs:documentation>Допустимое значение</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="enum-value" type="text50-type" use="required">
+						<xs:annotation>
+							<xs:documentation>Значение параметра</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="description" type="text255-type" use="required">
+						<xs:annotation>
+							<xs:documentation>Описание значения</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="text255-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Идентификатор параметра</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="type" use="required">
+			<xs:annotation>
+				<xs:documentation>Тип параметра</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="text255-type">
+					<xs:enumeration value="numeric"/>
+					<xs:enumeration value="enum"/>
+					<xs:enumeration value="text"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="title" type="text255-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Наименование параметра</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="minlength" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Минимальное количество символов в значении параметра</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxlength" type="integer-type">
+			<xs:annotation>
+				<xs:documentation>Максимальное количество символов в значении параметра</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="pattern" type="text255-type">
+			<xs:annotation>
+				<xs:documentation>Регулярное выражение, которому должно удовлетворять значение параметра</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="patterndesc" type="text255-type">
+			<xs:annotation>
+				<xs:documentation>Всплывающая подсказка</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="mask" type="text255-type">
+			<xs:annotation>
+				<xs:documentation>Маска для ввода значения параметра</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="param-value" type="text255-type">
+			<xs:annotation>
+				<xs:documentation>Если editable – 0, значение должно отображается пользователю для контроля (например, в виде «title»: «param-value»)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="editable" type="int01-type">
+			<xs:annotation>
+				<xs:documentation>Если значение - 1, пользователь должен ввести значение соответствующего параметра, 0 - параметр только для отображения пользователю и не может быть изменен</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="provider-type">
+		<xs:annotation>
+			<xs:documentation>Справочник "Провайдеры"</xs:documentation>
+		</xs:annotation>
+		<xs:all>
+			<xs:element name="countries">
+				<xs:annotation>
+					<xs:documentation>Страны назначения </xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="country" type="country-type">
+							<xs:annotation>
+								<xs:documentation>Страна назначения провайдера</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="provider-groups">
+				<xs:annotation>
+					<xs:documentation>Категории, в которые входит провайдер</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="provider-group">
+							<xs:annotation>
+								<xs:documentation>Категория провайдера</xs:documentation>
+							</xs:annotation>
+							<xs:complexType>
+								<xs:attribute name="id" type="integer-type" use="required">
+									<xs:annotation>
+										<xs:documentation>Идентификатор категории</xs:documentation>
+									</xs:annotation>
+								</xs:attribute>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="params">
+				<xs:annotation>
+					<xs:documentation>Список параметров передаваемых при платеже</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence maxOccurs="unbounded">
+						<xs:element name="param" type="param-type">
+							<xs:annotation>
+								<xs:documentation>Описание параметра</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:all>
+		<xs:attribute name="id" type="provider-id-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Идентификатор провайдера</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="name" type="text255-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Наименование провайдера</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="minsum" type="amount-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Минимальная сумма перевода в адрес провайдера</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="maxsum" type="amount-type" use="required">
+			<xs:annotation>
+				<xs:documentation>Максимальная сумма перевода в адрес провайдера</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="provider-payment-type">
+			<xs:annotation>
+				<xs:documentation>Тип формирования перевода (пусто или 16010)</xs:documentation>
+			</xs:annotation>
+			<xs:simpleType>
+				<xs:restriction base="integer-type">
+					<xs:enumeration value="16010"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:element name="document">
+		<xs:annotation>
+			<xs:documentation>Контейнер сообщений.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element name="transfer">
+						<xs:annotation>
+							<xs:documentation>Операции с денежными переводами.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="fee-request" type="fee-request">
+									<xs:annotation>
+										<xs:documentation>Запрос на вычислении комиссии.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="fee-reply" type="fee-reply">
+									<xs:annotation>
+										<xs:documentation>Ответ на запрос вычисления комиссии.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="create-request" type="transfer-send">
+									<xs:annotation>
+										<xs:documentation>Создание денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="create-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Подтверждение создания денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="send-request" type="transfer-send">
+									<xs:annotation>
+										<xs:documentation>Отправка денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="send-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Подтверждение отправки денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="delete-request" type="transfer-search">
+									<xs:annotation>
+										<xs:documentation>Запрос на удаление перевода (возврат перевода с комиссией)</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="delete-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Ответ на запрос на удаление перевода (возврат перевода с комиссией)</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="search-by-checknumber-request" type="transfer-search">
+									<xs:annotation>
+										<xs:documentation>Запрос на поиск перевода по КНП.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="search-by-checknumber-reply" type="transfer-search-reply">
+									<xs:annotation>
+										<xs:documentation>Перевод, найденный по КНП.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="lock-request" type="transfer-search">
+									<xs:annotation>
+										<xs:documentation>Запрос на блокирование перевода для выплаты.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="lock-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Ответ на запрос блокирования перевода для выплаты.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="pay-request" type="transfer-pay">
+									<xs:annotation>
+										<xs:documentation>Выплата денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="pay-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Подтверждение выплаты денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="lock-for-return-request" type="transfer-search">
+									<xs:annotation>
+										<xs:documentation>Запрос на блокирование перевода для возврата без комиссии.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="lock-for-return-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Ответ на запрос блокирования перевода для возврата без комиссии.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="return-request" type="transfer-pay">
+									<xs:annotation>
+										<xs:documentation>Возврат денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="return-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Подтверждение возврата денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="cancel-request" type="transfer-search">
+									<xs:annotation>
+										<xs:documentation>Запрос на отмену выплаты перевода</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="cancel-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Ответ на запрос на отмену выплаты перевода</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="lock-for-edit-request" type="transfer-search">
+									<xs:annotation>
+										<xs:documentation>Запрос на блокировку для редактирования перевода</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="lock-for-edit-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Ответ на запрос на блокировку для редактирования перевода</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="edit-request" type="transfer-edit">
+									<xs:annotation>
+										<xs:documentation>Запрос на редактирование отправленного перевода</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="edit-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Ответ на запрос на редактирование отправленного перевода</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="unlock-request" type="transfer-search">
+									<xs:annotation>
+										<xs:documentation>Запрос на разблокирование перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="unlock-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Ответ на запрос разблокирования перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="archive-request" type="transfer-archive-request">
+									<xs:annotation>
+										<xs:documentation>Запрос на получение переводов из архива.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="archive-reply" type="transfer-archive" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Ответ на получение перевода из архива.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="transfer-address-request">
+									<xs:annotation>
+										<xs:documentation>Запрос на получение списка переводов, отправленных в адрес Пункта</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="transfer-address-reply" type="transfer-address" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Ответ на получение списка переводов, отправленных в адрес Пункта</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:choice>
+							<xs:attribute name="Id" use="optional" fixed="DocData">
+								<xs:annotation>
+									<xs:documentation>Идентификатор подписываемого элемента</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="transfer-legal">
+						<xs:annotation>
+							<xs:documentation>Операции а переводами в адрес юр. лиц</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="create-request" type="transfer-legal-send">
+									<xs:annotation>
+										<xs:documentation>Создание денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="create-reply" type="transfer-legal-confirm">
+									<xs:annotation>
+										<xs:documentation>Подтверждение создания денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="send-request" type="transfer-legal-send">
+									<xs:annotation>
+										<xs:documentation>Отправка денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="send-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Подтверждение отправки денежного перевода.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="delete-request">
+									<xs:annotation>
+										<xs:documentation>Запрос на удаление перевода (возврат с комиссией)</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="checknumber" use="required">
+											<xs:annotation>
+												<xs:documentation>Контрольный номер перевода (КНП).</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="checknumber-type">
+													<xs:minLength value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="delete-reply" type="transfer-confirm">
+									<xs:annotation>
+										<xs:documentation>Ответ на запрос на удаление перевода (возврат с комиссией)</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="archive-request" type="transfer-legal-archive-request">
+									<xs:annotation>
+										<xs:documentation>Запрос на получение переводов из архива.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="archive-reply" type="transfer-legal-archive" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Ответ на получение перевода из архива.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:choice>
+							<xs:attribute name="Id" use="optional" fixed="DocData">
+								<xs:annotation>
+									<xs:documentation>Идентификатор подписываемого элемента</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="letter">
+						<xs:annotation>
+							<xs:documentation>Операции с письмами.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="new-to-bank" type="letter-client">
+									<xs:annotation>
+										<xs:documentation>Отправить сообщение в банк.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="answer-request">
+									<xs:annotation>
+										<xs:documentation>Получить ответы на письма, отправленные в банк.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="date" type="datetime-type">
+											<xs:annotation>
+												<xs:documentation>Если присутствует - вернуть все обработанные письма от клиента за эту дату.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="answer-from-bank" type="letter-answer" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Ответ на клиентское письмо из банка.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="new-request">
+									<xs:annotation>
+										<xs:documentation>Получить новые письма.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="date" type="datetime-type">
+											<xs:annotation>
+												<xs:documentation>Если присутствует - вернуть все отправленные письма клиенту за эту дату.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="new-to-client" type="letter-bank" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Новое письмо из банка.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:choice>
+							<xs:attribute name="Id" use="optional" fixed="DocData">
+								<xs:annotation>
+									<xs:documentation>Идентификатор подписываемого элемента</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="point">
+						<xs:annotation>
+							<xs:documentation>Операции с пунктами.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="add" type="point" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Добавить один или несколько пунктов.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="modify" type="point" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Изменить реквизиты одного или нескольких пунктов.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="confirm" type="point-confirm" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Подтверждение операции над пунктами.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:choice>
+							<xs:attribute name="Id" use="optional" fixed="DocData">
+								<xs:annotation>
+									<xs:documentation>Идентификатор подписываемого элемента</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="report">
+						<xs:annotation>
+							<xs:documentation>Операции с отчетами.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="request" type="report-request">
+									<xs:annotation>
+										<xs:documentation>Запросить отчет.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="reply" type="id-type">
+									<xs:annotation>
+										<xs:documentation>Получить идентификатор запроса на отчёт в очереди отчётов.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="data-request" type="id-type">
+									<xs:annotation>
+										<xs:documentation>Запрос данных отчета из очереди готовых отчётов.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="data-reply" type="report-reply">
+									<xs:annotation>
+										<xs:documentation>Получить данные отчёта.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+							</xs:choice>
+							<xs:attribute name="Id" use="optional" fixed="DocData">
+								<xs:annotation>
+									<xs:documentation>Идентификатор подписываемого элемента</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="directory">
+						<xs:annotation>
+							<xs:documentation>Операции со справочниками.</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="request" type="directory-request">
+									<xs:annotation>
+										<xs:documentation>Запросить справочник.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="reply" type="id-type">
+									<xs:annotation>
+										<xs:documentation>Получить идентификатор запроса на справочник в очереди запросов.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="data-request" type="id-type">
+									<xs:annotation>
+										<xs:documentation>Запрос данных справочника из очереди готовых запросов.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="data-reply" type="directory-reply">
+									<xs:annotation>
+										<xs:documentation>Получить справочник или фрагмент справочника.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="providers">
+									<xs:annotation>
+										<xs:documentation>Ответ на запрос справочника "Провайдеры"</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence maxOccurs="unbounded">
+											<xs:element name="provider" type="provider-type">
+												<xs:annotation>
+													<xs:documentation>Параметры провайдера</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+										<xs:attribute name="change-date" type="datetime-type" use="required">
+											<xs:annotation>
+												<xs:documentation>Дата изменения</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="chunk-number" type="integer-type" use="required">
+											<xs:annotation>
+												<xs:documentation>Номер фрагмента справочника</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="last-chunk" type="int01-type" use="required">
+											<xs:annotation>
+												<xs:documentation>1 - последний фрагмент справочника, 0 - необходимо отправить дополнительный запрос на получение следующего фрагмента справочника.</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+							</xs:choice>
+							<xs:attribute name="Id" use="optional" fixed="DocData">
+								<xs:annotation>
+									<xs:documentation>Идентификатор подписываемого элемента</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="error" type="error">
+						<xs:annotation>
+							<xs:documentation>Сообщение об ошибке (из банка).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="transfer-status">
+						<xs:annotation>
+							<xs:documentation>Получение информации о статусе перевода</xs:documentation>
+						</xs:annotation>
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="request">
+									<xs:annotation>
+										<xs:documentation>Запрос статуса перевода по КНП.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="checknumber" use="required">
+											<xs:annotation>
+												<xs:documentation>Контрольный номер перевода (КНП).</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="checknumber-type">
+													<xs:minLength value="1"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="reply">
+									<xs:annotation>
+										<xs:documentation>Переводы, найденные по запросу статуса перевода по КНП.</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence maxOccurs="unbounded">
+											<xs:element name="transfer">
+												<xs:annotation>
+													<xs:documentation>Данные найденного  перевода</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:attribute name="status-code" type="doc-status-type" use="required">
+														<xs:annotation>
+															<xs:documentation>Код статуса</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+													<xs:attribute name="status-text" type="text50-type" use="required">
+														<xs:annotation>
+															<xs:documentation>Описание статуса</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+													<xs:attribute name="status-last-change-time" type="datetime-type" use="required">
+														<xs:annotation>
+															<xs:documentation>Дата и время последнего изменения статуса</xs:documentation>
+														</xs:annotation>
+													</xs:attribute>
+												</xs:complexType>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:choice>
+							<xs:attribute name="Id" use="optional" fixed="DocData">
+								<xs:annotation>
+									<xs:documentation>Идентификатор подписываемого элемента</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+					<xs:element name="client">
+						<xs:complexType>
+							<xs:choice>
+								<xs:element name="data-request">
+									<xs:annotation>
+										<xs:documentation>Запрос на получение данных клиента по номеру карты</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="id-card" type="text16-type" use="required">
+											<xs:annotation>
+												<xs:documentation>Номер карты клиента</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="pin" use="required">
+											<xs:annotation>
+												<xs:documentation>PIN-код карты</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="data-reply">
+									<xs:annotation>
+										<xs:documentation>Данные клиента, найденного по номеру карты</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:all>
+											<xs:element name="owner" type="client-type">
+												<xs:annotation>
+													<xs:documentation>Владелец карты</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="receivers" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Получатели клиента</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence maxOccurs="unbounded">
+														<xs:element name="item">
+															<xs:annotation>
+																<xs:documentation>Данные получателя и  места назначения перевода</xs:documentation>
+															</xs:annotation>
+															<xs:complexType>
+																<xs:all>
+																	<xs:element name="receiver" type="client-type">
+																		<xs:annotation>
+																			<xs:documentation>Данные получателя</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																	<xs:element name="issue" type="issue-type">
+																		<xs:annotation>
+																			<xs:documentation>Планируемое место назначения перевода</xs:documentation>
+																		</xs:annotation>
+																	</xs:element>
+																</xs:all>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="transfers-legal" minOccurs="0">
+												<xs:annotation>
+													<xs:documentation>Шаблоны переводов в адрес юр. лиц</xs:documentation>
+												</xs:annotation>
+												<xs:complexType>
+													<xs:sequence maxOccurs="unbounded">
+														<xs:element name="transfer-legal" type="transfer-legal-template">
+															<xs:annotation>
+																<xs:documentation>Данные перевода в адрес юр. лиц</xs:documentation>
+															</xs:annotation>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+										</xs:all>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="pin-change-request">
+									<xs:annotation>
+										<xs:documentation>Запрос на изменение PIN-кода карты</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="id-card" type="text16-type" use="required">
+											<xs:annotation>
+												<xs:documentation>Номер карты клиента</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="pin-change-reply">
+									<xs:annotation>
+										<xs:documentation>Подтверждение об успешном изменении PIN-кода карты</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="id-card" type="text16-type" use="required">
+											<xs:annotation>
+												<xs:documentation>Номер карты клиента</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="message">
+											<xs:annotation>
+												<xs:documentation>Сообщение системы</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="search-request">
+									<xs:annotation>
+										<xs:documentation>Запрос на поиск клиента</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="series" type="text10-type">
+											<xs:annotation>
+												<xs:documentation>Серия документа, удостоверяющего личность клиента</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="number" type="text10-type">
+											<xs:annotation>
+												<xs:documentation>Номер документа, удостоверяющего личность клиента</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="inn" type="inn-type">
+											<xs:annotation>
+												<xs:documentation>ИНН клиента</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="phone" type="text20-type">
+											<xs:annotation>
+												<xs:documentation>Номер телефона</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="id-client" type="integer-type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор клиента</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="id-card" type="text16-type">
+											<xs:annotation>
+												<xs:documentation>Номер карты клиента</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="search-reply" type="client-type" maxOccurs="unbounded">
+									<xs:annotation>
+										<xs:documentation>Данные клиентов, удовлетворяющих параметрам поиска </xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="transfer-request">
+									<xs:annotation>
+										<xs:documentation>Запрос на получение переводов клиента</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:attribute name="id-client" type="integer-type">
+											<xs:annotation>
+												<xs:documentation>Идентификатор клиента</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="id-card" type="text16-type">
+											<xs:annotation>
+												<xs:documentation>Номер карты клиента</xs:documentation>
+											</xs:annotation>
+										</xs:attribute>
+										<xs:attribute name="transfer-type" use="required">
+											<xs:annotation>
+												<xs:documentation>Запрашиваемые переводы, допустимые значения: 
+• out – переводы, отправленные клиентом
+• in – переводы, полученные клиентом или отправленные ему, но еще не полученные
+• processing – переводы, отправленные клиенту, но еще не полученные</xs:documentation>
+											</xs:annotation>
+											<xs:simpleType>
+												<xs:restriction base="text10-type">
+													<xs:enumeration value="out"/>
+													<xs:enumeration value="in"/>
+													<xs:enumeration value="processing"/>
+												</xs:restriction>
+											</xs:simpleType>
+										</xs:attribute>
+									</xs:complexType>
+								</xs:element>
+								<xs:element name="transfer-reply" type="id-type">
+									<xs:annotation>
+										<xs:documentation>Получить идентификатор запроса на получение переводов клиента в очереди.</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="transfer-data-request" type="id-type">
+									<xs:annotation>
+										<xs:documentation>Запрос на получение переводов клиента из очереди запросов</xs:documentation>
+									</xs:annotation>
+								</xs:element>
+								<xs:element name="transfer-data-reply">
+									<xs:annotation>
+										<xs:documentation>Данные переводов, удовлетворяющих запросу</xs:documentation>
+									</xs:annotation>
+									<xs:complexType>
+										<xs:sequence>
+											<xs:element name="transfer" type="transfer-archive" minOccurs="0" maxOccurs="unbounded">
+												<xs:annotation>
+													<xs:documentation>Перевод в адрес физ. лица</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+											<xs:element name="transfer-legal" type="transfer-legal-archive" minOccurs="0" maxOccurs="unbounded">
+												<xs:annotation>
+													<xs:documentation>Перевод в адрес юр. лица</xs:documentation>
+												</xs:annotation>
+											</xs:element>
+										</xs:sequence>
+									</xs:complexType>
+								</xs:element>
+							</xs:choice>
+							<xs:attribute name="Id" use="optional" fixed="DocData">
+								<xs:annotation>
+									<xs:documentation>Идентификатор подписываемого элемента</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:complexType>
+					</xs:element>
+				</xs:choice>
+				<xs:element ref="ds:Signature" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="guid" use="required">
+				<xs:annotation>
+					<xs:documentation>Уникальный идентификатор сессии.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="text36-type">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="partner-id" type="integer-type" use="required">
+				<xs:annotation>
+					<xs:documentation>Идентификатор участника-инициатора обмена.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="member-id" type="integer-type" use="required">
+				<xs:annotation>
+					<xs:documentation>Идентификатор пункта-отправителя сообщения.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="system" use="required">
+				<xs:annotation>
+					<xs:documentation>Cистема получателя сообщения.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="text255-type">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+			<xs:attribute name="datetime" type="datetime-type" use="required">
+				<xs:annotation>
+					<xs:documentation>Дата и время отправки сообщения.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="version" use="required">
+				<xs:annotation>
+					<xs:documentation>Номер версии API.</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="text10-type">
+						<xs:minLength value="1"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="amount-type">
+		<xs:annotation>
+			<xs:documentation>Числовое представление суммы. Разделитель целой и дробной части «.»</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:decimal">
+			<xs:totalDigits value="18"/>
+			<xs:fractionDigits value="2"/>
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="datetime-type">
+		<xs:annotation>
+			<xs:documentation>Дата и время. [ГОСТ ИСО 8601-2001]. Формат YYYY-MM-DDThh:mm:ssTZD ( например 1997-07-16T19:20:30+03:00)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:dateTime"/>
+	</xs:simpleType>
+	<xs:simpleType name="time-type">
+		<xs:annotation>
+			<xs:documentation>Время. [ГОСТ ИСО 8601-2001]. Формат hh:mm:ssTZD ( например 19:20:30+03:00)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:time"/>
+	</xs:simpleType>
+	<xs:simpleType name="alpha2-type">
+		<xs:annotation>
+			<xs:documentation>2-значный символьный код.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="alpha3-type">
+		<xs:annotation>
+			<xs:documentation>3-значный символьный код.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-Z]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="numeric3-type">
+		<xs:annotation>
+			<xs:documentation>3-значный числовой код.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="inn-type">
+		<xs:annotation>
+			<xs:documentation>Индивидуальный номер налогоплательщика (ИНН)</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{10}"/>
+			<xs:pattern value="[0-9]{12}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="integer-type">
+		<xs:annotation>
+			<xs:documentation>Целое число.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer">
+			<xs:maxInclusive value="2147483647"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text5-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 5 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="5" fixed="false"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text10-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 10 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="checknumber-type">
+		<xs:annotation>
+			<xs:documentation>Контрольный номер перевода (текст длиной 32 символа).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="32"/>
+			<xs:pattern value="([a-zA-Z0-9])+"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text12-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 12 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="12"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text120-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 120 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="120"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text16-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 16 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="16"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text65-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 65 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="65" fixed="false"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text20-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 20 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="20"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text25-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 25 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="account-type">
+		<xs:annotation>
+			<xs:documentation>Счет</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="text34-type"/>
+	</xs:simpleType>
+	<xs:simpleType name="text30-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 30 символа.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="30"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text34-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 34 символа.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="34"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text36-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 36 символов (длина GUID).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="36"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text40-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 40 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text400-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 400 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="400"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text50-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 50 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="50"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text51-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 51 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="51"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text7-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 7 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="7"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text80-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 80 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="80"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text250-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 250 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="250" fixed="false"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text255-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 255 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="255"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="text150-type">
+		<xs:annotation>
+			<xs:documentation>Текст длиной 150 символов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string"/>
+	</xs:simpleType>
+	<xs:simpleType name="int01-type">
+		<xs:annotation>
+			<xs:documentation>Целое число, принимающее значение 0 или 1.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:int">
+			<xs:pattern value="[0-1]{1}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="system-id-type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор системы переводов.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="integer-type"/>
+	</xs:simpleType>
+	<xs:simpleType name="doc-status-type">
+		<xs:annotation>
+			<xs:documentation>Коды статусов перевода</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:integer"/>
+	</xs:simpleType>
+	<xs:simpleType name="provider-id-type">
+		<xs:annotation>
+			<xs:documentation>Идентификатор провайдера</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:long"/>
+	</xs:simpleType>
+</xs:schema>

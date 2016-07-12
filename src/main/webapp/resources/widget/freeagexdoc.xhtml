@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<composite:interface>
+    <composite:attribute name="widgetData" required="true"/>
+</composite:interface>
+
+<composite:implementation>
+    <f:view locale="#{userSessionController.userLocale}">
+        <h:outputScript library="js" name="navigation.js"/>
+        <div>
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel value="#{freeagexdoc.FREE_AG_EX_DOC_NUM} " styleClass="elem-label"/>
+                <p:outputLabel value="#{freeAgExDocUtil.getDocumentNumberByIDR(cc.attrs.widgetData)}"/>
+                <p:outputLabel value=" #{freeagexdoc.FREE_AG_EX_DOC_FROM} "/>
+                <p:outputLabel value="#{freeAgExDocUtil.getDocumentDateByIDR(cc.attrs.widgetData)}">
+                    <f:convertDateTime pattern="dd.MM.yyyy"/>
+                </p:outputLabel>
+            </p:outputPanel>
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel value="#{freeagexdoc.FREE_AG_EX_DOC_TYPE}: " styleClass="elem-label"/>
+                <p:outputLabel value="#{freeAgExDocUtil.getFreeDocTypeDescrByIDR(cc.attrs.widgetData)}" styleClass="elem-overflow"/>
+            </p:outputPanel>
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel value="#{freeagexdoc.FREE_AG_EX_DOC_STATUS}: " styleClass="elem-label"/>
+                <p:outputLabel
+                        value="#{payTransferOpenWidget.getICStatusDescriptionByStatus(freeAgExDocUtil.getStatusByIDR(cc.attrs.widgetData))}"/>
+            </p:outputPanel>
+        </div>
+    </f:view>
+</composite:implementation>
+</html>

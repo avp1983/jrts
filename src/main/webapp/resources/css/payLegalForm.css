@@ -1,0 +1,127 @@
+* {box-sizing: border-box;}
+body{overflow: hidden}
+textarea{overflow: auto}
+.ui-widget-overlay{height: 100% !important; width: 100% !important; background: #ffffff !important; opacity: 0}
+.ui-selectonemenu-trigger{box-sizing: content-box !important;}
+.ui-panel{padding: 0 !important;}
+.ui-panel .ui-panel-content{padding: 0.5em !important;}
+.ui-panelgrid .ui-panelgrid-cell {padding: 0.2em 0 !important;}
+.ui-elem-whole_width{width: 100% !important}
+.ui-elem-whole_width > *{width: 100%}
+
+.payLegalForm{width: 64em; margin: 0 auto}
+.layout-page_layout{height: 33.5em}
+.panel-pay_legal_form .ui-widget-header{background: #ebebeb; color: #000; border-bottom: 1px solid #000}
+.panel-pay_legal_form .ui-widget-content{border-color: #000}
+.ui-widget.ui-selectonemenu.ui-state-default{color: #000}
+
+.ui-layout-container{padding: 0 0.3em}
+.ui-page-header{font: 1.5em bold !important; text-align: center}
+.elem-info_message {font: 1.2em bold !important; text-align: center}
+.panel-sender_params,.panel-destination_country {margin-bottom: 1em}
+
+.grid-common_params{width: 100%}
+.grid-common_params tr{height: 2em}
+.panel-common_params {height: 42em;}
+.panel-common_params .left-column{width: 10em}
+.panel-common_params .grid-common_params .checkNumber, .panel-common_params .grid-common_params .elem-status{padding-left: 0.5em}
+.panel-common_params .panel-amount_label{vertical-align: text-top; padding-top: 0.6em !important}
+.panel-common_params .elem-amount_range{padding-top: 0.5em; padding-bottom: 0.4em}
+.panel-common_params .panel-sender_account_input{display: inline-block; padding: 0}
+.panel-common_params .panel-sender_account{height: 2em}
+.panel-common_params .elem-use_sender_account{padding-left: 0; padding-right: 0.5em; position: relative; top:2px}
+.panel-common_params .elem-label-use_sender_account{margin-right: 0.7em}
+.panel-common_params input.elem-sender_account{width: 13.6em}
+.panel-common_params .elem-amount input, .panel-common_params .elem-note{width: 16.5em}
+
+.panel-common_params .elem-add_param{display: block}
+.panel-common_params input.elem-add_param,.panel-common_params label.elem-add_param,.panel-common_params .ui-selectonemenu.elem-add_param{width: 94% !important; margin-top: 2px; margin-bottom: 0.5em; display: block}
+.grid-additional_params{height: 307px; overflow: auto}
+
+.panel-sender_params .panel-sender_params_common{width: 100%}
+.panel-sender_params .elem-sender_search_by_cardnum input{
+    padding-top: 2px !important; padding-bottom: 1px !important; margin-top: -0.3em; width: 15em}
+.panel-sender_params .panel-common_param-column_left{width: 41%; padding-top: 0 !important;}
+.panel-sender_params .panel-common_param-column_right{width: 59%; padding-top: 0 !important;}
+.panel-sender_params .ui-column-title{height: 1.6em}
+
+.panel-sender_params .panel-left_info{width: 100%}
+.panel-sender_params .panel-left_info tr,.panel-sender_params .panel-right_info tr{height: 2em}
+.panel-sender_params .panel-left_info .ui-column-title{width: 7em}
+.panel-sender_params .panel-left_info .ui-column-value input{width: 15em}
+.panel-sender_params .panel-right_info{width: 100%}
+.panel-sender_params .panel-right_info .ui-column-title{width: 9em}
+.panel-sender_params .panel-right_info .elem-sender_inn{width: 7.5em}
+.panel-sender_params .panel-right_info .label-sender_birthday {margin-left: 1.1em; margin-right: 1.1em}
+.panel-sender_params .panel-right_info .elem-sender_birthday input{width: 6.2em}
+.panel-sender_params .panel-right_info .elem-senderBirthPlace {width: 100%}
+
+.panel-sender_params .elem-main_doc{margin-top: 0.3em; margin-bottom: 0.5em}
+.panel-main_doc .ui-column-title{width: 8em}
+.panel-main_doc .ui-column-value{width: 20em}
+.panel-main_doc .ui-column-value input{width: 20em}
+.panel-main_doc .ui-column-value .elem-docType input{width: 17.5em}
+
+.panel-sender_params .elem-other_doc{margin-top: 0.3em}
+.panel-other_doc .ui-column-title{width: 8em}
+.panel-other_doc .ui-column-value{width: 10em}
+.panel-other_doc .ui-column-value input{width: 13em}
+.panel-other_doc .ui-column-value .elem-docType input{width: 10.5em}
+
+
+.panel-sender_address .ui-column-title{width: 8em}
+.panel-sender_address .ui-column-value{width: 15em}
+.panel-sender_address .ui-column-value input{width: 18em}
+
+
+
+.grid-sender_address{width: 100%}
+.grid-sender_address .ui-column-left{width: 41%}
+.grid-sender_address .ui-column-right{width: 59%; text-align: right}
+.grid-sender_address .label-left_column{width: 7em; display: inline-block}
+.grid-sender_address .input-left_column, .grid-sender_address .input-left_column input{width: 14.5em}
+
+.grid-sender_address .label-right_column{width: 4em; display: inline-block; margin-right: 1em;}
+.grid-sender_address .panel-county{margin-bottom: 0.4em}
+.grid-sender_address .elem-post_code{width: 4.5em}
+.grid-sender_address .label-house{display: inline-block; margin-left: 0.8em; margin-right: 0.8em}
+.grid-sender_address .elem-house{width: 8em}
+.grid-sender_address .label-flat{display: inline-block; margin-left: 0.8em; margin-right: 0.8em}
+.grid-sender_address .elem-flat{width: 5em}
+.grid-sender_address .elem-street{width: 84%; margin-bottom: 0.4em}
+.grid-sender_address .elem-email{width: 84%}
+
+.panel-buttons{margin-top: 0.5em;text-align: right; vertical-align: top; padding-right: 0.5em}
+.panel-buttons button{height: 4em; width: 12em; margin-left: 1em;float: right}
+
+.ui-helper-reset{font-size: 12px !important;}
+.ui-state-disabled{/*noinspection CssUnknownProperty*/filter: Alpha(Opacity=100) !important}
+
+.dialog-messages .ui-dialog-titlebar{border-bottom: 1px solid !important;}
+.dialog-messages .ui-dialog-content{padding: 0 !important}
+.dialog-messages .ui-message-not_modal{position: absolute; bottom: 0.5em;left: 0.8em}
+.dialog-messages .ui-message-not_modal .ui-messages-info-icon{margin-right: 1em}
+
+@media screen {
+    .elem-print{display: none}
+}
+@media print {
+    .MsoNormal span {display: inline !important;}
+    .payLegalForm{display: none}
+}
+
+.big-overlay-panel {
+    border: none;
+    width: 90%;
+    overflow: hidden;
+    background: transparent none;
+}
+
+.big-overlay-panel .ui-overlaypanel-content {
+    border: 1px solid;
+    background-color: #ffffff;
+}
+
+.ui-layout-unit-content {
+    overflow: hidden !important;
+}

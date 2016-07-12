@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396005554499-126">
+        <createSequence sequenceName="BSS__AK_UMTDESTINATIONPLACE"/>
+        <createTable tableName="UMTDESTINATIONPLACE">
+            <column name="AUTOKEY" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SYSTEMID" type="FLOAT(22)"/>
+            <column name="AGENTTOWNID" type="FLOAT(22)"/>
+            <column name="CUSTID" type="FLOAT(22)"/>
+            <column name="CODE" type="VARCHAR2(25)"/>
+            <column name="BANKINFOID_RU" type="FLOAT(22)"/>
+            <column name="BANKINFOID_EN" type="FLOAT(22)"/>
+        </createTable>
+        <addPrimaryKey columnNames="AUTOKEY" constraintName="SYS_C001634001" tableName="UMTDESTINATIONPLACE"/>
+
+        <createTable tableName="CUSTOMER">
+            <column name="ACCCHIEFNAME" type="VARCHAR2(40)"/>
+            <column name="ACCCHIEFPHONE" type="VARCHAR2(40)"/>
+            <column name="ACTIVITYTYPE" type="VARCHAR2(255)"/>
+            <column name="BIC" type="VARCHAR2(15)"/>
+            <column name="CHIEFNAME" type="VARCHAR2(40)"/>
+            <column name="CHIEFPHONE" type="VARCHAR2(40)"/>
+            <column name="CLIENT" type="FLOAT(22)"/>
+            <column name="CONTRACT" type="VARCHAR2(20)"/>
+            <column name="CONTRACTDATE" type="date"/>
+            <column name="CUSTID" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CUSTOMERTYPE" type="FLOAT(22)"/>
+            <column name="EMAIL" type="VARCHAR2(50)"/>
+            <column name="FAX" type="VARCHAR2(20)"/>
+            <column name="FISCALREASONCODE" type="VARCHAR2(9)"/>
+            <column name="INN" type="VARCHAR2(14)"/>
+            <column name="INTADDRESS" type="VARCHAR2(300)"/>
+            <column name="INTSTATE" type="VARCHAR2(40)"/>
+            <column name="INTZIP" type="VARCHAR2(10)"/>
+            <column name="LAWADDRESS" type="VARCHAR2(300)"/>
+            <column name="LAWCOUNTRY" type="VARCHAR2(3)"/>
+            <column name="LAWPLACE" type="FLOAT(22)"/>
+            <column name="LAWPLACETYPE" type="FLOAT(22)"/>
+            <column name="LAWSTATE" type="VARCHAR2(20)"/>
+            <column name="LAWZIP" type="VARCHAR2(10)"/>
+            <column name="LICENSE" type="VARCHAR2(20)"/>
+            <column name="MNSSTATUSPARAM" type="VARCHAR2(2)"/>
+            <column name="NAMEFULL" type="VARCHAR2(255)"/>
+            <column name="NAMEINT" type="VARCHAR2(255)"/>
+            <column name="NAMESHORT" type="VARCHAR2(160)"/>
+            <column name="OKATOCODE" type="VARCHAR2(11)"/>
+            <column name="OKPOCODE" type="VARCHAR2(20)"/>
+            <column name="POSTLEVEL" type="FLOAT(22)"/>
+            <column name="PROPERTYTYPE" type="FLOAT(22)"/>
+            <column name="REMARK" type="VARCHAR2(255)"/>
+            <column name="TELEX" type="VARCHAR2(20)"/>
+            <column name="ISCHANGED" type="FLOAT(22)"/>
+            <column name="LIMITSDELTADATE" type="FLOAT(22)"/>
+            <column name="WHENAGENTENABLED" type="date"/>
+            <column name="AGENTENABLED" type="FLOAT(22)"/>
+            <column name="AGENTDEMOENABLED" type="FLOAT(22)"/>
+            <column name="SHOWATWEBSITE" type="FLOAT(22)"/>
+            <column name="SCHEME" type="VARCHAR2(35)"/>
+            <column name="REGCARD" type="FLOAT(22)"/>
+            <column name="KKO" type="FLOAT(22)"/>
+            <column name="CHIEFNAME_ENG" type="VARCHAR2(40)"/>
+            <column name="REMARK_ENG" type="VARCHAR2(255)"/>
+            <column name="ISMENUTRANSFER" type="FLOAT(22)"/>
+            <column name="ISMENUIPOTEKA" type="FLOAT(22)"/>
+            <column name="ISMENUTRANSFERLP" type="FLOAT(22)"/>
+            <column name="PAYMENTPERIODTYPE" type="FLOAT(22)"/>
+            <column name="FIRSTPAYMENTDAY" type="FLOAT(22)"/>
+            <column name="SECONDPAYMENTDAY" type="FLOAT(22)"/>
+            <column name="THIRDPAYMENTDAY" type="FLOAT(22)"/>
+            <column name="NONSTANDARDUNLOAD" type="FLOAT(22)"/>
+            <column name="FIRSTUNLOADDAY" type="FLOAT(22)"/>
+            <column name="SECONDUNLOADDAY" type="FLOAT(22)"/>
+            <column name="TRANSFERSYSID" type="FLOAT(22)"/>
+            <column name="LAWSTREET" type="VARCHAR2(255)"/>
+            <column name="ALLOWEDTRANSFERSYSSENDER" type="VARCHAR2(255)"/>
+            <column name="LAWHOUSE" type="VARCHAR2(20)"/>
+            <column name="CURRLIST" type="VARCHAR2(255)"/>
+            <column name="LAWFLAT" type="VARCHAR2(20)"/>
+            <column name="PHONE" type="VARCHAR2(40)"/>
+            <column name="INTSTREET" type="VARCHAR2(255)"/>
+            <column name="DRM" type="FLOAT(22)"/>
+            <column name="INTHOUSE" type="VARCHAR2(20)"/>
+            <column name="INTFLAT" type="VARCHAR2(20)"/>
+            <column name="POSTSTATE" type="VARCHAR2(40)"/>
+            <column name="CANEDITFINANCIAL" type="FLOAT(22)"/>
+            <column name="POSTZIP" type="VARCHAR2(10)"/>
+            <column name="CANEDITNONFINANCIAL" type="FLOAT(22)"/>
+            <column name="POSTPLACETYPE" type="FLOAT(22)"/>
+            <column name="CANEDITPARENT" type="FLOAT(22)"/>
+            <column name="POSTPLACE" type="VARCHAR2(35)"/>
+            <column name="MODDATE" type="date"/>
+            <column name="POSTSTREET" type="VARCHAR2(255)"/>
+            <column name="CANSENDTRANSFERS" type="FLOAT(22)"/>
+            <column name="POSTHOUSE" type="VARCHAR2(20)"/>
+            <column name="CANPAYTRANSFERS" type="FLOAT(22)"/>
+            <column name="POSTFLAT" type="VARCHAR2(20)"/>
+            <column name="INHERITALLOWEDACTIONS" type="FLOAT(22)"/>
+            <column name="WORKSCHEDULE" type="VARCHAR2(255)"/>
+            <column name="INHERITROOTEDITPARAM" type="FLOAT(22)"/>
+            <column name="USESK" type="FLOAT(22)"/>
+            <column name="EDITBLOCKLIST" type="FLOAT(22)"/>
+            <column name="METROID" type="FLOAT(22)"/>
+            <column name="CANACCEPTADDRESSTRNACCOUNT" type="FLOAT(22)"/>
+            <column name="CANWRITEOFFACCOUNT" type="FLOAT(22)"/>
+            <column name="LAWSTREETTYPE" type="FLOAT(22)"/>
+            <column name="DNUMBER" type="VARCHAR2(6)"/>
+            <column name="INTSTREETTYPE" type="FLOAT(22)"/>
+            <column name="POSTSTREETTYPE" type="FLOAT(22)"/>
+        </createTable>
+        <addPrimaryKey columnNames="CUSTID" constraintName="SYS_C001592319" tableName="CUSTOMER"/>
+
+        <createTable tableName="POSTCLNT">
+            <column name="CLIENT" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FINISHDATE" type="date"/>
+            <column name="NAME" type="VARCHAR2(160)"/>
+            <column name="SERVICE" type="FLOAT(22)"/>
+            <column name="SERVICE1" type="VARCHAR2(1)"/>
+            <column name="SERVICE2" type="VARCHAR2(1)"/>
+            <column name="SERVICE3" type="VARCHAR2(1)"/>
+            <column name="SERVICE4" type="VARCHAR2(1)"/>
+            <column name="SERVICE5" type="VARCHAR2(1)"/>
+            <column name="STARTDATE" type="date"/>
+            <column name="FENABLED" type="FLOAT(22)"/>
+            <column name="BRANCHID" type="FLOAT(22)"/>
+            <column name="LINKCLIENT" type="FLOAT(22)"/>
+            <column name="SORTBY" type="FLOAT(22)"/>
+            <column name="ALLOWEDCOUNTRYONLY" type="FLOAT(22)"/>
+            <column name="CANUSEAPI" type="FLOAT(22)"/>
+            <column name="NEWAGENTFROMGATE" type="FLOAT(22)"/>
+            <column name="CHECKIPRANGE" type="FLOAT(22)"/>
+            <column name="PASSWORDDURATION" type="FLOAT(22)"/>
+        </createTable>
+        <addPrimaryKey columnNames="CLIENT" constraintName="SYS_C001592207" tableName="POSTCLNT"/>
+
+        <createTable tableName="UMTAGENTLINKS">
+            <column name="PARENTLINK" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CHILDLINK" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PATHLENGTH" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="PARENTLINK, CHILDLINK, PATHLENGTH" constraintName="SYS_C001592172"
+                       tableName="UMTAGENTLINKS"/>
+
+        <createTable tableName="UMTTRANSFERSYSDATA">
+            <column name="DICTAUTOUPDATE" type="FLOAT(22)"/>
+            <column name="PAYSEARCHCONDITION" type="VARCHAR2(512)"/>
+            <column name="PAYSEARCHCONDITIONHELP_RU" type="VARCHAR2(512)"/>
+            <column name="PAYSEARCHCONDITIONHELP_EN" type="VARCHAR2(512)"/>
+            <column name="EDRETSEARCHCONDITION" type="VARCHAR2(512)"/>
+            <column name="EDRETSEARCHCONDITIONHELP_RU" type="VARCHAR2(512)"/>
+            <column name="EDRETSEARCHCONDITIONHELP_EN" type="VARCHAR2(512)"/>
+            <column name="CANCELSENDPERMISSIBLEPERIOD" type="FLOAT(22)"/>
+            <column name="CANCELSENDOPERDAYMODE" type="FLOAT(22)"/>
+            <column name="PAYERAGENTPORTIONATRECALL" type="FLOAT(22)"/>
+            <column name="CLEARINGCENTREPORTIONATRECALL" type="FLOAT(22)"/>
+            <column name="AUTOROLLBACKOFCHANGES" type="FLOAT(22)"/>
+            <column name="AUTOROLLBACKOFRECALL" type="FLOAT(22)"/>
+            <column name="DLLNAME" type="VARCHAR2(40)"/>
+            <column name="LINKTYPEID" type="FLOAT(22)"/>
+            <column name="USEXMLSEC" type="FLOAT(22)"/>
+            <column name="XMLSECFINGERPRINTNATIVE" type="VARCHAR2(100)"/>
+            <column name="XMLSECFINGERPRINTEXTERNAL" type="VARCHAR2(100)"/>
+            <column name="CANCELPAYMENTPERMISSIBLEPERIOD" type="FLOAT(22)"/>
+            <column name="CANCELPAYMENTOPERDAYMODE" type="FLOAT(22)"/>
+            <column name="SHOWINREP" type="FLOAT(22)"/>
+            <column name="LATINFIELDSOPEN" type="BLOB"/>
+            <column name="LATINFIELDSCLOSE" type="BLOB"/>
+            <column name="NECESSITYCONDCLOSE" type="BLOB"/>
+            <column name="SYSID" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(160)"/>
+            <column name="NAME_EN" type="VARCHAR2(255)"/>
+            <column name="SYSINFO" type="CLOB"/>
+            <column name="SYSINFO_EN" type="CLOB"/>
+            <column name="TCNLENGTH" type="FLOAT(22)"/>
+            <column name="TCNPREFIX" type="VARCHAR2(3)"/>
+            <column name="TCNCREATETYPE" type="FLOAT(22)"/>
+            <column name="INTERACTIONTYPE" type="FLOAT(22)"/>
+            <column name="USEUNIVERSAL" type="FLOAT(22)"/>
+            <column name="FILEINCOMINGPATH" type="VARCHAR2(100)"/>
+            <column name="FILEINCOMINGCONFPATH" type="VARCHAR2(100)"/>
+            <column name="FILEOUTGOINGPATH" type="VARCHAR2(100)"/>
+            <column name="FILEOUTGOINGCONFPATH" type="VARCHAR2(100)"/>
+            <column name="FTPSERVER" type="VARCHAR2(100)"/>
+            <column name="FTPPORT" type="FLOAT(22)"/>
+            <column name="FTPANONYMOUS" type="FLOAT(22)"/>
+            <column name="FTPPASSIVEMODE" type="FLOAT(22)"/>
+            <column name="FTPLOGIN" type="VARCHAR2(100)"/>
+            <column name="FTPPASSWORD" type="VARCHAR2(100)"/>
+            <column name="FTPINCOMINGSERVER" type="VARCHAR2(100)"/>
+            <column name="FTPINCOMINGCONFSERVER" type="VARCHAR2(100)"/>
+            <column name="FTPOUTGOINGSERVER" type="VARCHAR2(100)"/>
+            <column name="FTPOUTGOINGCONFSERVER" type="VARCHAR2(100)"/>
+            <column name="CIPHERUSEGNUPG" type="FLOAT(22)"/>
+            <column name="CIPHERGNUPGPATH" type="VARCHAR2(100)"/>
+            <column name="CIPHERKEYPATHINTERNAL" type="VARCHAR2(100)"/>
+            <column name="CIPHERKEYIDINTERNAL" type="VARCHAR2(100)"/>
+            <column name="CIPHERKEYFILEEXTERNAL" type="VARCHAR2(100)"/>
+            <column name="CIPHERKEYIDEXTERNAL" type="VARCHAR2(100)"/>
+            <column name="EMAILINCOMINGLOGIN" type="VARCHAR2(100)"/>
+            <column name="EMAILINCOMINGPASSWORD" type="VARCHAR2(100)"/>
+            <column name="EMAILOUTGOINGMETHOD" type="FLOAT(22)"/>
+            <column name="EMAILOUTGOINGADDRESSFROM" type="VARCHAR2(100)"/>
+            <column name="EMAILOUTGOINGADDRESSTO" type="VARCHAR2(100)"/>
+            <column name="EMAILOUTGOINGADDRESSTOACC" type="VARCHAR2(100)"/>
+            <column name="EMAILOUTGOINGADDRESSTOPAY" type="VARCHAR2(100)"/>
+            <column name="EMAILOUTGOINGADDRESSCC" type="VARCHAR2(100)"/>
+            <column name="MANUALFEEDPATH" type="VARCHAR2(100)"/>
+            <column name="MESSAGEREVOKEVALUE" type="FLOAT(22)"/>
+            <column name="MESSAGEREVOKECONFVALUE" type="FLOAT(22)"/>
+            <column name="MESSAGECHANGECONFVALUE" type="FLOAT(22)"/>
+            <column name="MESSAGEPAYOUTCONFVALUE" type="FLOAT(22)"/>
+            <column name="MESSAGECANCELINTERNALVALUE" type="FLOAT(22)"/>
+            <column name="ARCHIVEINCOMING" type="VARCHAR2(100)"/>
+            <column name="ARCHIVEOUTGOING" type="VARCHAR2(100)"/>
+            <column name="HTTPINCOMINGPATH" type="VARCHAR2(100)"/>
+            <column name="HTTPOUTGOINGPATH" type="VARCHAR2(100)"/>
+            <column name="AGENTSDATETIMESEND" type="date"/>
+            <column name="AGENTSDATETIMERECEIVE" type="date"/>
+            <column name="IDENTNATIVE" type="VARCHAR2(100)"/>
+            <column name="IDENTSYSTEM" type="VARCHAR2(100)"/>
+            <column name="SENDERCLIENTDEFAULT" type="FLOAT(22)"/>
+            <column name="SENDERCUSTIDDEFAULT" type="FLOAT(22)"/>
+            <column name="HTTPSIGNMESSAGES" type="FLOAT(22)"/>
+            <column name="HTTPSAVEMSGRQSTATEMPTYQUEUE" type="FLOAT(22)"/>
+            <column name="VALIDATEXMLUNDERSCHEMA" type="FLOAT(22)"/>
+            <column name="XMLSCHEMAPATH" type="VARCHAR2(100)"/>
+            <column name="FILECONTACTLOGPATH" type="VARCHAR2(100)"/>
+            <column name="NECESSITYCONDITIONS" type="BLOB"/>
+            <column name="MANDATORYFIELDSOPEN" type="BLOB"/>
+            <column name="MANDATORYFIELDSCLOSE" type="BLOB"/>
+            <column name="EDITABLEFIELDSOPEN" type="BLOB"/>
+            <column name="EDITABLEFIELDSCLOSE" type="BLOB"/>
+            <column name="FILELASTDATE" type="date"/>
+            <column name="MASK" type="BLOB"/>
+            <column name="FILELASTNUMBER" type="FLOAT(22)"/>
+            <column name="URLWEBSERVER" type="VARCHAR2(50)"/>
+            <column name="RTSREQUEST" type="VARCHAR2(50)"/>
+            <column name="SYSTYPE" type="FLOAT(22)"/>
+            <column name="PARTNERID" type="FLOAT(22)"/>
+            <column name="VERSIONMIGOM" type="VARCHAR2(50)"/>
+            <column name="PASSPHRASE" type="VARCHAR2(50)"/>
+            <column name="CUSTOMERALTERIDMASK" type="VARCHAR2(255)"/>
+            <column name="CUSTOMERALTERIDMASKERROR" type="VARCHAR2(255)"/>
+            <column name="DBLINKDBNAME" type="VARCHAR2(100)"/>
+            <column name="DBLINKDBLOGIN" type="VARCHAR2(50)"/>
+            <column name="DBLINKDBPASSWORD" type="VARCHAR2(50)"/>
+        </createTable>
+        <addPrimaryKey columnNames="SYSID" constraintName="SYS_C001592276" tableName="UMTTRANSFERSYSDATA"/>
+
+        <createSequence sequenceName="BSS__AK_COUNTRY"/>
+        <createTable tableName="COUNTRY">
+            <column name="AUTOKEY" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CLIENT" type="FLOAT(22)"/>
+            <column name="CODE" type="VARCHAR2(3)"/>
+            <column name="DATECREATE" type="FLOAT(22)"/>
+            <column name="MNEMO2" type="VARCHAR2(2)"/>
+            <column name="MNEMO3" type="VARCHAR2(3)"/>
+            <column name="NAMEFULL" type="VARCHAR2(255)"/>
+            <column name="NAMESHORT" type="VARCHAR2(50)"/>
+            <column name="RPLSTATUS" type="FLOAT(22)"/>
+            <column name="TIMECREATE" type="FLOAT(22)"/>
+            <column name="TRANSFER" type="FLOAT(22)"/>
+            <column name="NAMESHORT_RU" type="VARCHAR2(50)"/>
+            <column name="USELATIN" type="FLOAT(22)"/>
+            <column name="NAMEFULL_EN" type="VARCHAR2(255)"/>
+            <column name="LANGUAGEID" type="VARCHAR2(50)"/>
+        </createTable>
+        <addPrimaryKey columnNames="AUTOKEY" constraintName="SYS_C001592240" tableName="COUNTRY"/>
+
+        <createSequence sequenceName="BSS__AK_UMTAGENTTOWNS"/>
+        <createTable tableName="UMTAGENTTOWNS">
+            <column name="AGENTSTATE" type="VARCHAR2(100)"/>
+            <column name="AGENTTOWN" type="VARCHAR2(250)"/>
+            <column name="AUTOKEY" type="FLOAT(22)"/>
+            <column name="CODE" type="VARCHAR2(25)"/>
+            <column name="AGENTTOWN_ENG" type="VARCHAR2(250)"/>
+            <column name="AGENTTOWN_BASE" type="VARCHAR2(100)"/>
+            <column name="AGENTTOWNUPPER" type="VARCHAR2(250)"/>
+            <column name="AGENTTOWNUPPER_ENG" type="VARCHAR2(250)"/>
+        </createTable>
+
+        <createSequence sequenceName="BSS__AK_METROPOLITEN"/>
+        <createTable tableName="METROPOLITEN">
+            <column name="ID" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SHEMA_ID" type="FLOAT(22)"/>
+            <column name="NAME" type="VARCHAR2(50)"/>
+            <column name="NAME_ENG" type="VARCHAR2(50)"/>
+            <column name="POSITION_DATA" type="VARCHAR2(50)"/>
+            <column name="FIGURE" type="FLOAT(22)"/>
+            <column name="TOWN_ID" type="FLOAT(22)"/>
+        </createTable>
+        <addPrimaryKey columnNames="ID" constraintName="SYS_C001592297" tableName="METROPOLITEN"/>
+
+        <createView viewName="VIEWCUSTANDPOINTSDEST">select cust.CustomerType, cust.CustId, cust.Client, cust.NameShort,
+            cust.NameInt, cust.NameFull, cust.ChiefName,
+            cust.ChiefName_eng, cust.ChiefPhone, cust.AccChiefName, cust.AccChiefPhone, cust.INN,
+            cust.AgentEnabled, cust.WhenAgentEnabled, cust.AgentDemoEnabled, cust.ShowAtWebSite,
+            cust.LawCountry, cust.LawState, cust.LawZip, cust.LawPlaceType, cust.LawPlace, cust.LawStreet,
+            cust.LawHouse, cust.LawFlat, cust.Phone, cust.IntState, cust.IntZip,
+            cust.IntStreet, cust.IntHouse, cust.IntFlat,cust.MetroId, cust.LawStreetType, cust.IntStreetType,
+            cust.CanAcceptAddressTrnAccount, cust.Scheme, cust.Fax, cust.Telex,
+            cust.EMail, cust.LawAddress, cust.IntAddress, cust.Remark, cust.Remark_eng,
+
+            cust.PostLevel, cust.isMenuTransfer, cust.isMenuIpoteka, custroot.TransferSysID,
+            cust.AllowedTransferSysSender, cust.CurrList, cust.CanEditFinancial, cust.CanEditNonFinancial,
+            cust.CanEditParent,
+
+            cust.ActivityType, cust.BIC, cust.Contract, cust.ContractDate, cust.FiscalReasonCode,
+            cust.License, cust.MNSStatusParam, cust.OKATOcode, cust.OKPOCode, cust.PropertyType,
+            cust.isChanged, cust.LimitsDeltaDate, cust.RegCard, cust.KKo, cust.PaymentPeriodType,
+            cust.FirstPaymentDay, cust.SecondPaymentDay, cust.ThirdPaymentDay, cust.NonStandardUnload,
+            cust.FirstUnloadDay, cust.SecondUnloadDay,
+
+            pc.Name, pc.Service, pc.StartDate, pc.FinishDate, pc.fEnabled, pc.LinkClient,
+
+            case when cust.CustomerType = 11 then pcparent.Service else pc.Service end as FAParentService,
+            case when cust.CustomerType = 11 then pcparent.StartDate else pc.StartDate end as FAParentStartDate,
+            case when cust.CustomerType = 11 then pcparent.FinishDate else pc.FinishDate end as FAParentFinishDate,
+            case when cust.CustomerType = 11 then pcparent.fEnabled else pc.fEnabled end as FAParentfEnabled,
+            case when cust.CustomerType = 11 then custparent.CustId else cust.CustId end as FAParentCustId,
+            case when cust.CustomerType = 11 then custparent.isMenuTransfer else cust.isMenuTransfer end as
+            FAParentisMenuTransfer,
+            case when cust.CustomerType = 11 then custparent.isMenuIpoteka else cust.isMenuIpoteka end as
+            FAParentisMenuIpoteka,
+            case when cust.CustomerType = 11 then custparent.AgentEnabled else custroot.AgentEnabled end as
+            FAParentAgentEnabled,
+            case when cust.CustomerType = 11 then custparent.WhenAgentEnabled else custroot.WhenAgentEnabled end as
+            FAParentWhenAgentEnabled,
+            case when cust.CustomerType = 11 then custparent.AgentDemoEnabled else custroot.AgentDemoEnabled end as
+            FAParentAgentDemoEnabled,
+            case when cust.CustomerType = 11 then custparent.ShowAtWebSite else custroot.ShowAtWebSite end as
+            FAParentShowAtWebSite,
+            case when cust.CustomerType = 11 then custparent.LawCountry else custroot.LawCountry end as
+            FAParentLawCountry,
+
+            pcroot.Client as RootClient, custroot.CustId as RootCustId,
+            trsys.Name as TransferSysName, trsys.Name_En as TransferSysNameInt,
+            Country.NameShort_ru as CountryName, Country.NameShort as CountryNameInt, Country.Transfer as
+            isTransferCountry,
+            custroot.CurrList as RootCurrList,
+            case when cust.CustomerType = 11 then custparent.CurrList else custroot.CurrList end as ParentCurrList,
+
+            m.Name as Metro,
+            t.AgentTown,
+            t.AgentTown_eng as AgentTownInt
+
+            from umtdestinationplace d
+            inner join Customer cust on cust.CustId = d.CustId
+            inner join PostClnt pc on cust.Client = pc.Client
+            inner join UMTAgentLinks lnk on cust.Client = lnk.ChildLink
+            inner join postclnt pcroot on lnk.ParentLink = pcroot.Client and pcroot.LinkClient is null
+            inner join Customer custroot on pcroot.Client = custroot.Client
+            left outer join PostClnt pcparent on pc.LinkClient = pcparent.Client
+            left outer join Customer custparent on pcparent.Client = custparent.Client
+            left outer join UMTTransferSysData trsys on custroot.TransferSysID = trsys.SysID
+            left outer join Country on cust.LawCountry = Country.Code
+            left outer join UMTAgentTowns t on t.AutoKey = cust.LawPlace
+            left outer join metropoliten m on m.ID = cust.MetroID
+
+
+        </createView>
+    </changeSet>
+</databaseChangeLog>

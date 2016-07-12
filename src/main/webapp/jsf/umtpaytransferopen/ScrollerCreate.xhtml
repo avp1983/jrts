@@ -1,0 +1,19 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/TabScroller.xhtml">
+
+    <ui:define name="customLibs">
+        <h:outputScript library="js" name="paytransferscroller.js"/>
+    </ui:define>
+    <ui:define name="menuItems">
+        <p:menuitem value="#{umtpaytransfer.TRANSFER_CREATE_TRANSFER}"
+                    onclick="onClickCreateTransfer(); return false;"
+                    rendered="#{userRightController.userHasRightTransferAction()}"
+                    styleClass="ui-menuitem-create"/>
+        <p:menuitem value="#{umtpaytransfer.TRANSFER_TEMPLATE}" onclick="onClickTemplate(); return false;"
+                    rendered="#{userRightController.userHasRightTransferAction()}"
+                    styleClass="ui-menuitem-template"/>
+    </ui:define>
+</ui:composition>

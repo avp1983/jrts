@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface/>
+
+<composite:implementation>
+    <f:view locale="#{userSessionController.userLocale}">
+        <h:outputScript library="js" name="navigation.js"/>
+        <h:outputScript library="js" name="addcommwidget.js"/>
+
+        <p:panelGrid styleClass="ui-dashboard-widget ui-dashboard_widget-addcommissions">
+            <p:row>
+                <p:column> <p:outputLabel value="#{addcommwidget.ADD_COMM_REJECTED_HEADER}"/> </p:column>
+                <p:column styleClass="elem-count_value">
+                    <p:outputLabel id="addcomm_not_accepted"
+                                   value="#{additionalCommissionWidget.notAcceptedAdditionalCommissions.getNewValue().intValue()}"
+                                   styleClass="elem_not_accepted ui-widget-counter #{additionalCommissionWidget.notAcceptedAdditionalCommissions.isChanged() ? 'ui-widget-counter-updated' : ''}"/>
+                </p:column>
+            </p:row>
+
+            <p:row>
+                <p:column> <p:outputLabel value="#{addcommwidget.ADD_COMM_ACTIVE_HEADER}"/> </p:column>
+                <p:column styleClass="elem-count_value">
+                    <p:outputLabel id="addcomm_active"
+                                   value="#{additionalCommissionWidget.activeAdditionalCommissions.getNewValue().intValue()}"
+                                   styleClass="elem_addcomm_active ui-widget-counter #{additionalCommissionWidget.activeAdditionalCommissions.isChanged() ? 'ui-widget-counter-updated' : ''}"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+
+        <p:remoteCommand name="resetAddCommissions" actionListener="#{additionalCommissionWidget.resetValues()}"
+                         update="addcomm_not_accepted, addcomm_active"/>
+
+    </f:view>
+</composite:implementation>
+</html>

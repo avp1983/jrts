@@ -1,0 +1,23 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/TabScroller.xhtml">
+
+    <ui:define name="customLibs">
+        <h:outputScript library="js" name="exprreprequest.js"/>
+    </ui:define>
+    <ui:define name="menuItems">
+        <p:menuitem value="#{exprreprequest.READY_REPORTS}"
+                    onclick="onClickReadyRecords(); return false;"
+                    styleClass="ui-menuitem-report-main" />
+        <p:menuitem value="#{exprreprequest.MUTUAL_SETTLEMENTS}"
+                    onclick="onClickMutualSettlements(); return false;"
+                    rendered="#{exprRepRequestUtil.userHasReportsMutualSettlements()}"
+                    styleClass="ui-menuitem-report-settlements" />
+        <p:menuitem value="#{exprreprequest.LOYALITY_ACTIONS}"
+                    onclick="onClickLoyaltyActions(); return false;"
+                    rendered="#{exprRepRequestUtil.userHasReportsLoyaltyActions()}"
+                    styleClass="ui-menuitem-report-loyalty" />
+    </ui:define>
+</ui:composition>

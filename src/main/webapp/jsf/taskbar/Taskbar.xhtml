@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<f:view locale="#{userSessionController.userLocale}">
+    <h:head>
+        <h:outputStylesheet library="css" name="reset.css"/>
+        <h:outputStylesheet library="css" name="taskbar.css"/>
+        <h:outputScript library="js" name="taskbar.js"/>
+    </h:head>
+    <h:body styleClass="taskbar">
+        <p:layout fullPage="true" widgetVar="pageLayout" collapseTitle="#{dashboard.DASHBOARD_COLLAPSE}"
+                  expandTitle="#{dashboard.DASHBOARD_EXPAND}">
+            <p:layoutUnit position="center" visible="false">
+            </p:layoutUnit>
+            <p:layoutUnit id="eastLayout" position="east" header="&nbsp;" collapsible="true" effect="slide">
+                <f:facet name="header">
+                    <h:form id="buttonForm" style="display: inline-block"
+                            rendered="#{taskBarController.isRenderTaskbarDasboard()}">
+                        <p:menuButton value="#{dashboard.DASHBOARD_ADD_WIDGET}"
+                                      styleClass="ui-panel-titlebar-icon-options">
+                            <p:menuitem value="#{importantwidget.IMPORTANT_WIDGET_HEADER}" update=":form:taskBoard"
+                                        actionListener="#{taskBarController.addImportantWidget}"/>
+                            <p:menuitem value="#{findtransfer.FIND_TRANSFER_BY_KNP}" update=":form:taskBoard"
+                                        actionListener="#{taskBarController.addFindTransferWidget()}"
+                                        rendered="#{taskBarController.isActiveTransferWidgetsPay()}"/>
+                            <p:menuitem value="#{lasttransfer.LAST_TRANSFERS}" update=":form:taskBoard"
+                                        actionListener="#{taskBarController.addLastTransferWidget()}"
+                                        rendered="#{taskBarController.isActiveTransferWidgets()}"/>
+                            <p:menuitem value="#{transfercount.TRANSFER_COUNT_LIST}" update=":form:taskBoard"
+                                        actionListener="#{taskBarController.addTransferCountWidget}"
+                                        rendered="#{taskBarController.isActiveTransferViewWidgets()}"/>
+                            <p:menuitem value="#{addcommwidget.ADD_COMM_ADD_WIDGET_TO_TASKBAR_HEADER}" update=":form:taskBoard"
+                                        actionListener="#{taskBarController.addAddCommissionWidget()}"
+                                        rendered="#{taskBarController.isActiveAddCommissionsWidget()}"/>
+                        </p:menuButton>
+                    </h:form>
+                </f:facet>
+                <p:panel header="#{dashboard.DASHBOARD_TECH_SUPPORT}" styleClass="panel-support">
+                    <p:outputLabel styleClass="elem-tech_support_info"/>
+                </p:panel>
+                <h:form id="form">
+                    <p:outputPanel rendered="#{taskBarController.isRenderTaskbarDasboard()}">
+                        <p:poll interval="60" update="taskBoard" onerror="PF('taskBarPoll').stop"
+                                widgetVar="taskBarPoll"/>
+
+                        <p:remoteCommand name="addDocToBoard" id="updateBoardID" update="taskBoard"
+                                         actionListener="#{taskBarController.addDocWidget()}"/>
+                        <p:remoteCommand name="updateTaskBar" id="updateTaskBar" update="taskBoard"/>
+                        <p:dashboard id="taskBoard" model="#{taskBarController.getModel()}">
+                            <p:ajax event="reorder"/>
+                        </p:dashboard>
+                    </p:outputPanel>
+                </h:form>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</f:view>
+</html>

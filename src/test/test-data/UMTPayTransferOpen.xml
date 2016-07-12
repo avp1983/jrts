@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396524642731-206">
+        <createSequence sequenceName="UMTPAYTRANSFEROPENGENERATOR"/>
+    </changeSet>
+    <changeSet author="alexeymt (generated)" id="1396524642731-582">
+        <createTable tableName="UMTPAYTRANSFEROPEN">
+            <column name="SENDERINN" type="VARCHAR2(12)"/>
+            <column name="CUSTIDRECEIVER" type="FLOAT(22)"/>
+            <column name="SENDERCOUNTRYISO" type="VARCHAR2(3)"/>
+            <column name="SENDERTRANSFERSYS" type="FLOAT(22)"/>
+            <column name="SENDERCITY" type="VARCHAR2(50)"/>
+            <column name="RECEIVERTRANSFERSYS" type="FLOAT(22)"/>
+            <column name="SENDERSTREET" type="VARCHAR2(400)"/>
+            <column name="COMMISSIONID" type="FLOAT(22)"/>
+            <column name="SENDERHOUSE" type="VARCHAR2(5)"/>
+            <column name="RECEIVERBIRTHDAY" type="date"/>
+            <column name="SENDERFLAT" type="VARCHAR2(5)"/>
+            <column name="RECEIVERBIRTHPLACE" type="VARCHAR2(50)"/>
+            <column name="SENDERPHONE" type="VARCHAR2(20)"/>
+            <column name="REMARK" type="VARCHAR2(255)"/>
+            <column name="SENDERBIRTHDAY" type="date"/>
+            <column name="SAVEDDOCREF" type="VARCHAR2(255)"/>
+            <column name="SENDERBIRTHPLACE" type="VARCHAR2(50)"/>
+            <column name="DEMOPAY" type="FLOAT(22)"/>
+            <column name="RECEIVERHOUSEBLOCK" type="VARCHAR2(20)"/>
+            <column name="RECEIVERHOUSEBUILDING" type="VARCHAR2(20)"/>
+            <column name="SENDERHOUSEBLOCK" type="VARCHAR2(20)"/>
+            <column name="SENDERHOUSEBUILDING" type="VARCHAR2(20)"/>
+            <column name="RECEIVERLICENCETYPECODE" type="FLOAT(22)"/>
+            <column name="SENDERLICENCETYPECODE" type="FLOAT(22)"/>
+            <column name="RECEIVERLICENCEEXPIREDATE" type="date"/>
+            <column name="RECEIVERINN" type="VARCHAR2(12)"/>
+            <column name="WASINTERNALTRANSFER" type="FLOAT(22)"/>
+            <column name="AGENTCOMMISSIONCURR" type="FLOAT(22)"/>
+            <column name="AGENTCOMMISSIONPAYCURR" type="FLOAT(22)"/>
+            <column name="COMMISSIONCURR" type="FLOAT(22)"/>
+            <column name="TIMEOUTEXPIREDCODE" type="FLOAT(22)"/>
+            <column name="TRANSFERISSUECITYCODE" type="FLOAT(22)"/>
+            <column name="USERSENDER" type="FLOAT(22)"/>
+            <column name="USERPAYER" type="FLOAT(22)"/>
+            <column name="REMOTECHECKNUMBER" type="VARCHAR2(50)"/>
+            <column name="REMOTEID" type="VARCHAR2(50)"/>
+            <column name="TRANSFERPARAMS" type="VARCHAR2(255)"/>
+            <column name="SENDERSMSNOTIFYPAY" type="FLOAT(22)"/>
+            <column name="RECEIVERSMSNOTIFYSEND" type="FLOAT(22)"/>
+            <column name="AGENTSENDERCOMMISSION" type="FLOAT(22)"/>
+            <column name="AGENTPAYERCOMMISSION" type="FLOAT(22)"/>
+            <column name="TRANSFERSYSCOMMISSION" type="FLOAT(22)"/>
+            <column name="FULLCOMMISSION" type="FLOAT(22)"/>
+            <column name="DOCUMENTDATE" type="date"/>
+            <column name="DOCUMENTNUMBER" type="VARCHAR2(25)"/>
+            <column name="NOTE" type="VARCHAR2(255)"/>
+            <column name="SIGNERCLIENT" type="FLOAT(22)"/>
+            <column name="SIGNERCUSTID" type="FLOAT(22)"/>
+            <column name="PAYMENTDATE" type="date"/>
+            <column name="PAYMENTAMOUNT" type="FLOAT(22)"/>
+            <column name="PAYMENTCURRCODEISO" type="VARCHAR2(3)"/>
+            <column name="POINTIDPAYER" type="FLOAT(22)"/>
+            <column name="POINTIDSENDER" type="FLOAT(22)"/>
+            <column name="POINTNAMEPAYER" type="VARCHAR2(250)"/>
+            <column name="POINTNAMESENDER" type="VARCHAR2(250)"/>
+            <column name="RECEIVERACCOUNT" type="VARCHAR2(34)"/>
+            <column name="RECEIVERCITY" type="VARCHAR2(50)"/>
+            <column name="RECEIVERCOUNTRYISO" type="VARCHAR2(3)"/>
+            <column name="RECEIVEREMAIL" type="VARCHAR2(50)"/>
+            <column name="RECEIVERFLAT" type="VARCHAR2(5)"/>
+            <column name="RECEIVERHOUSE" type="VARCHAR2(5)"/>
+            <column name="RECEIVERLASTNAME" type="VARCHAR2(50)"/>
+            <column name="RECEIVERFIRSTNAME" type="VARCHAR2(50)"/>
+            <column name="RECEIVERPATRONYMIC" type="VARCHAR2(50)"/>
+            <column name="RECEIVERLICENCEDATEISSUE" type="date"/>
+            <column name="RECEIVERLICENCEISSUER" type="VARCHAR2(150)"/>
+            <column name="RECEIVERLICENCENUMBER" type="VARCHAR2(20)"/>
+            <column name="RECEIVERLICENCESERIES" type="VARCHAR2(10)"/>
+            <column name="RECEIVERLICENCETYPE" type="VARCHAR2(120)"/>
+            <column name="RECEIVERNATIONALITY_CODE" type="VARCHAR2(3)"/>
+            <column name="RECEIVERISRESIDENT" type="FLOAT(22)"/>
+            <column name="RECEIVERSTREET" type="VARCHAR2(400)"/>
+            <column name="RECEIVERTELEPHONE" type="VARCHAR2(20)"/>
+            <column name="SENDERACCOUNT" type="VARCHAR2(34)"/>
+            <column name="SENDERLASTNAME" type="VARCHAR2(50)"/>
+            <column name="SENDERFIRSTNAME" type="VARCHAR2(50)"/>
+            <column name="SENDERPATRONYMIC" type="VARCHAR2(50)"/>
+            <column name="SENDERLICENCEDATEISSUE" type="date"/>
+            <column name="SENDERLICENCEISSUER" type="VARCHAR2(150)"/>
+            <column name="SENDERMIGRATIONCARDNUMBER" type="VARCHAR2(30)"/>
+            <column name="SENDERLICENCENUMBER" type="VARCHAR2(20)"/>
+            <column name="SENDERLICENCESERIES" type="VARCHAR2(10)"/>
+            <column name="SENDERLICENCETYPE" type="VARCHAR2(120)"/>
+            <column name="SENDERNATIONALITY_CODE" type="VARCHAR2(3)"/>
+            <column name="SENDERISRESIDENT" type="FLOAT(22)"/>
+            <column name="CRYPTOLIBID2" type="FLOAT(22)"/>
+            <column name="TRANSFERISSUECITY" type="VARCHAR2(50)"/>
+            <column name="TRANSFERNUMBER" type="FLOAT(22)"/>
+            <column name="CRYPTOLIBID1" type="FLOAT(22)"/>
+            <column name="SERVICENOTE" type="CLOB"/>
+            <column name="DATECREATE" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DATETIMERECEIVE" type="date"/>
+            <column name="DESTCLIENT" type="FLOAT(22)"/>
+            <column name="HISTORY" type="BLOB"/>
+            <column name="NOTEFROMBANK" type="VARCHAR2(255)"/>
+            <column name="SERVICE" type="FLOAT(22)"/>
+            <column name="SIGNUID1" type="VARCHAR2(51)"/>
+            <column name="SIGNUID2" type="VARCHAR2(51)"/>
+            <column name="SIGNATURES" type="BLOB"/>
+            <column name="STATUS" type="FLOAT(22)"/>
+            <column name="TIMECREATE" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SENDNUMBER" type="FLOAT(22)"/>
+            <column name="STATUSLASTCHANGETIME" type="date"/>
+            <column name="TRANSPORTDIAGNOSIS" type="VARCHAR2(255)"/>
+            <column name="RECEIVENUMBER" type="FLOAT(22)"/>
+            <column name="KBOPID" type="FLOAT(22)"/>
+            <column name="SENDERID" type="FLOAT(22)"/>
+            <column name="RECEIVERID" type="FLOAT(22)"/>
+            <column name="RECEIVERMIGRATIONCARDNUMBER" type="VARCHAR2(30)"/>
+            <column name="TRANSFERISSUECOUNTRYCODE" type="VARCHAR2(3)"/>
+            <column name="VALUEDATETIME" type="date"/>
+            <column name="TRANSFERSENDCOUNTRYCODE" type="VARCHAR2(3)"/>
+            <column name="SENDEREMAIL" type="VARCHAR2(50)"/>
+            <column name="CLIENTRECEIVER" type="FLOAT(22)"/>
+            <column name="ID" type="FLOAT(22)"/>
+            <column name="CLIENT" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CUSTID" type="FLOAT(22)"/>
+            <column name="DESTCUSTID" type="FLOAT(22)"/>
+            <column name="RECEIVEROFFICIALS" type="VARCHAR2(40)"/>
+            <column name="VIEWFLAGS" type="FLOAT(22)"/>
+            <column name="AGENTCOMMISSION" type="FLOAT(22)"/>
+            <column name="AGENTCOMMISSIONPAY" type="FLOAT(22)"/>
+            <column name="UNISTREAMCOMISSION" type="FLOAT(22)"/>
+            <column name="AMOUNT" type="FLOAT(22)"/>
+            <column name="ANSWERSHORTSTATUS" type="VARCHAR2(5)"/>
+            <column name="BLOCKDATE" type="VARCHAR2(10)"/>
+            <column name="CHECKNUMBER" type="VARCHAR2(25)"/>
+            <column name="CLIENTPAYER" type="FLOAT(22)"/>
+            <column name="CLIENTSENDER" type="FLOAT(22)"/>
+            <column name="COMMISSION" type="FLOAT(22)"/>
+            <column name="CURRCODEISO" type="VARCHAR2(3)"/>
+            <column name="COMISSIONCURRCODEISO" type="VARCHAR2(3)"/>
+            <column name="CUSTIDPAYER" type="FLOAT(22)"/>
+            <column name="DATETIMECREATE" type="date"/>
+            <column name="CUSTIDSENDER" type="FLOAT(22)"/>
+            <column name="DOCREF" type="VARCHAR2(32)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alexeymt (generated)" id="1396524642731-973">
+        <addPrimaryKey columnNames="CLIENT, DATECREATE, TIMECREATE" constraintName="SYS_C001593479" tableName="UMTPAYTRANSFEROPEN"/>
+    </changeSet>
+</databaseChangeLog>

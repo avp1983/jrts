@@ -1,0 +1,15 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/TabScroller.xhtml">
+
+    <ui:define name="customLibs">
+        <h:outputScript library="js" name="freeagentdoc.js"/>
+    </ui:define>
+    <ui:define name="menuItems">
+        <p:menuitem value="#{freedocagent.FREEDOCAGENT_CREATE}" onclick="onClickFreeDocClientCreate(); return false;"/>
+        <p:menuitem styleClass="freedocagent_sent" value="#{freedocagent.FREEDOCAGENT_SENT}"
+                    onclick="onClickFreeDocClientSent(); return false;"/>
+    </ui:define>
+</ui:composition>

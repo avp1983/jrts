@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:composite="http://java.sun.com/jsf/composite"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<composite:interface componentType="PayTransferOpenUtil">
+    <composite:attribute name="widgetData" required="true"/>
+</composite:interface>
+
+<composite:implementation>
+    <f:view locale="#{userSessionController.userLocale}">
+        <h:outputScript library="js" name="transferNavigation.js"/>
+        <h:outputScript library="js" name="navigation.js"/>
+        <div style="cursor: hand" onclick="openSupposedTransferActionForm('#{cc.attrs.widgetData}');">
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel value="#{payTransferOpen.PAY_TRANSFER_OPEN_DOC_NUMBER}: " styleClass="elem-label"/>
+                <p:outputLabel binding="#{cc.docNumberLabel}"/>
+            </p:outputPanel>
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel value="#{payTransferOpen.PAY_TRANSFER_OPEN_FROM}: " styleClass="elem-label"/>
+                <p:outputLabel binding="#{cc.senderInfoLabel}"/>
+            </p:outputPanel>
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel value="#{payTransferOpen.PAY_TRANSFER_OPEN_TO}: " styleClass="elem-label"/>
+                <p:outputLabel binding="#{cc.receiverInfoLabel}"/>
+            </p:outputPanel>
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel value="#{payTransferOpen.PAY_TRANSFER_OPEN_STATUS}: " styleClass="elem-label"/>
+                <p:outputLabel binding="#{cc.statusLabel}"/>
+            </p:outputPanel>
+            <p:outputPanel layout="block" styleClass="panel-entry">
+                <p:outputLabel value="#{payTransferOpen.PAY_TRANSFER_OPEN_AMOUNT}: " styleClass="elem-label"/>
+                <p:outputLabel binding="#{cc.amountLabel}"/>
+            </p:outputPanel>
+        </div>
+    </f:view>
+</composite:implementation>
+</html>

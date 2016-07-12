@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396005554499-126">
+        <createTable tableName="POSTCLNT">
+            <column name="CLIENT" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="FINISHDATE" type="date"/>
+            <column name="NAME" type="VARCHAR2(160)"/>
+            <column name="SERVICE" type="FLOAT(22)"/>
+            <column name="SERVICE1" type="VARCHAR2(1)"/>
+            <column name="SERVICE2" type="VARCHAR2(1)"/>
+            <column name="SERVICE3" type="VARCHAR2(1)"/>
+            <column name="SERVICE4" type="VARCHAR2(1)"/>
+            <column name="SERVICE5" type="VARCHAR2(1)"/>
+            <column name="STARTDATE" type="date"/>
+            <column name="FENABLED" type="FLOAT(22)"/>
+            <column name="BRANCHID" type="FLOAT(22)"/>
+            <column name="LINKCLIENT" type="FLOAT(22)"/>
+            <column name="SORTBY" type="FLOAT(22)"/>
+            <column name="ALLOWEDCOUNTRYONLY" type="FLOAT(22)"/>
+            <column name="CANUSEAPI" type="FLOAT(22)"/>
+            <column name="NEWAGENTFROMGATE" type="FLOAT(22)"/>
+            <column name="CHECKIPRANGE" type="FLOAT(22)"/>
+            <column name="PASSWORDDURATION" type="FLOAT(22)"/>
+        </createTable>
+        <addPrimaryKey columnNames="CLIENT" constraintName="SYS_C001592207" tableName="POSTCLNT"/>
+    </changeSet>
+</databaseChangeLog>

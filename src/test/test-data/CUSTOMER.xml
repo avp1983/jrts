@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396005554499-126">
+        <createTable tableName="CUSTOMER">
+            <column name="ACCCHIEFNAME" type="VARCHAR2(40)"/>
+            <column name="ACCCHIEFPHONE" type="VARCHAR2(40)"/>
+            <column name="ACTIVITYTYPE" type="VARCHAR2(255)"/>
+            <column name="BIC" type="VARCHAR2(15)"/>
+            <column name="CHIEFNAME" type="VARCHAR2(40)"/>
+            <column name="CHIEFPHONE" type="VARCHAR2(40)"/>
+            <column name="CLIENT" type="FLOAT(22)"/>
+            <column name="CONTRACT" type="VARCHAR2(20)"/>
+            <column name="CONTRACTDATE" type="date"/>
+            <column name="CUSTID" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CUSTOMERTYPE" type="FLOAT(22)"/>
+            <column name="EMAIL" type="VARCHAR2(50)"/>
+            <column name="FAX" type="VARCHAR2(20)"/>
+            <column name="FISCALREASONCODE" type="VARCHAR2(9)"/>
+            <column name="INN" type="VARCHAR2(14)"/>
+            <column name="INTADDRESS" type="VARCHAR2(300)"/>
+            <column name="INTSTATE" type="VARCHAR2(40)"/>
+            <column name="INTZIP" type="VARCHAR2(10)"/>
+            <column name="LAWADDRESS" type="VARCHAR2(300)"/>
+            <column name="LAWCOUNTRY" type="VARCHAR2(3)"/>
+            <column name="LAWPLACE" type="FLOAT(22)"/>
+            <column name="LAWPLACETYPE" type="FLOAT(22)"/>
+            <column name="LAWSTATE" type="VARCHAR2(20)"/>
+            <column name="LAWZIP" type="VARCHAR2(10)"/>
+            <column name="LICENSE" type="VARCHAR2(20)"/>
+            <column name="MNSSTATUSPARAM" type="VARCHAR2(2)"/>
+            <column name="NAMEFULL" type="VARCHAR2(255)"/>
+            <column name="NAMEINT" type="VARCHAR2(255)"/>
+            <column name="NAMESHORT" type="VARCHAR2(160)"/>
+            <column name="OKATOCODE" type="VARCHAR2(11)"/>
+            <column name="OKPOCODE" type="VARCHAR2(20)"/>
+            <column name="POSTLEVEL" type="FLOAT(22)"/>
+            <column name="PROPERTYTYPE" type="FLOAT(22)"/>
+            <column name="REMARK" type="VARCHAR2(255)"/>
+            <column name="TELEX" type="VARCHAR2(20)"/>
+            <column name="ISCHANGED" type="FLOAT(22)"/>
+            <column name="LIMITSDELTADATE" type="FLOAT(22)"/>
+            <column name="WHENAGENTENABLED" type="date"/>
+            <column name="AGENTENABLED" type="FLOAT(22)"/>
+            <column name="AGENTDEMOENABLED" type="FLOAT(22)"/>
+            <column name="SHOWATWEBSITE" type="FLOAT(22)"/>
+            <column name="SCHEME" type="VARCHAR2(35)"/>
+            <column name="REGCARD" type="FLOAT(22)"/>
+            <column name="KKO" type="FLOAT(22)"/>
+            <column name="CHIEFNAME_ENG" type="VARCHAR2(40)"/>
+            <column name="REMARK_ENG" type="VARCHAR2(255)"/>
+            <column name="ISMENUTRANSFER" type="FLOAT(22)"/>
+            <column name="ISMENUIPOTEKA" type="FLOAT(22)"/>
+            <column name="ISMENUTRANSFERLP" type="FLOAT(22)"/>
+            <column name="PAYMENTPERIODTYPE" type="FLOAT(22)"/>
+            <column name="FIRSTPAYMENTDAY" type="FLOAT(22)"/>
+            <column name="SECONDPAYMENTDAY" type="FLOAT(22)"/>
+            <column name="THIRDPAYMENTDAY" type="FLOAT(22)"/>
+            <column name="NONSTANDARDUNLOAD" type="FLOAT(22)"/>
+            <column name="FIRSTUNLOADDAY" type="FLOAT(22)"/>
+            <column name="SECONDUNLOADDAY" type="FLOAT(22)"/>
+            <column name="TRANSFERSYSID" type="FLOAT(22)"/>
+            <column name="LAWSTREET" type="VARCHAR2(255)"/>
+            <column name="ALLOWEDTRANSFERSYSSENDER" type="VARCHAR2(255)"/>
+            <column name="LAWHOUSE" type="VARCHAR2(20)"/>
+            <column name="CURRLIST" type="VARCHAR2(255)"/>
+            <column name="LAWFLAT" type="VARCHAR2(20)"/>
+            <column name="PHONE" type="VARCHAR2(40)"/>
+            <column name="INTSTREET" type="VARCHAR2(255)"/>
+            <column name="DRM" type="FLOAT(22)"/>
+            <column name="INTHOUSE" type="VARCHAR2(20)"/>
+            <column name="INTFLAT" type="VARCHAR2(20)"/>
+            <column name="POSTSTATE" type="VARCHAR2(40)"/>
+            <column name="CANEDITFINANCIAL" type="FLOAT(22)"/>
+            <column name="POSTZIP" type="VARCHAR2(10)"/>
+            <column name="CANEDITNONFINANCIAL" type="FLOAT(22)"/>
+            <column name="POSTPLACETYPE" type="FLOAT(22)"/>
+            <column name="CANEDITPARENT" type="FLOAT(22)"/>
+            <column name="POSTPLACE" type="VARCHAR2(35)"/>
+            <column name="MODDATE" type="date"/>
+            <column name="POSTSTREET" type="VARCHAR2(255)"/>
+            <column name="CANSENDTRANSFERS" type="FLOAT(22)"/>
+            <column name="POSTHOUSE" type="VARCHAR2(20)"/>
+            <column name="CANPAYTRANSFERS" type="FLOAT(22)"/>
+            <column name="POSTFLAT" type="VARCHAR2(20)"/>
+            <column name="INHERITALLOWEDACTIONS" type="FLOAT(22)"/>
+            <column name="WORKSCHEDULE" type="VARCHAR2(255)"/>
+            <column name="INHERITROOTEDITPARAM" type="FLOAT(22)"/>
+            <column name="USESK" type="FLOAT(22)"/>
+            <column name="EDITBLOCKLIST" type="FLOAT(22)"/>
+            <column name="METROID" type="FLOAT(22)"/>
+            <column name="CANACCEPTADDRESSTRNACCOUNT" type="FLOAT(22)"/>
+            <column name="CANWRITEOFFACCOUNT" type="FLOAT(22)"/>
+            <column name="LAWSTREETTYPE" type="FLOAT(22)"/>
+            <column name="DNUMBER" type="VARCHAR2(6)"/>
+            <column name="INTSTREETTYPE" type="FLOAT(22)"/>
+            <column name="POSTSTREETTYPE" type="FLOAT(22)"/>
+        </createTable>
+        <addPrimaryKey columnNames="CUSTID" constraintName="SYS_C001592319" tableName="CUSTOMER"/>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,15 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="../templates/TabScroller.xhtml">
+
+<ui:define name="customLibs">
+    <h:outputScript library="js" name="destpoint.js"/>
+</ui:define>
+<ui:define name="menuItems">
+    <p:menuitem value="#{destpoint.DEST_POINT_AGENTS}" onclick="onClickDestPointAgents(); return false;" />
+    <p:menuitem value="#{destpoint.DEST_POINT_AGENTTOWNS}" onclick="onClickDestPointAgentTowns(); return false;" />
+    <p:menuitem value="#{destpoint.DEST_POINT_COUNTRY}" onclick="onClickDestPointCountry(); return false;" />
+</ui:define>
+</ui:composition>

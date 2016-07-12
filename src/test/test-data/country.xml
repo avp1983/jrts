@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="alexeymt (generated)" id="1396005554499-283">
+        <createTable tableName="COUNTRY">
+            <column name="AUTOKEY" type="FLOAT(22)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CLIENT" type="FLOAT(22)"/>
+            <column name="CODE" type="VARCHAR2(3)"/>
+            <column name="DATECREATE" type="FLOAT(22)"/>
+            <column name="MNEMO2" type="VARCHAR2(2)"/>
+            <column name="MNEMO3" type="VARCHAR2(3)"/>
+            <column name="NAMEFULL" type="VARCHAR2(255)"/>
+            <column name="NAMESHORT" type="VARCHAR2(50)"/>
+            <column name="RPLSTATUS" type="FLOAT(22)"/>
+            <column name="TIMECREATE" type="FLOAT(22)"/>
+            <column name="TRANSFER" type="FLOAT(22)"/>
+            <column name="NAMESHORT_RU" type="VARCHAR2(50)"/>
+            <column name="USELATIN" type="FLOAT(22)"/>
+            <column name="NAMEFULL_EN" type="VARCHAR2(255)"/>
+            <column name="LANGUAGEID" type="VARCHAR2(50)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="alexeymt (generated)" id="1396005554499-956">
+        <addPrimaryKey columnNames="AUTOKEY" constraintName="SYS_C001592240" tableName="COUNTRY"/>
+    </changeSet>
+</databaseChangeLog>
